@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGX Minerals - Query Presentation</title>
+    <title>SGX Minerals - Pit Status</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -28,93 +28,16 @@
             overflow-x: hidden;
         }
         
-        /* Home Page Styles */
-        .home-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .company-logo {
-            width: 150px;
-            margin-bottom: 30px;
-        }
-        
-        .company-title {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: var(--company-color);
-            font-weight: 600;
-        }
-        
-        .presentation-title {
-            font-size: 1.8rem;
-            margin-bottom: 40px;
-            background: linear-gradient(90deg, var(--accent), var(--primary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .start-btn {
-            background: var(--company-color);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .start-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-        }
-        
-        /* Presentation Styles */
         .presentation-container {
             width: 100vw;
-            height: 100vh;
-            position: relative;
-            overflow: hidden;
-            display: none;
-        }
-        
-        .slide {
-            width: 100%;
-            height: 100%;
+            min-height: 100vh;
             padding: 40px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            transform: translateX(100%);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .slide.active {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        
-        .slide.prev {
-            transform: translateX(-100%);
         }
         
         .slide-header {
             display: flex;
             align-items: center;
             margin-bottom: 30px;
-            position: relative;
         }
         
         .slide-logo {
@@ -128,18 +51,12 @@
             color: var(--company-color);
         }
         
-        .slide-content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-        
         .update-section {
             background: rgba(255, 255, 255, 0.05);
             padding: 25px;
             border-radius: 10px;
             border-left: 4px solid var(--company-color);
+            margin-bottom: 30px;
         }
         
         .update-section h3 {
@@ -152,14 +69,56 @@
             line-height: 1.6;
         }
         
-        .media-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+        .toggle-media-btn {
+            background: var(--company-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
-        .media-row {
-            display: contents;
+        .toggle-media-btn:hover {
+            background: var(--accent);
+        }
+        
+        .toggle-media-btn .arrow {
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-media-btn.expanded .arrow {
+            transform: rotate(180deg);
+        }
+        
+        .media-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, margin-bottom 0.3s ease;
+        }
+        
+        .media-container.expanded {
+            max-height: 2000px;
+            margin-bottom: 30px;
+        }
+        
+        .media-section {
+            margin-bottom: 30px;
+        }
+        
+        .media-section h3 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
         }
         
         .media-item {
@@ -168,7 +127,7 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
             background: rgba(255, 255, 255, 0.05);
             position: relative;
-            height: 100%;
+            height: 250px;
         }
         
         .media-item img, .media-item video {
@@ -195,7 +154,6 @@
             padding: 25px;
             border-radius: 10px;
             border-left: 4px solid var(--accent);
-            margin-top: 20px;
         }
         
         .future-section h3 {
@@ -212,412 +170,132 @@
             line-height: 1.6;
         }
         
-        /* Navigation Controls */
-        .nav-controls {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            display: flex;
-            gap: 15px;
-            z-index: 100;
-        }
-        
-        .nav-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--company-color);
-            color: white;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .nav-btn:hover {
-            background: var(--accent);
-            transform: scale(1.1);
-        }
-        
-        .slide-indicators {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 100;
-        }
-        
-        .indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .indicator.active {
-            background: var(--company-color);
-            transform: scale(1.3);
-        }
-        
         @media (max-width: 768px) {
-            .slide {
+            .presentation-container {
                 padding: 20px;
-            }
-            
-            .media-grid {
-                grid-template-columns: 1fr;
             }
             
             .slide-title {
                 font-size: 1.5rem;
             }
             
-            .company-title {
-                font-size: 2rem;
+            .media-container {
+                grid-template-columns: 1fr;
             }
             
-            .presentation-title {
-                font-size: 1.5rem;
+            .media-item {
+                height: 200px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Home Page -->
-    <div class="home-container" id="homePage">
-        <img src="https://via.placeholder.com/150x150/2a9d8f/ffffff?text=SGX" alt="SGX Minerals Logo" class="company-logo">
-        <h1 class="company-title">SGX Minerals Pvt Ltd</h1>
-        <h2 class="presentation-title">Query Presentation</h2>
-        <button class="start-btn" onclick="startPresentation()">Start Presentation</button>
-    </div>
-
     <!-- Presentation Container -->
-    <div class="presentation-container" id="presentationContainer">
-        <!-- Slide 1 - Pit 1 -->
-        <div class="slide active" id="pit1">
+    <div class="presentation-container">
+        <!-- Single Slide -->
+        <div class="slide">
             <div class="slide-header">
                 <img src="https://via.placeholder.com/50x50/2a9d8f/ffffff?text=SGX" alt="Logo" class="slide-logo">
                 <h1 class="slide-title">PIT 1 - Current Status & Updates</h1>
             </div>
             
-            <div class="slide-content">
-                <div class="update-section">
-                    <h3>Recent Updates</h3>
-                    <p>• Completed initial excavation to depth of 15 meters</p>
-                    <p>• Identified 3 new mineral veins in northern section</p>
-                    <p>• Resolved equipment calibration issues from previous phase</p>
-                    <p>• Conducted safety inspection with 98% compliance rating</p>
-                </div>
-                
-                <div class="media-grid">
-                    <!-- Row 1 - Previous Photos -->
-                    <div class="media-row">
-                        <div class="media-item">
-                            <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Previous Site View 1">
-                            <div class="media-label">Previous View - Week 1</div>
-                        </div>
-                        <div class="media-item">
-                            <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Previous Site View 2">
-                            <div class="media-label">Previous View - Week 2</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Row 2 - Recent Photos -->
-                    <div class="media-row">
-                        <div class="media-item">
-                            <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Current Site View 1">
-                            <div class="media-label">Current View - North Section</div>
-                        </div>
-                        <div class="media-item">
-                            <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Current Site View 2">
-                            <div class="media-label">Current View - South Section</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Row 3 - Videos -->
-                    <div class="media-row">
-                        <div class="media-item">
-                            <video autoplay muted loop>
-                                <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
-                            </video>
-                            <div class="media-label">Excavation Process</div>
-                        </div>
-                        <div class="media-item">
-                            <video autoplay muted loop>
-                                <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
-                            </video>
-                            <div class="media-label">Mineral Sampling</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="future-section">
-                    <h3>Next Steps & Improvements</h3>
-                    <ul>
-                        <li>Expand excavation to 20m depth in eastern sector</li>
-                        <li>Implement new safety protocols for deeper excavation</li>
-                        <li>Conduct detailed mineral analysis on new veins</li>
-                        <li>Schedule equipment maintenance for next week</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Slide 2 - Pit 2 -->
-        <div class="slide" id="pit2">
-            <div class="slide-header">
-                <img src="https://via.placeholder.com/50x50/2a9d8f/ffffff?text=SGX" alt="Logo" class="slide-logo">
-                <h1 class="slide-title">PIT 2 - Current Status & Updates</h1>
+            <div class="update-section">
+                <h3>Recent Updates</h3>
+                <p>• Completed initial excavation to depth of 15 meters</p>
+                <p>• Identified 3 new mineral veins in northern section</p>
+                <p>• Resolved equipment calibration issues from previous phase</p>
+                <p>• Conducted safety inspection with 98% compliance rating</p>
             </div>
             
-            <div class="slide-content">
-                <div class="update-section">
-                    <h3>Recent Updates</h3>
-                    <p>• Completed geological mapping of entire pit area</p>
-                    <p>• Installed new water drainage system in lower sections</p>
-                    <p>• Increased daily output by 22% with new extraction method</p>
-                    <p>• Identified potential new mineral deposit in western wall</p>
-                </div>
-                
-                <div class="media-grid">
-                    <!-- Row 1 - Previous Photos -->
-                    <div class="media-row">
-                        <div class="media-item">
-                            <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Previous Pit 2 View 1">
-                            <div class="media-label">Previous View - East Wall</div>
-                        </div>
-                        <div class="media-item">
-                            <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Previous Pit 2 View 2">
-                            <div class="media-label">Previous View - West Wall</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Row 2 - Recent Photos -->
-                    <div class="media-row">
-                        <div class="media-item">
-                            <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Current Pit 2 View 1">
-                            <div class="media-label">Current View - North Section</div>
-                        </div>
-                        <div class="media-item">
-                            <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Current Pit 2 View 2">
-                            <div class="media-label">Current View - South Section</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Row 3 - Videos -->
-                    <div class="media-row">
-                        <div class="media-item">
-                            <video autoplay muted loop>
-                                <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
-                            </video>
-                            <div class="media-label">New Extraction Method</div>
-                        </div>
-                        <div class="media-item">
-                            <video autoplay muted loop>
-                                <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
-                            </video>
-                            <div class="media-label">Drainage System</div>
-                        </div>
+            <button class="toggle-media-btn" id="toggleMediaBtn">
+                <span>View Media Documentation</span>
+                <span class="arrow">▼</span>
+            </button>
+            
+            <div class="media-container" id="mediaContainer">
+                <div class="media-section">
+                    <h3>Previous Images (2 Weeks Ago)</h3>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Pit 1 Previous View 1">
+                        <div class="media-label">North Section - Initial Stage</div>
                     </div>
                 </div>
                 
-                <div class="future-section">
-                    <h3>Next Steps & Improvements</h3>
-                    <ul>
-                        <li>Test new mineral deposit with core sampling</li>
-                        <li>Expand new extraction method to all sections</li>
-                        <li>Monitor drainage system effectiveness</li>
-                        <li>Schedule structural integrity assessment</li>
-                    </ul>
+                <div class="media-section">
+                    <h3>Recent Images (Current Status)</h3>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Pit 1 Current View 1">
+                        <div class="media-label">North Section - Current Progress</div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        
-        <!-- Slide 3 - Pit 3 -->
-        <div class="slide" id="pit3">
-            <div class="slide-header">
-                <img src="https://via.placeholder.com/50x50/2a9d8f/ffffff?text=SGX" alt="Logo" class="slide-logo">
-                <h1 class="slide-title">PIT 3 - Current Status & Updates</h1>
+                
+                <div class="media-section">
+                    <h3>Query Videos</h3>
+                    <div class="media-item">
+                        <video controls>
+                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
+                        </video>
+                        <div class="media-label">Excavation Process - North Wall</div>
+                    </div>
+                    
+                    <div class="media-item">
+                        <video controls>
+                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
+                        </video>
+                        <div class="media-label">Mineral Sampling - New Vein</div>
+                    </div>
+                </div>
             </div>
             
-            <div class="slide-content">
-                <div class="update-section">
-                    <h3>Recent Updates</h3>
-                    <p>• Completed initial excavation to planned depth</p>
-                    <p>• Final assays confirm high mineral concentration</p>
-                    <p>• Environmental impact assessment shows minimal concerns</p>
-                    <p>• Production targets exceeded by 15% this quarter</p>
-                </div>
-                
-                <div class="media-grid">
-                    <!-- Row 1 - Previous Photos -->
-                    <div class="media-row">
-                        <div class="media-item">
-                            <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Previous Pit 3 View 1">
-                            <div class="media-label">Initial Excavation</div>
-                        </div>
-                        <div class="media-item">
-                            <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Previous Pit 3 View 2">
-                            <div class="media-label">Mid-phase Progress</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Row 2 - Recent Photos -->
-                    <div class="media-row">
-                        <div class="media-item">
-                            <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Current Pit 3 View 1">
-                            <div class="media-label">Final Excavation - East</div>
-                        </div>
-                        <div class="media-item">
-                            <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Current Pit 3 View 2">
-                            <div class="media-label">Final Excavation - West</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Row 3 - Videos -->
-                    <div class="media-row">
-                        <div class="media-item">
-                            <video autoplay muted loop>
-                                <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
-                            </video>
-                            <div class="media-label">Final Production</div>
-                        </div>
-                        <div class="media-item">
-                            <video autoplay muted loop>
-                                <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
-                            </video>
-                            <div class="media-label">Site Rehabilitation</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="future-section">
-                    <h3>Next Steps & Improvements</h3>
-                    <ul>
-                        <li>Begin site rehabilitation process</li>
-                        <li>Finalize production reports and analysis</li>
-                        <li>Plan for potential expansion in adjacent area</li>
-                        <li>Transfer equipment to new project sites</li>
-                    </ul>
-                </div>
+            <div class="future-section">
+                <h3>Future Development Works</h3>
+                <ul>
+                    <li><strong>Expansion:</strong> Extend excavation to 20m depth in eastern sector</li>
+                    <li><strong>Safety:</strong> Implement new protocols for deeper excavation</li>
+                    <li><strong>Analysis:</strong> Conduct detailed mineral analysis on new veins</li>
+                    <li><strong>Maintenance:</strong> Schedule equipment maintenance for next week</li>
+                </ul>
             </div>
-        </div>
-        
-        <!-- Navigation Controls -->
-        <div class="nav-controls">
-            <button class="nav-btn" onclick="prevSlide()">←</button>
-            <button class="nav-btn" onclick="nextSlide()">→</button>
-        </div>
-        
-        <div class="slide-indicators">
-            <div class="indicator active" onclick="goToSlide(0)"></div>
-            <div class="indicator" onclick="goToSlide(1)"></div>
-            <div class="indicator" onclick="goToSlide(2)"></div>
         </div>
     </div>
 
     <script>
-        // Home page functionality
-        function startPresentation() {
-            document.getElementById('homePage').style.display = 'none';
-            document.getElementById('presentationContainer').style.display = 'block';
-        }
+        // Toggle media visibility
+        const toggleBtn = document.getElementById('toggleMediaBtn');
+        const mediaContainer = document.getElementById('mediaContainer');
         
-        // Presentation functionality
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const indicators = document.querySelectorAll('.indicator');
-        
-        function showSlide(n) {
-            // Update slide classes
-            slides.forEach((slide, index) => {
-                slide.classList.remove('active', 'prev');
-                if (index === n) {
-                    slide.classList.add('active');
-                } else if (index < n) {
-                    slide.classList.add('prev');
-                }
-            });
+        toggleBtn.addEventListener('click', () => {
+            mediaContainer.classList.toggle('expanded');
+            toggleBtn.classList.toggle('expanded');
             
-            // Update indicators
-            indicators.forEach((indicator, index) => {
-                indicator.classList.remove('active');
-                if (index === n) {
-                    indicator.classList.add('active');
-                }
-            });
+            if (mediaContainer.classList.contains('expanded')) {
+                toggleBtn.innerHTML = '<span>Hide Media Documentation</span><span class="arrow">▲</span>';
+            } else {
+                toggleBtn.innerHTML = '<span>View Media Documentation</span><span class="arrow">▼</span>';
+            }
             
-            currentSlide = n;
-        }
-        
-        function nextSlide() {
-            let next = currentSlide + 1;
-            if (next >= slides.length) next = 0;
-            showSlide(next);
-        }
-        
-        function prevSlide() {
-            let prev = currentSlide - 1;
-            if (prev < 0) prev = slides.length - 1;
-            showSlide(prev);
-        }
-        
-        function goToSlide(n) {
-            showSlide(n);
-        }
-        
-        // Keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowRight') nextSlide();
-            if (e.key === 'ArrowLeft') prevSlide();
-            if (e.key >= 1 && e.key <= slides.length.toString()) {
-                goToSlide(parseInt(e.key) - 1);
+            // Play all videos when expanded
+            if (mediaContainer.classList.contains('expanded')) {
+                const videos = document.querySelectorAll('video');
+                videos.forEach(video => {
+                    video.currentTime = 0;
+                });
             }
         });
         
-        // Touch swipe support for mobile
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        document.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, false);
-        
-        document.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, false);
-        
-        function handleSwipe() {
-            if (touchEndX < touchStartX - 50) nextSlide();
-            if (touchEndX > touchStartX + 50) prevSlide();
-        }
-        
-        // Auto-play videos when slide becomes active
-        function handleSlideChange() {
-            const activeSlide = document.querySelector('.slide.active');
-            const videos = activeSlide.querySelectorAll('video');
-            
-            videos.forEach(video => {
-                video.currentTime = 0;
-                video.play().catch(e => console.log('Autoplay prevented:', e));
+        // Auto-pause videos when scrolling out of view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (!entry.target.paused) entry.target.play();
+                } else {
+                    entry.target.pause();
+                }
             });
-        }
+        }, {threshold: 0.5});
         
-        // Observe slide changes
-        const observer = new MutationObserver(handleSlideChange);
-        observer.observe(document.body, {
-            attributes: true,
-            attributeFilter: ['class'],
-            subtree: true
+        document.querySelectorAll('video').forEach(video => {
+            observer.observe(video);
         });
     </script>
 </body>
