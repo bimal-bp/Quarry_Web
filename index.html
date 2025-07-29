@@ -139,6 +139,7 @@
             border-radius: 10px;
             margin-top: 20px;
             border-left: 4px solid var(--primary);
+            position: relative;
         }
         
         .key-points h3 {
@@ -220,6 +221,111 @@
             transform: scale(1.3);
         }
         
+        /* New remark section styles */
+        .remark-section {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        
+        .remark-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .remark-btn:hover {
+            background: var(--accent);
+        }
+        
+        .remark-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .remark-content {
+            background: var(--dark);
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            border: 2px solid var(--accent);
+        }
+        
+        .remark-content h2 {
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        
+        .remark-content textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid var(--primary);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 20px;
+            resize: vertical;
+        }
+        
+        .remark-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .remark-actions button {
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .save-remark {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+        
+        .save-remark:hover {
+            background: var(--secondary);
+        }
+        
+        .cancel-remark {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+        
+        .cancel-remark:hover {
+            background: rgba(76, 201, 240, 0.1);
+        }
+        
+        .remark-display {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            border-left: 3px solid var(--accent);
+        }
+        
         @media (max-width: 768px) {
             .slide {
                 padding: 20px;
@@ -232,10 +338,41 @@
             .slide-title {
                 font-size: 1.8rem;
             }
+            
+            .remark-section {
+                top: 10px;
+                right: 10px;
+            }
+            
+            .remark-content {
+                width: 95%;
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Remark Button -->
+    <div class="remark-section">
+        <button class="remark-btn" onclick="openRemarkModal()">Add Remark</button>
+    </div>
+    
+    <!-- Remark Modal -->
+    <div class="remark-modal" id="remarkModal">
+        <div class="remark-content">
+            <h2>Add Remark for PIT <span id="currentPitNumber">1</span></h2>
+            <textarea id="remarkText" placeholder="Enter your remarks here..."></textarea>
+            <div id="savedRemark" class="remark-display" style="display: none;">
+                <strong>Saved Remark:</strong>
+                <p id="remarkContent"></p>
+            </div>
+            <div class="remark-actions">
+                <button class="cancel-remark" onclick="closeRemarkModal()">Cancel</button>
+                <button class="save-remark" onclick="saveRemark()">Save Remark</button>
+            </div>
+        </div>
+    </div>
+
     <div class="presentation-container">
         <!-- Slide 1 -->
         <div class="slide active" id="pit1">
@@ -246,21 +383,21 @@
             <div class="media-grid">
                 <!-- Before Images -->
                 <div class="media-item">
-                    <img src="before1.jpg" alt="Before Image 1">
+                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Before Image 1">
                     <div class="media-label">Before - Phase 1</div>
                 </div>
                 <div class="media-item">
-                    <img src="before2.jpg" alt="Before Image 2">
+                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Before Image 2">
                     <div class="media-label">Before - Phase 2</div>
                 </div>
                 
                 <!-- Recent Images -->
                 <div class="media-item">
-                    <img src="recent1.jpg" alt="Recent Image 1">
+                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Recent Image 1">
                     <div class="media-label">Recent - Phase 1</div>
                 </div>
                 <div class="media-item">
-                    <img src="recent2.jpg" alt="Recent Image 2">
+                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Recent Image 2">
                     <div class="media-label">Recent - Phase 2</div>
                 </div>
             </div>
@@ -268,15 +405,15 @@
             <div class="video-row">
                 <!-- Videos -->
                 <div class="media-item">
-                    <video controls poster="video1-thumb.jpg">
-                        <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4" type="video/mp4">
+                    <video controls poster="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true">
+                        <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="media-label">Progress Video 1</div>
                 </div>
                 <div class="media-item">
-                    <video controls poster="video2-thumb.jpg">
-                        <source src="progress2.mp4" type="video/mp4">
+                    <video controls poster="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true">
+                        <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="media-label">Progress Video 2</div>
@@ -303,21 +440,21 @@
             <div class="media-grid">
                 <!-- Before Images -->
                 <div class="media-item">
-                    <img src="before3.jpg" alt="Before Image 3">
+                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Before Image 3">
                     <div class="media-label">Before - Phase 3</div>
                 </div>
                 <div class="media-item">
-                    <img src="before4.jpg" alt="Before Image 4">
+                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Before Image 4">
                     <div class="media-label">Before - Phase 4</div>
                 </div>
                 
                 <!-- Recent Images -->
                 <div class="media-item">
-                    <img src="recent3.jpg" alt="Recent Image 3">
+                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Recent Image 3">
                     <div class="media-label">Recent - Phase 3</div>
                 </div>
                 <div class="media-item">
-                    <img src="recent4.jpg" alt="Recent Image 4">
+                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Recent Image 4">
                     <div class="media-label">Recent - Phase 4</div>
                 </div>
             </div>
@@ -325,15 +462,15 @@
             <div class="video-row">
                 <!-- Videos -->
                 <div class="media-item">
-                    <video controls poster="video3-thumb.jpg">
-                        <source src="progress3.mp4" type="video/mp4">
+                    <video controls poster="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true">
+                        <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="media-label">Progress Video 3</div>
                 </div>
                 <div class="media-item">
-                    <video controls poster="video4-thumb.jpg">
-                        <source src="progress4.mp4" type="video/mp4">
+                    <video controls poster="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true">
+                        <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="media-label">Progress Video 4</div>
@@ -360,21 +497,21 @@
             <div class="media-grid">
                 <!-- Before Images -->
                 <div class="media-item">
-                    <img src="before5.jpg" alt="Before Image 5">
+                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Before Image 5">
                     <div class="media-label">Before - Final Phase</div>
                 </div>
                 <div class="media-item">
-                    <img src="before6.jpg" alt="Before Image 6">
+                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Before Image 6">
                     <div class="media-label">Before - Comparison</div>
                 </div>
                 
                 <!-- Recent Images -->
                 <div class="media-item">
-                    <img src="recent5.jpg" alt="Recent Image 5">
+                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Recent Image 5">
                     <div class="media-label">Recent - Final Results</div>
                 </div>
                 <div class="media-item">
-                    <img src="recent6.jpg" alt="Recent Image 6">
+                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Recent Image 6">
                     <div class="media-label">Recent - Comparison</div>
                 </div>
             </div>
@@ -382,15 +519,15 @@
             <div class="video-row">
                 <!-- Videos -->
                 <div class="media-item">
-                    <video controls poster="video5-thumb.jpg">
-                        <source src="final1.mp4" type="video/mp4">
+                    <video controls poster="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true">
+                        <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="media-label">Final Results Video</div>
                 </div>
                 <div class="media-item">
-                    <video controls poster="video6-thumb.jpg">
-                        <source src="final2.mp4" type="video/mp4">
+                    <video controls poster="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true">
+                        <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="media-label">Process Overview</div>
@@ -425,6 +562,11 @@
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
         const indicators = document.querySelectorAll('.indicator');
+        const remarks = {
+            pit1: localStorage.getItem('pit1-remark') || '',
+            pit2: localStorage.getItem('pit2-remark') || '',
+            pit3: localStorage.getItem('pit3-remark') || ''
+        };
         
         function showSlide(n) {
             // Update slide classes
@@ -446,6 +588,8 @@
             });
             
             currentSlide = n;
+            updateCurrentPitNumber();
+            loadSavedRemark();
         }
         
         function nextSlide() {
@@ -490,6 +634,49 @@
             if (touchEndX < touchStartX - 50) nextSlide();
             if (touchEndX > touchStartX + 50) prevSlide();
         }
+        
+        // Remark functionality
+        function openRemarkModal() {
+            document.getElementById('remarkModal').style.display = 'flex';
+            document.getElementById('remarkText').value = remarks[`pit${currentSlide + 1}`];
+            loadSavedRemark();
+        }
+        
+        function closeRemarkModal() {
+            document.getElementById('remarkModal').style.display = 'none';
+        }
+        
+        function saveRemark() {
+            const remark = document.getElementById('remarkText').value;
+            const pitKey = `pit${currentSlide + 1}`;
+            remarks[pitKey] = remark;
+            localStorage.setItem(`${pitKey}-remark`, remark);
+            
+            // Show saved remark
+            loadSavedRemark();
+            closeRemarkModal();
+        }
+        
+        function loadSavedRemark() {
+            const pitKey = `pit${currentSlide + 1}`;
+            const remark = remarks[pitKey];
+            const savedRemarkDiv = document.getElementById('savedRemark');
+            const remarkContent = document.getElementById('remarkContent');
+            
+            if (remark && remark.trim() !== '') {
+                remarkContent.textContent = remark;
+                savedRemarkDiv.style.display = 'block';
+            } else {
+                savedRemarkDiv.style.display = 'none';
+            }
+        }
+        
+        function updateCurrentPitNumber() {
+            document.getElementById('currentPitNumber').textContent = currentSlide + 1;
+        }
+        
+        // Initialize
+        showSlide(0);
     </script>
 </body>
 </html>
