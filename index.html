@@ -430,6 +430,144 @@
             color: white;
         }
         
+        /* Equipment Styles */
+        .equipment-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .equipment-select, .equipment-btn {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .equipment-btn {
+            background-color: var(--company-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .equipment-btn:hover {
+            background-color: var(--accent);
+        }
+        
+        .equipment-input-form {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        .form-group input {
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .equipment-summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .equipment-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .equipment-card h3 {
+            margin-top: 0;
+            color: var(--accent);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+        
+        .equipment-card p {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--company-color);
+            margin: 10px 0;
+        }
+        
+        .equipment-table-container {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        
+        .equipment-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .equipment-table th, .equipment-table td {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            text-align: center;
+            color: white;
+        }
+        
+        .equipment-table th {
+            background-color: var(--company-color);
+        }
+        
+        .equipment-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+        
+        .equipment-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .equipment-chart-container {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .equipment-chart-container canvas {
+            width: 100% !important;
+            height: 400px !important;
+        }
+        
         @media (max-width: 1024px) {
             .nav-buttons {
                 grid-template-columns: 1fr;
@@ -480,152 +618,17 @@
                 white-space: nowrap;
                 flex-wrap: nowrap;
             }
-        }
-
-        /* Integrated Equipment Styles */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f7f9;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: linear-gradient(135deg, #2c3e50, #4a6491);
-            color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        select, button {
-            padding: 10px 15px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-        }
-        select {
-            flex-grow: 1;
-            background-color: #f8f9fa;
-        }
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #2980b9;
-        }
-        .input-form {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        label {
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-        input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .table-container {
-            overflow-x: auto;
-            margin-bottom: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-            position: sticky;
-            top: 0;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        tr:hover {
-            background-color: #f1f7fd;
-        }
-        .chart-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        canvas {
-            width: 100% !important;
-            height: 400px !important;
-        }
-        .summary-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .card {
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .card h3 {
-            margin-top: 0;
-            color: #2c3e50;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-        .card p {
-            font-size: 24px;
-            font-weight: bold;
-            color: #3498db;
-            margin: 10px 0;
-        }
-        @media (max-width: 768px) {
-            .controls {
+            
+            .equipment-controls {
                 flex-direction: column;
                 align-items: stretch;
             }
+            
             .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .equipment-summary-cards {
                 grid-template-columns: 1fr;
             }
         }
@@ -925,13 +928,7 @@
                 <h1 class="slide-title">Equipment Details</h1>
             </div>
             
-            <!-- Integrated Equipment Content -->
-            <div class="header">
-                <h1>Equipment Operational Hours</h1>
-                <p>August 2025</p>
-            </div>
-
-            <div class="controls">
+            <div class="equipment-controls">
                 <select id="equipmentSelect" onchange="loadEquipmentData()">
                     <option value="SGX Volvo 1">SGX Volvo 1</option>
                     <option value="SGX Volvo 2">SGX Volvo 2</option>
@@ -943,10 +940,10 @@
                     <option value="Hyundai">Hyundai</option>
                     <option value="JCB Ex">JCB Ex</option>
                 </select>
-                <button onclick="exportData()">Export Data</button>
+                <button class="equipment-btn" onclick="exportData()">Export Data</button>
             </div>
 
-            <div class="input-form">
+            <div class="equipment-input-form">
                 <h3>Add Operational Hours</h3>
                 <div class="form-grid">
                     <div class="form-group">
@@ -974,33 +971,33 @@
                         <input type="number" id="maintenance" placeholder="0.00" step="0.01" min="0" required>
                     </div>
                 </div>
-                <button onclick="addData()" style="width: 100%">Add Data</button>
+                <button class="equipment-btn" onclick="addData()" style="width: 100%">Add Data</button>
             </div>
 
-            <div class="summary-cards">
-                <div class="card">
+            <div class="equipment-summary-cards">
+                <div class="equipment-card">
                     <h3>Total Loading Hours</h3>
                     <p id="totalLoading">0.00</p>
                 </div>
-                <div class="card">
+                <div class="equipment-card">
                     <h3>Total Breaking Hours</h3>
                     <p id="totalBreaking">0.00</p>
                 </div>
-                <div class="card">
+                <div class="equipment-card">
                     <h3>Total Development Hours</h3>
                     <p id="totalDevelopment">0.00</p>
                 </div>
-                <div class="card">
+                <div class="equipment-card">
                     <h3>Total Operational Hours</h3>
                     <p id="totalOperational">0.00</p>
                 </div>
             </div>
 
-            <div class="table-container">
+            <div class="equipment-table-container">
                 <div id="tableContainer"></div>
             </div>
 
-            <div class="chart-container">
+            <div class="equipment-chart-container">
                 <canvas id="hoursChart"></canvas>
             </div>
             
@@ -1217,23 +1214,61 @@
                         </button>
                     </div>
 
-                    <div className="summary-cards">
-                        <div className="card">
-                            <h3>Total Production</h3>
-                            <p>{totals.production.toFixed(2)}</p>
-                        </div>
-                        <div className="card">
-                            <h3>Total Dispatch</h3>
-                            <p>{totals.dispatch.toFixed(2)}</p>
-                        </div>
-                        <div className="card">
-                            <h3>Total Holes</h3>
-                            <p>{totals.holes.toFixed(2)}</p>
-                        </div>
-                        <div className="card">
-                            <h3>Total Power Gel</h3>
-                            <p>{totals.powerGel.toFixed(2)}</p>
-                        </div>
+                    <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 overflow-x-auto">
+                        <h3 className="text-lg font-semibold mb-4 text-gray-700">{dataType} Records</h3>
+                        <table className="min-w-full table-auto border-collapse border border-gray-300">
+                            <thead>
+                                <tr className="bg-gray-200 text-gray-700">
+                                    <th className="border border-gray-300 px-4 py-2">Date</th>
+                                    <th className="border border-gray-300 px-4 py-2">Compressor</th>
+                                    <th className="border border-gray-300 px-4 py-2">No. of Holes</th>
+                                    <th className="border border-gray-300 px-4 py-2">Feets</th>
+                                    <th className="border border-gray-300 px-4 py-2">Production (Tonnes)</th>
+                                    <th className="border border-gray-300 px-4 py-2">Boulders Dispatch Qty.</th>
+                                    <th className="border border-gray-300 px-4 py-2">Power Gel</th>
+                                    <th className="border border-gray-300 px-4 py-2">D-Guard Wire/Hole</th>
+                                    <th className="border border-gray-300 px-4 py-2">ED/Hole</th>
+                                    <th className="border border-gray-300 px-4 py-2">Wire</th>
+                                    <th className="border border-gray-300 px-4 py-2">No. of NMR</th>
+                                    <th className="border border-gray-300 px-4 py-2">No. of Blaster</th>
+                                    <th className="border border-gray-300 px-4 py-2">NMR at Plant</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {currentData.map((row, index) => (
+                                    <tr key={index} className="hover:bg-gray-50">
+                                        <td className="border border-gray-300 px-4 py-2">{row.date}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.compressor}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.holes}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.feets.toFixed(2)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.production.toFixed(2)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.dispatch.toFixed(2)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.powerGel.toFixed(2)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.dGuard.toFixed(2)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.edPerHole.toFixed(2)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.wire.toFixed(2)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.nmr.toFixed(2)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.blaster}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.nmrPlant}</td>
+                                    </tr>
+                                ))}
+                                <tr className="bg-gray-200 font-bold">
+                                    <td className="border border-gray-300 px-4 py-2">Total</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.compressor.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.holes.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.feets.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.production.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.dispatch.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.powerGel.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.dGuard.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.edPerHole.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.wire.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.nmr.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.blaster.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.nmrPlant.toFixed(2)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             );
@@ -1275,6 +1310,11 @@
             presentation.style.display = 'block';
             document.title = "SGX Minerals - " + presentation.querySelector('.slide-title').textContent;
             window.scrollTo(0, 0);
+            
+            // If showing equipment details, load the data
+            if (presentation.id === 'equipmentDetailsPresentation') {
+                loadEquipmentData();
+            }
         }
         
         // Event listeners for navigation
@@ -1377,11 +1417,9 @@
                 modal.style.display = 'none';
             }
         });
-    </script>
-
-    <!-- Integrated Equipment Script -->
-    <script>
-        // Initialize Chart.js
+        
+        // Equipment Operational Hours Code
+        // Initialize Chart.js for equipment
         const ctx = document.getElementById('hoursChart').getContext('2d');
         let chart = new Chart(ctx, {
             type: 'line',
@@ -1439,11 +1477,17 @@
                         text: 'Equipment Operational Hours',
                         font: {
                             size: 16
-                        }
+                        },
+                        color: '#fff'
                     },
                     tooltip: {
                         mode: 'index',
                         intersect: false
+                    },
+                    legend: {
+                        labels: {
+                            color: '#fff'
+                        }
                     }
                 },
                 scales: {
@@ -1451,13 +1495,27 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Hours'
+                            text: 'Hours',
+                            color: '#fff'
+                        },
+                        ticks: {
+                            color: '#fff'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
                         }
                     },
                     x: {
                         title: {
                             display: true,
-                            text: 'Date'
+                            text: 'Date',
+                            color: '#fff'
+                        },
+                        ticks: {
+                            color: '#fff'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
                         }
                     }
                 }
@@ -1494,7 +1552,7 @@
 
             // Generate table
             let tableHTML = `
-                <table>
+                <table class="equipment-table">
                     <thead>
                         <tr>
                             <th>Date</th>
@@ -1523,8 +1581,8 @@
                         <td>${entry.maintenance.toFixed(2)}</td>
                         <td>${totalHours.toFixed(2)}</td>
                         <td>
-                            <button onclick="editEntry('${selectedEquipment}', ${index})" style="padding: 5px; margin: 2px;">Edit</button>
-                            <button onclick="deleteEntry('${selectedEquipment}', ${index})" style="padding: 5px; margin: 2px; background-color: #e74c3c;">Delete</button>
+                            <button class="equipment-btn" onclick="editEntry('${selectedEquipment}', ${index})" style="padding: 5px; margin: 2px;">Edit</button>
+                            <button class="equipment-btn" onclick="deleteEntry('${selectedEquipment}', ${index})" style="padding: 5px; margin: 2px; background-color: #e74c3c;">Delete</button>
                         </td>
                     </tr>
                 `;
@@ -1697,8 +1755,11 @@
             document.body.removeChild(a);
         }
 
-        // Load initial data
-        loadEquipmentData();
+        // Load initial data for equipment
+        window.onload = function() {
+            // Initialize equipment chart with empty data
+            loadEquipmentData();
+        };
     </script>
 </body>
 </html>
