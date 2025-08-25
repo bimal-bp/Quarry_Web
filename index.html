@@ -10,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.6/babel.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary: #4361ee;
@@ -715,13 +714,11 @@
                         <video controls>
                             <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
                         </video>
-                        <div class="media-label">Night Plant</div>
+                        <div class="media-label">Video Update</div>
                     </div>
                     <div class="media-item">
-                        <video controls>
-                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
-                        </video>
-                        <div class="media-label">Weekly Video</div>
+                        <textarea id="nightPlanPit9h1" placeholder="Enter Night Plan..." style="width: 100%; height: 200px; background: rgba(255,255,255,0.1); color: white; border: none; padding: 10px;"></textarea>
+                        <div class="media-label">Night Plan</div>
                     </div>
                 </div>
             </div>
@@ -759,13 +756,11 @@
                         <video controls>
                             <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
                         </video>
-                        <div class="media-label">Night Plant</div>
+                        <div class="media-label">Video Update</div>
                     </div>
                     <div class="media-item">
-                        <video controls>
-                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
-                        </video>
-                        <div class="media-label">Weekly Video</div>
+                        <textarea id="nightPlanPit9h2" placeholder="Enter Night Plan..." style="width: 100%; height: 200px; background: rgba(255,255,255,0.1); color: white; border: none; padding: 10px;"></textarea>
+                        <div class="media-label">Night Plan</div>
                     </div>
                 </div>
             </div>
@@ -803,13 +798,11 @@
                         <video controls>
                             <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
                         </video>
-                        <div class="media-label">Night Plant</div>
+                        <div class="media-label">Video Update</div>
                     </div>
                     <div class="media-item">
-                        <video controls>
-                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
-                        </video>
-                        <div class="media-label">Weekly Video</div>
+                        <textarea id="nightPlanPit9h3" placeholder="Enter Night Plan..." style="width: 100%; height: 200px; background: rgba(255,255,255,0.1); color: white; border: none; padding: 10px;"></textarea>
+                        <div class="media-label">Night Plan</div>
                     </div>
                 </div>
             </div>
@@ -847,13 +840,11 @@
                         <video controls>
                             <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
                         </video>
-                        <div class="media-label">Night Plant</div>
+                        <div class="media-label">Video Update</div>
                     </div>
                     <div class="media-item">
-                        <video controls>
-                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
-                        </video>
-                        <div class="media-label">Weekly Video</div>
+                        <textarea id="nightPlanPit3h" placeholder="Enter Night Plan..." style="width: 100%; height: 200px; background: rgba(255,255,255,0.1); color: white; border: none; padding: 10px;"></textarea>
+                        <div class="media-label">Night Plan</div>
                     </div>
                 </div>
             </div>
@@ -891,13 +882,11 @@
                         <video controls>
                             <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
                         </video>
-                        <div class="media-label">Night Plant</div>
+                        <div class="media-label">Video Update</div>
                     </div>
                     <div class="media-item">
-                        <video controls>
-                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
-                        </video>
-                        <div class="media-label">Weekly Video</div>
+                        <textarea id="nightPlanPit33h" placeholder="Enter Night Plan..." style="width: 100%; height: 200px; background: rgba(255,255,255,0.1); color: white; border: none; padding: 10px;"></textarea>
+                        <div class="media-label">Night Plan</div>
                     </div>
                 </div>
             </div>
@@ -995,10 +984,6 @@
 
             <div class="equipment-table-container">
                 <div id="tableContainer"></div>
-            </div>
-
-            <div class="equipment-chart-container">
-                <canvas id="hoursChart"></canvas>
             </div>
             
             <button class="back-btn">Back to Dashboard</button>
@@ -1125,38 +1110,6 @@
                 });
             };
 
-            const currentData = dataType === 'Blasting Material' ? blastingData : developmentData;
-            const totals = currentData.reduce(
-                (acc, row) => ({
-                    compressor: acc.compressor + row.compressor,
-                    holes: acc.holes + row.holes,
-                    feets: acc.feets + row.feets,
-                    production: acc.production + row.production,
-                    dispatch: acc.dispatch + row.dispatch,
-                    powerGel: acc.powerGel + row.powerGel,
-                    dGuard: acc.dGuard + row.dGuard,
-                    edPerHole: acc.edPerHole + row.edPerHole,
-                    wire: acc.wire + row.wire,
-                    nmr: acc.nmr + row.nmr,
-                    blaster: acc.blaster + row.blaster,
-                    nmrPlant: acc.nmrPlant + row.nmrPlant,
-                }),
-                {
-                    compressor: 0,
-                    holes: 0,
-                    feets: 0,
-                    production: 0,
-                    dispatch: 0,
-                    powerGel: 0,
-                    dGuard: 0,
-                    edPerHole: 0,
-                    wire: 0,
-                    nmr: 0,
-                    blaster: 0,
-                    nmrPlant: 0,
-                }
-            );
-
             return (
                 <div className="space-y-6">
                     <div className="flex justify-between items-center">
@@ -1212,63 +1165,6 @@
                         >
                             Add {dataType} Entry
                         </button>
-                    </div>
-
-                    <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 overflow-x-auto">
-                        <h3 className="text-lg font-semibold mb-4 text-gray-700">{dataType} Records</h3>
-                        <table className="min-w-full table-auto border-collapse border border-gray-300">
-                            <thead>
-                                <tr className="bg-gray-200 text-gray-700">
-                                    <th className="border border-gray-300 px-4 py-2">Date</th>
-                                    <th className="border border-gray-300 px-4 py-2">Compressor</th>
-                                    <th className="border border-gray-300 px-4 py-2">No. of Holes</th>
-                                    <th className="border border-gray-300 px-4 py-2">Feets</th>
-                                    <th className="border border-gray-300 px-4 py-2">Production (Tonnes)</th>
-                                    <th className="border border-gray-300 px-4 py-2">Boulders Dispatch Qty.</th>
-                                    <th className="border border-gray-300 px-4 py-2">Power Gel</th>
-                                    <th className="border border-gray-300 px-4 py-2">D-Guard Wire/Hole</th>
-                                    <th className="border border-gray-300 px-4 py-2">ED/Hole</th>
-                                    <th className="border border-gray-300 px-4 py-2">Wire</th>
-                                    <th className="border border-gray-300 px-4 py-2">No. of NMR</th>
-                                    <th className="border border-gray-300 px-4 py-2">No. of Blaster</th>
-                                    <th className="border border-gray-300 px-4 py-2">NMR at Plant</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {currentData.map((row, index) => (
-                                    <tr key={index} className="hover:bg-gray-50">
-                                        <td className="border border-gray-300 px-4 py-2">{row.date}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.compressor}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.holes}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.feets.toFixed(2)}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.production.toFixed(2)}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.dispatch.toFixed(2)}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.powerGel.toFixed(2)}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.dGuard.toFixed(2)}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.edPerHole.toFixed(2)}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.wire.toFixed(2)}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.nmr.toFixed(2)}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.blaster}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.nmrPlant}</td>
-                                    </tr>
-                                ))}
-                                <tr className="bg-gray-200 font-bold">
-                                    <td className="border border-gray-300 px-4 py-2">Total</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.compressor.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.holes.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.feets.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.production.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.dispatch.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.powerGel.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.dGuard.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.edPerHole.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.wire.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.nmr.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.blaster.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.nmrPlant.toFixed(2)}</td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             );
@@ -1419,108 +1315,6 @@
         });
         
         // Equipment Operational Hours Code
-        // Initialize Chart.js for equipment
-        const ctx = document.getElementById('hoursChart').getContext('2d');
-        let chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: [],
-                datasets: [
-                    {
-                        label: 'Loading Hours',
-                        data: [],
-                        borderColor: '#3498db',
-                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    },
-                    {
-                        label: 'Breaking Hours',
-                        data: [],
-                        borderColor: '#e74c3c',
-                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    },
-                    {
-                        label: 'Development Hours',
-                        data: [],
-                        borderColor: '#2ecc71',
-                        backgroundColor: 'rgba(46, 204, 113, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    },
-                    {
-                        label: 'Safety Zone Hours',
-                        data: [],
-                        borderColor: '#f39c12',
-                        backgroundColor: 'rgba(243, 156, 18, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    },
-                    {
-                        label: 'Maintenance Hours',
-                        data: [],
-                        borderColor: '#9b59b6',
-                        backgroundColor: 'rgba(155, 89, 182, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Equipment Operational Hours',
-                        font: {
-                            size: 16
-                        },
-                        color: '#fff'
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false
-                    },
-                    legend: {
-                        labels: {
-                            color: '#fff'
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Hours',
-                            color: '#fff'
-                        },
-                        ticks: {
-                            color: '#fff'
-                        },
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Date',
-                            color: '#fff'
-                        },
-                        ticks: {
-                            color: '#fff'
-                        },
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        }
-                    }
-                }
-            }
-        });
 
         // Equipment list with all requested equipment
         const equipmentList = [
@@ -1617,16 +1411,6 @@
             document.getElementById('totalBreaking').textContent = totals.breaking.toFixed(2);
             document.getElementById('totalDevelopment').textContent = totals.development.toFixed(2);
             document.getElementById('totalOperational').textContent = totals.operational.toFixed(2);
-
-            // Update chart
-            chart.data.labels = data.map(entry => formatDate(entry.date));
-            chart.data.datasets[0].data = data.map(entry => entry.loading);
-            chart.data.datasets[1].data = data.map(entry => entry.breaking);
-            chart.data.datasets[2].data = data.map(entry => entry.development);
-            chart.data.datasets[3].data = data.map(entry => entry.safety);
-            chart.data.datasets[4].data = data.map(entry => entry.maintenance);
-            chart.options.plugins.title.text = `${selectedEquipment} Operational Hours (August 2025)`;
-            chart.update();
         }
 
         // Format date to display as DD-MMM
@@ -1757,7 +1541,6 @@
 
         // Load initial data for equipment
         window.onload = function() {
-            // Initialize equipment chart with empty data
             loadEquipmentData();
         };
     </script>
