@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.6/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary: #4361ee;
@@ -480,6 +481,154 @@
                 flex-wrap: nowrap;
             }
         }
+
+        /* Integrated Equipment Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7f9;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        select, button {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        select {
+            flex-grow: 1;
+            background-color: #f8f9fa;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .input-form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f7fd;
+        }
+        .chart-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        canvas {
+            width: 100% !important;
+            height: 400px !important;
+        }
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .card p {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+            margin: 10px 0;
+        }
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -776,10 +925,83 @@
                 <h1 class="slide-title">Equipment Details</h1>
             </div>
             
-            <!-- Placeholder for equipment details content -->
-            <div class="update-section">
-                <h3><i class="fas fa-tools"></i> Equipment Overview</h3>
-                <p>Details about equipment will be added here.</p>
+            <!-- Integrated Equipment Content -->
+            <div class="header">
+                <h1>Equipment Operational Hours</h1>
+                <p>August 2025</p>
+            </div>
+
+            <div class="controls">
+                <select id="equipmentSelect" onchange="loadEquipmentData()">
+                    <option value="SGX Volvo 1">SGX Volvo 1</option>
+                    <option value="SGX Volvo 2">SGX Volvo 2</option>
+                    <option value="SGX Volvo 3">SGX Volvo 3</option>
+                    <option value="SGX Volvo 4">SGX Volvo 4</option>
+                    <option value="SGX Volvo 5">SGX Volvo 5</option>
+                    <option value="Govind Volvo 1">Govind Volvo 1</option>
+                    <option value="Govind Volvo 2">Govind Volvo 2</option>
+                    <option value="Hyundai">Hyundai</option>
+                    <option value="JCB Ex">JCB Ex</option>
+                </select>
+                <button onclick="exportData()">Export Data</button>
+            </div>
+
+            <div class="input-form">
+                <h3>Add Operational Hours</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="dateInput">Date</label>
+                        <input type="date" id="dateInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loadingHrs">Loading Hours</label>
+                        <input type="number" id="loadingHrs" placeholder="0.00" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="breakingHrs">Breaking Hours</label>
+                        <input type="number" id="breakingHrs" placeholder="0.00" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="developmentHrs">Development Hours</label>
+                        <input type="number" id="developmentHrs" placeholder="0.00" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="safetyZone">Safety Zone Hours</label>
+                        <input type="number" id="safetyZone" placeholder="0.00" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="maintenance">Maintenance Hours</label>
+                        <input type="number" id="maintenance" placeholder="0.00" step="0.01" min="0" required>
+                    </div>
+                </div>
+                <button onclick="addData()" style="width: 100%">Add Data</button>
+            </div>
+
+            <div class="summary-cards">
+                <div class="card">
+                    <h3>Total Loading Hours</h3>
+                    <p id="totalLoading">0.00</p>
+                </div>
+                <div class="card">
+                    <h3>Total Breaking Hours</h3>
+                    <p id="totalBreaking">0.00</p>
+                </div>
+                <div class="card">
+                    <h3>Total Development Hours</h3>
+                    <p id="totalDevelopment">0.00</p>
+                </div>
+                <div class="card">
+                    <h3>Total Operational Hours</h3>
+                    <p id="totalOperational">0.00</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div id="tableContainer"></div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="hoursChart"></canvas>
             </div>
             
             <button class="back-btn">Back to Dashboard</button>
@@ -995,61 +1217,23 @@
                         </button>
                     </div>
 
-                    <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 overflow-x-auto">
-                        <h3 className="text-lg font-semibold mb-4 text-gray-700">{dataType} Records</h3>
-                        <table className="min-w-full table-auto border-collapse border border-gray-300">
-                            <thead>
-                                <tr className="bg-gray-200 text-gray-700">
-                                    <th className="border border-gray-300 px-4 py-2">Date</th>
-                                    <th className="border border-gray-300 px-4 py-2">Compressor</th>
-                                    <th className="border border-gray-300 px-4 py-2">No. of Holes</th>
-                                    <th className="border border-gray-300 px-4 py-2">Feets</th>
-                                    <th className="border border-gray-300 px-4 py-2">Production (Tonnes)</th>
-                                    <th className="border border-gray-300 px-4 py-2">Boulders Dispatch Qty.</th>
-                                    <th className="border border-gray-300 px-4 py-2">Power Gel</th>
-                                    <th className="border border-gray-300 px-4 py-2">D-Guard Wire/Hole</th>
-                                    <th className="border border-gray-300 px-4 py-2">ED/Hole</th>
-                                    <th className="border border-gray-300 px-4 py-2">Wire</th>
-                                    <th className="border border-gray-300 px-4 py-2">No. of NMR</th>
-                                    <th className="border border-gray-300 px-4 py-2">No. of Blaster</th>
-                                    <th className="border border-gray-300 px-4 py-2">NMR at Plant</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {currentData.map((row, index) => (
-                                    <tr key={index} className="hover:bg-gray-50">
-                                        <td className="border border-gray-300 px-4 py-2">{row.date}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.compressor}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.holes}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.feets.toFixed(2)}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.production.toFixed(2)}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.dispatch.toFixed(2)}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.powerGel.toFixed(2)}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.dGuard.toFixed(2)}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.edPerHole.toFixed(2)}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.wire.toFixed(2)}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.nmr.toFixed(2)}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.blaster}</td>
-                                        <td className="border border-gray-300 px-4 py-2">{row.nmrPlant}</td>
-                                    </tr>
-                                ))}
-                                <tr className="bg-gray-200 font-bold">
-                                    <td className="border border-gray-300 px-4 py-2">Total</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.compressor.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.holes.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.feets.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.production.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.dispatch.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.powerGel.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.dGuard.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.edPerHole.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.wire.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.nmr.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.blaster.toFixed(2)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{totals.nmrPlant.toFixed(2)}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div className="summary-cards">
+                        <div className="card">
+                            <h3>Total Production</h3>
+                            <p>{totals.production.toFixed(2)}</p>
+                        </div>
+                        <div className="card">
+                            <h3>Total Dispatch</h3>
+                            <p>{totals.dispatch.toFixed(2)}</p>
+                        </div>
+                        <div className="card">
+                            <h3>Total Holes</h3>
+                            <p>{totals.holes.toFixed(2)}</p>
+                        </div>
+                        <div className="card">
+                            <h3>Total Power Gel</h3>
+                            <p>{totals.powerGel.toFixed(2)}</p>
+                        </div>
                     </div>
                 </div>
             );
@@ -1193,6 +1377,328 @@
                 modal.style.display = 'none';
             }
         });
+    </script>
+
+    <!-- Integrated Equipment Script -->
+    <script>
+        // Initialize Chart.js
+        const ctx = document.getElementById('hoursChart').getContext('2d');
+        let chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Loading Hours',
+                        data: [],
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Breaking Hours',
+                        data: [],
+                        borderColor: '#e74c3c',
+                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Development Hours',
+                        data: [],
+                        borderColor: '#2ecc71',
+                        backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Safety Zone Hours',
+                        data: [],
+                        borderColor: '#f39c12',
+                        backgroundColor: 'rgba(243, 156, 18, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Maintenance Hours',
+                        data: [],
+                        borderColor: '#9b59b6',
+                        backgroundColor: 'rgba(155, 89, 182, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Equipment Operational Hours',
+                        font: {
+                            size: 16
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Hours'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Equipment list with all requested equipment
+        const equipmentList = [
+            'SGX Volvo 1', 'SGX Volvo 2', 'SGX Volvo 3', 'SGX Volvo 4', 'SGX Volvo 5',
+            'Govind Volvo 1', 'Govind Volvo 2', 'Hyundai', 'JCB Ex'
+        ];
+
+        // Initialize local storage for each equipment if not already present
+        equipmentList.forEach(equipment => {
+            if (!localStorage.getItem(equipment)) {
+                localStorage.setItem(equipment, JSON.stringify([]));
+            }
+        });
+
+        // Load data for selected equipment
+        function loadEquipmentData() {
+            const selectedEquipment = document.getElementById('equipmentSelect').value;
+            const data = JSON.parse(localStorage.getItem(selectedEquipment)) || [];
+
+            // Calculate totals
+            const totals = {
+                loading: 0,
+                breaking: 0,
+                development: 0,
+                safety: 0,
+                maintenance: 0,
+                operational: 0
+            };
+
+            // Generate table
+            let tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Loading Hrs</th>
+                            <th>Breaking Hrs</th>
+                            <th>Development Hrs</th>
+                            <th>Safety Zone</th>
+                            <th>Maintenance</th>
+                            <th>Total Hours</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            data.forEach((entry, index) => {
+                const totalHours = entry.loading + entry.breaking + entry.development + 
+                                 entry.safety + entry.maintenance;
+                tableHTML += `
+                    <tr>
+                        <td>${formatDate(entry.date)}</td>
+                        <td>${entry.loading.toFixed(2)}</td>
+                        <td>${entry.breaking.toFixed(2)}</td>
+                        <td>${entry.development.toFixed(2)}</td>
+                        <td>${entry.safety.toFixed(2)}</td>
+                        <td>${entry.maintenance.toFixed(2)}</td>
+                        <td>${totalHours.toFixed(2)}</td>
+                        <td>
+                            <button onclick="editEntry('${selectedEquipment}', ${index})" style="padding: 5px; margin: 2px;">Edit</button>
+                            <button onclick="deleteEntry('${selectedEquipment}', ${index})" style="padding: 5px; margin: 2px; background-color: #e74c3c;">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                totals.loading += entry.loading;
+                totals.breaking += entry.breaking;
+                totals.development += entry.development;
+                totals.safety += entry.safety;
+                totals.maintenance += entry.maintenance;
+                totals.operational += totalHours;
+            });
+
+            tableHTML += `
+                    </tbody>
+                    <tfoot>
+                        <tr style="font-weight: bold;">
+                            <td>Total</td>
+                            <td>${totals.loading.toFixed(2)}</td>
+                            <td>${totals.breaking.toFixed(2)}</td>
+                            <td>${totals.development.toFixed(2)}</td>
+                            <td>${totals.safety.toFixed(2)}</td>
+                            <td>${totals.maintenance.toFixed(2)}</td>
+                            <td>${totals.operational.toFixed(2)}</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>`;
+
+            document.getElementById('tableContainer').innerHTML = tableHTML;
+
+            // Update summary cards
+            document.getElementById('totalLoading').textContent = totals.loading.toFixed(2);
+            document.getElementById('totalBreaking').textContent = totals.breaking.toFixed(2);
+            document.getElementById('totalDevelopment').textContent = totals.development.toFixed(2);
+            document.getElementById('totalOperational').textContent = totals.operational.toFixed(2);
+
+            // Update chart
+            chart.data.labels = data.map(entry => formatDate(entry.date));
+            chart.data.datasets[0].data = data.map(entry => entry.loading);
+            chart.data.datasets[1].data = data.map(entry => entry.breaking);
+            chart.data.datasets[2].data = data.map(entry => entry.development);
+            chart.data.datasets[3].data = data.map(entry => entry.safety);
+            chart.data.datasets[4].data = data.map(entry => entry.maintenance);
+            chart.options.plugins.title.text = `${selectedEquipment} Operational Hours (August 2025)`;
+            chart.update();
+        }
+
+        // Format date to display as DD-MMM
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
+        }
+
+        // Add new data
+        function addData() {
+            const selectedEquipment = document.getElementById('equipmentSelect').value;
+            const date = document.getElementById('dateInput').value;
+            const loading = parseFloat(document.getElementById('loadingHrs').value) || 0;
+            const breaking = parseFloat(document.getElementById('breakingHrs').value) || 0;
+            const development = parseFloat(document.getElementById('developmentHrs').value) || 0;
+            const safety = parseFloat(document.getElementById('safetyZone').value) || 0;
+            const maintenance = parseFloat(document.getElementById('maintenance').value) || 0;
+
+            if (!date) {
+                alert('Please enter a valid date.');
+                return;
+            }
+
+            const data = JSON.parse(localStorage.getItem(selectedEquipment)) || [];
+            
+            // Check if entry for this date already exists
+            const existingIndex = data.findIndex(entry => entry.date === date);
+            if (existingIndex !== -1) {
+                if (confirm('An entry for this date already exists. Do you want to update it?')) {
+                    data[existingIndex] = {
+                        date,
+                        loading,
+                        breaking,
+                        development,
+                        safety,
+                        maintenance
+                    };
+                } else {
+                    return;
+                }
+            } else {
+                data.push({
+                    date,
+                    loading,
+                    breaking,
+                    development,
+                    safety,
+                    maintenance
+                });
+            }
+
+            // Sort by date
+            data.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            // Save to local storage
+            localStorage.setItem(selectedEquipment, JSON.stringify(data));
+
+            // Clear form
+            document.getElementById('dateInput').value = '';
+            document.getElementById('loadingHrs').value = '';
+            document.getElementById('breakingHrs').value = '';
+            document.getElementById('developmentHrs').value = '';
+            document.getElementById('safetyZone').value = '';
+            document.getElementById('maintenance').value = '';
+
+            // Reload data
+            loadEquipmentData();
+            
+            alert('Data saved successfully!');
+        }
+
+        // Edit an existing entry
+        function editEntry(equipment, index) {
+            const data = JSON.parse(localStorage.getItem(equipment)) || [];
+            const entry = data[index];
+            
+            document.getElementById('dateInput').value = entry.date;
+            document.getElementById('loadingHrs').value = entry.loading;
+            document.getElementById('breakingHrs').value = entry.breaking;
+            document.getElementById('developmentHrs').value = entry.development;
+            document.getElementById('safetyZone').value = entry.safety;
+            document.getElementById('maintenance').value = entry.maintenance;
+            
+            // Remove the old entry
+            data.splice(index, 1);
+            localStorage.setItem(equipment, JSON.stringify(data));
+            
+            // Reload data
+            loadEquipmentData();
+        }
+
+        // Delete an entry
+        function deleteEntry(equipment, index) {
+            if (confirm('Are you sure you want to delete this entry?')) {
+                const data = JSON.parse(localStorage.getItem(equipment)) || [];
+                data.splice(index, 1);
+                localStorage.setItem(equipment, JSON.stringify(data));
+                loadEquipmentData();
+            }
+        }
+
+        // Export data as CSV
+        function exportData() {
+            const selectedEquipment = document.getElementById('equipmentSelect').value;
+            const data = JSON.parse(localStorage.getItem(selectedEquipment)) || [];
+            
+            if (data.length === 0) {
+                alert('No data to export for ' + selectedEquipment);
+                return;
+            }
+            
+            let csv = 'Date,Loading Hours,Breaking Hours,Development Hours,Safety Zone Hours,Maintenance Hours\n';
+            
+            data.forEach(entry => {
+                csv += `${entry.date},${entry.loading},${entry.breaking},${entry.development},${entry.safety},${entry.maintenance}\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', `${selectedEquipment.replace(/\s+/g, '_')}_data.csv`);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // Load initial data
+        loadEquipmentData();
     </script>
 </body>
 </html>
