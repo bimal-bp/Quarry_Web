@@ -6,6 +6,10 @@
     <title>SGX Minerals - Mining Operations</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.6/babel.min.js"></script>
     <style>
         :root {
             --primary: #4361ee;
@@ -482,14 +486,12 @@
     <!-- Header -->
     <div class="header">
         <img src="https://github.com/bimal-bp/Query_ppt/blob/main/Screenshot%202025-07-29%20104153.png?raw=true" alt="SGX Minerals Logo" class="header-logo">
-        <div class="header-title">SGX Minerals Pvt Ltd - Quarry Management System</div>
+        <div class="header-title">SGX Minerals - Quarry Management System</div>
         <div class="header-date" id="currentDate"></div>
     </div>
     
     <!-- Home Page Container -->
     <div class="home-container" id="homePage">
-        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/Screenshot%202025-07-29%20104153.png?raw=true" alt="SGX Minerals Logo" class="home-logo">
-        <h1 class="home-title">SGX Minerals Pvt Ltd</h1>
         <h2 class="home-subtitle">Comprehensive Quarry Management Dashboard</h2>
         
         <div class="nav-buttons">
@@ -503,11 +505,11 @@
             </a>
             <a href="#" class="nav-btn" id="equipmentDetailsBtn">
                 <i class="fas fa-tools"></i>
-                Equipment & Machinery
+                Equipment Details
             </a>
-            <a href="#" class="nav-btn" id="productionDetailsBtn">
-                <i class="fas fa-chart-line"></i>
-                Production Analytics
+            <a href="#" class="nav-btn" id="costingReportBtn">
+                <i class="fas fa-dollar-sign"></i>
+                Costing Report
             </a>
         </div>
     </div>
@@ -526,65 +528,227 @@
                 <button class="tab-btn" data-tab="pit9h3">9H Pit 3</button>
                 <button class="tab-btn" data-tab="pit3h">3H Pit</button>
                 <button class="tab-btn" data-tab="pit33h">3.3H Pit</button>
-                <button class="tab-btn" data-tab="dailyPhotos">Daily Photos</button>
-                <button class="tab-btn" data-tab="weeklyVideos">Weekly Videos</button>
-                <button class="tab-btn" data-tab="nightPlan">Night Plan</button>
             </div>
             
             <!-- 9H Pit 1 Content -->
             <div class="tab-content active" id="pit9h1">
                 <div class="update-section">
                     <h3><i class="fas fa-info-circle"></i> 9H PIT-1 Details</h3>
-                    <p>Length: 20 meters, Width: 16 meters, Height: 6 meters</p>
-                    <p>Previous measurement: 17 x 11 x 5 meters</p>
-                    <p>Present measurement: 20 x 16 x 6 meters</p>
-                    <p>Pit-1 is mixed with morrum; it is not used on a regular basis.</p>
-                    <p>Future plan: Will use on a priority basis.</p>
+                    <p>Current Dimensions: 20m x 16m x 6m</p>
+                    <p>Material Composition: Mixed with morrum</p>
+                    <p>Usage Status: Limited current operations</p>
+                    <p>Future Plan: Prioritized for next phase</p>
                 </div>
                 
                 <h3>Media Documentation</h3>
-                <div class="time-filter">
-                    <button class="filter-btn active">All</button>
-                    <button class="filter-btn">9 AM</button>
-                    <button class="filter-btn">Before Blasting</button>
-                    <button class="filter-btn">After Blasting</button>
-                    <button class="filter-btn">5 PM</button>
-                </div>
                 
                 <div class="media-gallery">
                     <div class="media-item">
-                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit%201%20april%20image%20.jpg?raw=true" alt="Pit 1 Previous View 1">
-                        <div class="media-label">April - 25 PIT-1 image</div>
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit%201%20april%20image%20.jpg?raw=true" alt="Pit 1 9 AM Photo">
+                        <div class="media-label">9 AM Photo</div>
                     </div>
                     <div class="media-item">
-                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-1-measure.jpg?raw=true" alt="Pit 1 Previous View 2">
-                        <div class="media-label">Measurement PIT-1 image</div>
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-1-measure.jpg?raw=true" alt="Pit 1 Before Blasting">
+                        <div class="media-label">Before Blasting</div>
                     </div>
                     <div class="media-item">
-                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Pit 1 Current View 1">
-                        <div class="media-label">Current PIT-1 image (July 2025)</div>
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Pit 1 After Blasting">
+                        <div class="media-label">After Blasting</div>
                     </div>
                     <div class="media-item">
-                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Pit 1 Current View 2">
-                        <div class="media-label">Current PIT-1 image (July 2025)</div>
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Pit 1 6 PM Photo">
+                        <div class="media-label">6 PM Photo</div>
                     </div>
                     <div class="media-item">
                         <video controls>
                             <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
                         </video>
-                        <div class="media-label">PIT-1 video (July 2025)</div>
+                        <div class="media-label">Night Plant</div>
                     </div>
                     <div class="media-item">
                         <video controls>
                             <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
                         </video>
-                        <div class="media-label">PIT-1 video (July 2025)</div>
+                        <div class="media-label">Weekly Video</div>
                     </div>
                 </div>
             </div>
             
-            <!-- Other tab contents would go here with similar structure -->
-            <!-- For brevity, I've only included one pit's content -->
+            <!-- 9H Pit 2 Content -->
+            <div class="tab-content" id="pit9h2">
+                <div class="update-section">
+                    <h3><i class="fas fa-info-circle"></i> 9H PIT-2 Details</h3>
+                    <p>Current Status: Active mining operations</p>
+                    <p>Production Rate: 500 tonnes/day</p>
+                    <p>Equipment: 2 excavators, 3 trucks</p>
+                    <p>Future Plan: Expand depth by 2m</p>
+                </div>
+                
+                <h3>Media Documentation</h3>
+                
+                <div class="media-gallery">
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit%201%20april%20image%20.jpg?raw=true" alt="Pit 2 9 AM Photo">
+                        <div class="media-label">9 AM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-1-measure.jpg?raw=true" alt="Pit 2 Before Blasting">
+                        <div class="media-label">Before Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Pit 2 After Blasting">
+                        <div class="media-label">After Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Pit 2 6 PM Photo">
+                        <div class="media-label">6 PM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <video controls>
+                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
+                        </video>
+                        <div class="media-label">Night Plant</div>
+                    </div>
+                    <div class="media-item">
+                        <video controls>
+                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
+                        </video>
+                        <div class="media-label">Weekly Video</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 9H Pit 3 Content -->
+            <div class="tab-content" id="pit9h3">
+                <div class="update-section">
+                    <h3><i class="fas fa-info-circle"></i> 9H PIT-3 Details</h3>
+                    <p>Current Status: Under development</p>
+                    <p>Material: High-grade ore detected</p>
+                    <p>Progress: 60% complete</p>
+                    <p>Future Plan: Full operation by Q4</p>
+                </div>
+                
+                <h3>Media Documentation</h3>
+                
+                <div class="media-gallery">
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit%201%20april%20image%20.jpg?raw=true" alt="Pit 3 9 AM Photo">
+                        <div class="media-label">9 AM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-1-measure.jpg?raw=true" alt="Pit 3 Before Blasting">
+                        <div class="media-label">Before Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Pit 3 After Blasting">
+                        <div class="media-label">After Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Pit 3 6 PM Photo">
+                        <div class="media-label">6 PM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <video controls>
+                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
+                        </video>
+                        <div class="media-label">Night Plant</div>
+                    </div>
+                    <div class="media-item">
+                        <video controls>
+                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
+                        </video>
+                        <div class="media-label">Weekly Video</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 3H Pit Content -->
+            <div class="tab-content" id="pit3h">
+                <div class="update-section">
+                    <h3><i class="fas fa-info-circle"></i> 3H Pit Details</h3>
+                    <p>Current Status: Primary production site</p>
+                    <p>Output: 800 tonnes/day</p>
+                    <p>Equipment: 3 excavators, 5 trucks</p>
+                    <p>Future Plan: Optimize haul routes</p>
+                </div>
+                
+                <h3>Media Documentation</h3>
+                
+                <div class="media-gallery">
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit%201%20april%20image%20.jpg?raw=true" alt="Pit 3H 9 AM Photo">
+                        <div class="media-label">9 AM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-1-measure.jpg?raw=true" alt="Pit 3H Before Blasting">
+                        <div class="media-label">Before Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Pit 3H After Blasting">
+                        <div class="media-label">After Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Pit 3H 6 PM Photo">
+                        <div class="media-label">6 PM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <video controls>
+                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
+                        </video>
+                        <div class="media-label">Night Plant</div>
+                    </div>
+                    <div class="media-item">
+                        <video controls>
+                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
+                        </video>
+                        <div class="media-label">Weekly Video</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 3.3H Pit Content -->
+            <div class="tab-content" id="pit33h">
+                <div class="update-section">
+                    <h3><i class="fas fa-info-circle"></i> 3.3H Pit Details</h3>
+                    <p>Current Status: Secondary site</p>
+                    <p>Production: 300 tonnes/day</p>
+                    <p>Challenges: Water accumulation</p>
+                    <p>Future Plan: Install drainage system</p>
+                </div>
+                
+                <h3>Media Documentation</h3>
+                
+                <div class="media-gallery">
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit%201%20april%20image%20.jpg?raw=true" alt="Pit 3.3H 9 AM Photo">
+                        <div class="media-label">9 AM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-1-measure.jpg?raw=true" alt="Pit 3.3H Before Blasting">
+                        <div class="media-label">Before Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Pit 3.3H After Blasting">
+                        <div class="media-label">After Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Pit 3.3H 6 PM Photo">
+                        <div class="media-label">6 PM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <video controls>
+                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
+                        </video>
+                        <div class="media-label">Night Plant</div>
+                    </div>
+                    <div class="media-item">
+                        <video controls>
+                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
+                        </video>
+                        <div class="media-label">Weekly Video</div>
+                    </div>
+                </div>
+            </div>
             
             <button class="back-btn">Back to Dashboard</button>
         </div>
@@ -598,322 +762,42 @@
                 <h1 class="slide-title">Blasting Details & Analytics</h1>
             </div>
             
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="blastStats">Blasting Statistics</button>
-                <button class="tab-btn" data-tab="compressorData">Compressor Details</button>
-                <button class="tab-btn" data-tab="materialUsage">Material Usage</button>
-            </div>
-            
-            <div class="tab-content active" id="blastStats">
-                <div class="update-section">
-                    <h3><i class="fas fa-chart-bar"></i> Blasting Performance Summary</h3>
-                    
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-label">Total Holes</div>
-                            <div class="stat-value">316</div>
-                            <div class="stat-label">Across all pits</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Total Feet Drilled</div>
-                            <div class="stat-value">3,541</div>
-                            <div class="stat-label">Last 30 days</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Average Holes per Blast</div>
-                            <div class="stat-value">8.5</div>
-                            <div class="stat-label">Standard deviation: 2.3</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Blasting Cost</div>
-                            <div class="stat-value">₹21,641</div>
-                            <div class="stat-label">Per blast average</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="update-section">
-                    <h3><i class="fas fa-table"></i> Detailed Blasting Records</h3>
-                    
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Compressor</th>
-                                <th>No. of Holes</th>
-                                <th>Feet</th>
-                                <th>Production (Tonnes)</th>
-                                <th>Power Gel</th>
-                                <th>D-Guard Wire/Hole</th>
-                                <th>ED/Hole</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>19-Aug</td>
-                                <td>FTM</td>
-                                <td>4</td>
-                                <td>267.00</td>
-                                <td>1417.50</td>
-                                <td>1134.00</td>
-                                <td>653.32</td>
-                                <td>140.0</td>
-                            </tr>
-                            <tr>
-                                <td>18-Aug</td>
-                                <td>FTM</td>
-                                <td>49</td>
-                                <td>3274.00</td>
-                                <td>17394.00</td>
-                                <td>13915.20</td>
-                                <td>21641.42</td>
-                                <td>1732.0</td>
-                            </tr>
-                            <!-- More rows would go here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <div id="blastDataEntry" class="container mx-auto p-4"></div>
             
             <button class="back-btn">Back to Dashboard</button>
         </div>
     </div>
-    
+
     <!-- Equipment Details Presentation -->
     <div class="presentation-container" id="equipmentDetailsPresentation">
         <div class="content-container">
             <div class="slide-header">
                 <img src="https://github.com/bimal-bp/Query_ppt/blob/main/Screenshot%202025-07-29%20104153.png?raw=true" alt="Logo" class="slide-logo">
-                <h1 class="slide-title">Equipment & Machinery Details</h1>
+                <h1 class="slide-title">Equipment Details</h1>
             </div>
             
+            <!-- Placeholder for equipment details content -->
             <div class="update-section">
-                <h3><i class="fas fa-compress-arrows-alt"></i> Compressor Information</h3>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-label">Total Compressors</div>
-                        <div class="stat-value">5</div>
-                        <div class="stat-label">Active: 3, Maintenance: 2</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Monthly Cost</div>
-                        <div class="stat-value">₹2,85,000</div>
-                        <div class="stat-label">Including fuel & maintenance</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Avg. Hours/Day</div>
-                        <div class="stat-value">10.5</div>
-                        <div class="stat-label">Per compressor</div>
-                    </div>
-                </div>
-                
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Compressor ID</th>
-                            <th>Model</th>
-                            <th>Status</th>
-                            <th>Last Maintenance</th>
-                            <th>Next Maintenance</th>
-                            <th>Monthly Cost (₹)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>CMP-001</td>
-                            <td>Atlas Copco XAS 186</td>
-                            <td>Active</td>
-                            <td>15-Aug-2025</td>
-                            <td>15-Sep-2025</td>
-                            <td>62,000</td>
-                        </tr>
-                        <tr>
-                            <td>CMP-002</td>
-                            <td>Ingersoll Rand XP 750</td>
-                            <td>Active</td>
-                            <td>12-Aug-2025</td>
-                            <td>12-Sep-2025</td>
-                            <td>58,500</td>
-                        </tr>
-                        <!-- More rows would go here -->
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="update-section">
-                <h3><i class="fas fa-truck"></i> NMR & Vehicle Information</h3>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-label">Total NMR Vehicles</div>
-                        <div class="stat-value">8</div>
-                        <div class="stat-label">Active: 6, Maintenance: 2</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Monthly Cost</div>
-                        <div class="stat-value">₹4,20,000</div>
-                        <div class="stat-label">Including fuel & maintenance</div>
-                    </div>
-                </div>
-                
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Vehicle ID</th>
-                            <th>Type</th>
-                            <th>Capacity</th>
-                            <th>Status</th>
-                            <th>Last Trip</th>
-                            <th>Monthly Cost (₹)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>NMR-001</td>
-                            <td>Tata 1616</td>
-                            <td>16 Tons</td>
-                            <td>Active</td>
-                            <td>20-Aug-2025</td>
-                            <td>52,000</td>
-                        </tr>
-                        <tr>
-                            <td>NMR-002</td>
-                            <td>Ashok Leyland 1616</td>
-                            <td>16 Tons</td>
-                            <td>Active</td>
-                            <td>20-Aug-2025</td>
-                            <td>51,000</td>
-                        </tr>
-                        <!-- More rows would go here -->
-                    </tbody>
-                </table>
+                <h3><i class="fas fa-tools"></i> Equipment Overview</h3>
+                <p>Details about equipment will be added here.</p>
             </div>
             
             <button class="back-btn">Back to Dashboard</button>
         </div>
     </div>
-    
-    <!-- Production Details Presentation -->
-    <div class="presentation-container" id="productionDetailsPresentation">
+
+    <!-- Costing Report Presentation -->
+    <div class="presentation-container" id="costingReportPresentation">
         <div class="content-container">
             <div class="slide-header">
                 <img src="https://github.com/bimal-bp/Query_ppt/blob/main/Screenshot%202025-07-29%20104153.png?raw=true" alt="Logo" class="slide-logo">
-                <h1 class="slide-title">Production & Development Details</h1>
+                <h1 class="slide-title">Costing Report</h1>
             </div>
             
+            <!-- Placeholder for costing report content -->
             <div class="update-section">
-                <h3><i class="fas fa-history"></i> Previous Month Details</h3>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-label">May Production</div>
-                        <div class="stat-value">68,399</div>
-                        <div class="stat-label">Tonnes</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">June Production</div>
-                        <div class="stat-value">50,142</div>
-                        <div class="stat-label">Tonnes</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">July Production</div>
-                        <div class="stat-value">71,782</div>
-                        <div class="stat-label">Tonnes</div>
-                    </div>
-                </div>
-                
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Month</th>
-                            <th>Boulder Production</th>
-                            <th>Boulder Dispatch</th>
-                            <th>OB Trips</th>
-                            <th>Avg. Daily Production</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>May 2025</td>
-                            <td>68,399</td>
-                            <td>49,125</td>
-                            <td>161</td>
-                            <td>2,206</td>
-                        </tr>
-                        <tr>
-                            <td>June 2025</td>
-                            <td>50,142</td>
-                            <td>40,366</td>
-                            <td>144</td>
-                            <td>1,671</td>
-                        </tr>
-                        <tr>
-                            <td>July 2025</td>
-                            <td>71,782</td>
-                            <td>59,517</td>
-                            <td>178</td>
-                            <td>2,315</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="update-section">
-                <h3><i class="fas fa-project-diagram"></i> Future Planning & Targets</h3>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-label">August Target</div>
-                        <div class="stat-value">67,500</div>
-                        <div class="stat-label">Tonnes</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">September Target</div>
-                        <div class="stat-value">70,000</div>
-                        <div class="stat-label">Tonnes</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">October Target</div>
-                        <div class="stat-value">72,500</div>
-                        <div class="stat-label">Tonnes</div>
-                    </div>
-                </div>
-                
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Month</th>
-                            <th>Boulder Production Target</th>
-                            <th>OB Trips Target</th>
-                            <th>Daily Production Goal</th>
-                            <th>Growth %</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>August 2025</td>
-                            <td>67,500</td>
-                            <td>150</td>
-                            <td>2,177</td>
-                            <td>-5.9%</td>
-                        </tr>
-                        <tr>
-                            <td>September 2025</td>
-                            <td>70,000</td>
-                            <td>180</td>
-                            <td>2,333</td>
-                            <td>+3.7%</td>
-                        </tr>
-                        <tr>
-                            <td>October 2025</td>
-                            <td>72,500</td>
-                            <td>200</td>
-                            <td>2,339</td>
-                            <td>+3.6%</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <h3><i class="fas fa-dollar-sign"></i> Costing Overview</h3>
+                <p>Costing reports will be added here.</p>
             </div>
             
             <button class="back-btn">Back to Dashboard</button>
@@ -928,6 +812,252 @@
         </div>
     </div>
     
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const App = () => {
+            const initialBlastingData = JSON.parse(localStorage.getItem('blastingData')) || [
+                { date: "01-08-2025", compressor: 0, holes: 0, feets: 0, production: 0, dispatch: 2036.70, powerGel: 0, dGuard: 0, edPerHole: 0, wire: 0, nmr: 0, blaster: 0, nmrPlant: 0 },
+                { date: "02-08-2025", compressor: 0, holes: 0, feets: 0, production: 0, dispatch: 2350.59, powerGel: 0, dGuard: 0, edPerHole: 0, wire: 0, nmr: 0, blaster: 0, nmrPlant: 0 },
+                { date: "03-08-2025", compressor: 3, holes: 288, feets: 1563.00, production: 1250.40, dispatch: 2198.50, powerGel: 145.00, dGuard: 900.00, edPerHole: 15.00, wire: 1.00, nmr: 5.00, blaster: 1, nmrPlant: 0 },
+                { date: "04-08-2025", compressor: 9, holes: 571, feets: 3029.50, production: 2423.60, dispatch: 2427.23, powerGel: 281.00, dGuard: 1600.00, edPerHole: 14.00, wire: 2.00, nmr: 10.00, blaster: 1, nmrPlant: 2 },
+                { date: "05-08-2025", compressor: 9, holes: 561, feets: 2738.00, production: 2190.40, dispatch: 2483.32, powerGel: 256.00, dGuard: 1700.00, edPerHole: 16.00, wire: 2.00, nmr: 9.00, blaster: 1, nmrPlant: 0 },
+                { date: "06-08-2025", compressor: 10, holes: 648, feets: 3553.50, production: 2842.80, dispatch: 1787.09, powerGel: 340.00, dGuard: 1800.00, edPerHole: 15.00, wire: 2.00, nmr: 9.00, blaster: 1, nmrPlant: 0 },
+                { date: "07-08-2025", compressor: 4, holes: 272, feets: 1490.00, production: 1192.00, dispatch: 502.45, powerGel: 170.00, dGuard: 750.00, edPerHole: 8.00, wire: 1.00, nmr: 7.00, blaster: 1, nmrPlant: 3 },
+                { date: "08-08-2025", compressor: 0, holes: 0, feets: 0, production: 0, dispatch: 1729.25, powerGel: 0, dGuard: 0, edPerHole: 0, wire: 0, nmr: 0, blaster: 0, nmrPlant: 0 },
+                { date: "09-08-2025", compressor: 0, holes: 0, feets: 0, production: 0, dispatch: 122.88, powerGel: 0, dGuard: 0, edPerHole: 0, wire: 0, nmr: 0, blaster: 0, nmrPlant: 0 },
+                { date: "10-08-2025", compressor: 0, holes: 0, feets: 0, production: 0, dispatch: 1636.51, powerGel: 0, dGuard: 0, edPerHole: 0, wire: 0, nmr: 0, blaster: 0, nmrPlant: 0 },
+                { date: "11-08-2025", compressor: 0, holes: 0, feets: 0, production: 0, dispatch: 1742.38, powerGel: 0, dGuard: 0, edPerHole: 0, wire: 0, nmr: 0, blaster: 0, nmrPlant: 0 },
+                { date: "12-08-2025", compressor: 0, holes: 0, feets: 0, production: 0, dispatch: 298.09, powerGel: 0, dGuard: 0, edPerHole: 0, wire: 0, nmr: 0, blaster: 0, nmrPlant: 0 },
+                { date: "13-08-2025", compressor: 4, holes: 259, feets: 1371.50, production: 1097.20, dispatch: 324.64, powerGel: 160.00, dGuard: 700.00, edPerHole: 6.00, wire: 2.00, nmr: 5.00, blaster: 1, nmrPlant: 0 },
+                { date: "14-08-2025", compressor: 6, holes: 408, feets: 2231.00, production: 1784.80, dispatch: 314.08, powerGel: 240.00, dGuard: 1200.00, edPerHole: 12.00, wire: 2.00, nmr: 6.00, blaster: 1, nmrPlant: 0 },
+                { date: "15-08-2025", compressor: 0, holes: 0, feets: 0, production: 0, dispatch: 0, powerGel: 0, dGuard: 0, edPerHole: 0, wire: 0, nmr: 0, blaster: 0, nmrPlant: 0 },
+                { date: "16-08-2025", compressor: 0, holes: 0, feets: 0, production: 0, dispatch: 1034.39, powerGel: 0, dGuard: 0, edPerHole: 0, wire: 0, nmr: 0, blaster: 0, nmrPlant: 0 },
+                { date: "17-08-2025", compressor: 0, holes: 0, feets: 0, production: 0, dispatch: 0, powerGel: 0, dGuard: 0, edPerHole: 0, wire: 0, nmr: 0, blaster: 0, nmrPlant: 0 },
+                { date: "18-08-2025", compressor: 0, holes: 0, feets: 0, production: 0, dispatch: 0, powerGel: 0, dGuard: 0, edPerHole: 0, wire: 0, nmr: 0, blaster: 0, nmrPlant: 0 },
+                { date: "19-08-2025", compressor: 4, holes: 267, feets: 1417.50, production: 1134.00, dispatch: 653.32, powerGel: 140.00, dGuard: 800.00, edPerHole: 8.00, wire: 1.00, nmr: 4.00, blaster: 1, nmrPlant: 0 },
+            ];
+            const initialDevelopmentData = JSON.parse(localStorage.getItem('developmentData')) || [];
+
+            const [dataType, setDataType] = useState('Blasting Material');
+            const [blastingData, setBlastingData] = useState(initialBlastingData);
+            const [developmentData, setDevelopmentData] = useState(initialDevelopmentData);
+            const [formData, setFormData] = useState({
+                date: "",
+                compressor: "",
+                holes: "",
+                feets: "",
+                production: "",
+                dispatch: "",
+                powerGel: "",
+                dGuard: "",
+                edPerHole: "",
+                wire: "",
+                nmr: "",
+                blaster: "",
+                nmrPlant: "",
+            });
+
+            useEffect(() => {
+                localStorage.setItem('blastingData', JSON.stringify(blastingData));
+                localStorage.setItem('developmentData', JSON.stringify(developmentData));
+            }, [blastingData, developmentData]);
+
+            const handleInputChange = (e) => {
+                const { name, value } = e.target;
+                setFormData({ ...formData, [name]: value });
+            };
+
+            const handleSubmit = () => {
+                const newEntry = {
+                    date: formData.date,
+                    compressor: parseFloat(formData.compressor) || 0,
+                    holes: parseFloat(formData.holes) || 0,
+                    feets: parseFloat(formData.feets) || 0,
+                    production: parseFloat(formData.production) || 0,
+                    dispatch: parseFloat(formData.dispatch) || 0,
+                    powerGel: parseFloat(formData.powerGel) || 0,
+                    dGuard: parseFloat(formData.dGuard) || 0,
+                    edPerHole: parseFloat(formData.edPerHole) || 0,
+                    wire: parseFloat(formData.wire) || 0,
+                    nmr: parseFloat(formData.nmr) || 0,
+                    blaster: parseFloat(formData.blaster) || 0,
+                    nmrPlant: parseFloat(formData.nmrPlant) || 0,
+                };
+                if (dataType === 'Blasting Material') {
+                    setBlastingData([...blastingData, newEntry]);
+                } else {
+                    setDevelopmentData([...developmentData, newEntry]);
+                }
+                setFormData({
+                    date: "",
+                    compressor: "",
+                    holes: "",
+                    feets: "",
+                    production: "",
+                    dispatch: "",
+                    powerGel: "",
+                    dGuard: "",
+                    edPerHole: "",
+                    wire: "",
+                    nmr: "",
+                    blaster: "",
+                    nmrPlant: "",
+                });
+            };
+
+            const currentData = dataType === 'Blasting Material' ? blastingData : developmentData;
+            const totals = currentData.reduce(
+                (acc, row) => ({
+                    compressor: acc.compressor + row.compressor,
+                    holes: acc.holes + row.holes,
+                    feets: acc.feets + row.feets,
+                    production: acc.production + row.production,
+                    dispatch: acc.dispatch + row.dispatch,
+                    powerGel: acc.powerGel + row.powerGel,
+                    dGuard: acc.dGuard + row.dGuard,
+                    edPerHole: acc.edPerHole + row.edPerHole,
+                    wire: acc.wire + row.wire,
+                    nmr: acc.nmr + row.nmr,
+                    blaster: acc.blaster + row.blaster,
+                    nmrPlant: acc.nmrPlant + row.nmrPlant,
+                }),
+                {
+                    compressor: 0,
+                    holes: 0,
+                    feets: 0,
+                    production: 0,
+                    dispatch: 0,
+                    powerGel: 0,
+                    dGuard: 0,
+                    edPerHole: 0,
+                    wire: 0,
+                    nmr: 0,
+                    blaster: 0,
+                    nmrPlant: 0,
+                }
+            );
+
+            return (
+                <div className="space-y-6">
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-xl font-semibold text-gray-200">Daily Blasting and Development Entry</h2>
+                        <select
+                            value={dataType}
+                            onChange={(e) => setDataType(e.target.value)}
+                            className="p-2 border rounded bg-blue-100 text-blue-800 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            <option value="Blasting Material">Blasting Material</option>
+                            <option value="Development">Development</option>
+                        </select>
+                    </div>
+
+                    <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                        <h3 className="text-lg font-semibold mb-4 text-gray-700">Add New {dataType} Entry</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {[
+                                { name: "date", type: "date", placeholder: "Date", required: true },
+                                { name: "compressor", type: "number", placeholder: "Compressor", step: "1" },
+                                { name: "holes", type: "number", placeholder: "No. of Holes", step: "1" },
+                                { name: "feets", type: "number", placeholder: "Feets", step: "0.01" },
+                                { name: "production", type: "number", placeholder: "Production (Tonnes)", step: "0.01" },
+                                { name: "dispatch", type: "number", placeholder: "Boulders Dispatch Qty.", step: "0.01" },
+                                { name: "powerGel", type: "number", placeholder: "Power Gel", step: "0.01" },
+                                { name: "dGuard", type: "number", placeholder: "D-Guard Wire/Hole", step: "0.01" },
+                                { name: "edPerHole", type: "number", placeholder: "ED/Hole", step: "0.01" },
+                                { name: "wire", type: "number", placeholder: "Wire", step: "0.01" },
+                                { name: "nmr", type: "number", placeholder: "No. of NMR", step: "0.01" },
+                                { name: "blaster", type: "number", placeholder: "No. of Blaster", step: "1" },
+                                { name: "nmrPlant", type: "number", placeholder: "NMR at Plant", step: "1" },
+                            ].map((field) => (
+                                <div key={field.name} className="relative">
+                                    <input
+                                        type={field.type}
+                                        name={field.name}
+                                        value={formData[field.name]}
+                                        onChange={handleInputChange}
+                                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                                        placeholder={field.placeholder}
+                                        step={field.step}
+                                        required={field.required}
+                                    />
+                                    {field.required && (
+                                        <span className="absolute right-2 top-3 text-red-500">*</span>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                        <button
+                            onClick={handleSubmit}
+                            className="mt-6 w-full sm:w-auto bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-200 font-semibold"
+                        >
+                            Add {dataType} Entry
+                        </button>
+                    </div>
+
+                    <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 overflow-x-auto">
+                        <h3 className="text-lg font-semibold mb-4 text-gray-700">{dataType} Records</h3>
+                        <table className="min-w-full table-auto border-collapse border border-gray-300">
+                            <thead>
+                                <tr className="bg-gray-200 text-gray-700">
+                                    <th className="border border-gray-300 px-4 py-2">Date</th>
+                                    <th className="border border-gray-300 px-4 py-2">Compressor</th>
+                                    <th className="border border-gray-300 px-4 py-2">No. of Holes</th>
+                                    <th className="border border-gray-300 px-4 py-2">Feets</th>
+                                    <th className="border border-gray-300 px-4 py-2">Production (Tonnes)</th>
+                                    <th className="border border-gray-300 px-4 py-2">Boulders Dispatch Qty.</th>
+                                    <th className="border border-gray-300 px-4 py-2">Power Gel</th>
+                                    <th className="border border-gray-300 px-4 py-2">D-Guard Wire/Hole</th>
+                                    <th className="border border-gray-300 px-4 py-2">ED/Hole</th>
+                                    <th className="border border-gray-300 px-4 py-2">Wire</th>
+                                    <th className="border border-gray-300 px-4 py-2">No. of NMR</th>
+                                    <th className="border border-gray-300 px-4 py-2">No. of Blaster</th>
+                                    <th className="border border-gray-300 px-4 py-2">NMR at Plant</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {currentData.map((row, index) => (
+                                    <tr key={index} className="hover:bg-gray-50">
+                                        <td className="border border-gray-300 px-4 py-2">{row.date}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.compressor}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.holes}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.feets.toFixed(2)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.production.toFixed(2)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.dispatch.toFixed(2)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.powerGel.toFixed(2)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.dGuard.toFixed(2)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.edPerHole.toFixed(2)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.wire.toFixed(2)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.nmr.toFixed(2)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.blaster}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{row.nmrPlant}</td>
+                                    </tr>
+                                ))}
+                                <tr className="bg-gray-200 font-bold">
+                                    <td className="border border-gray-300 px-4 py-2">Total</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.compressor.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.holes.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.feets.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.production.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.dispatch.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.powerGel.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.dGuard.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.edPerHole.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.wire.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.nmr.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.blaster.toFixed(2)}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{totals.nmrPlant.toFixed(2)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('blastDataEntry'));
+    </script>
+
     <script>
         // Set current date
         const currentDateElement = document.getElementById('currentDate');
@@ -944,11 +1074,11 @@
         const quarryUpdateBtn = document.getElementById('quarryUpdateBtn');
         const blastingDetailsBtn = document.getElementById('blastingDetailsBtn');
         const equipmentDetailsBtn = document.getElementById('equipmentDetailsBtn');
-        const productionDetailsBtn = document.getElementById('productionDetailsBtn');
+        const costingReportBtn = document.getElementById('costingReportBtn');
         const quarryUpdatePresentation = document.getElementById('quarryUpdatePresentation');
         const blastingDetailsPresentation = document.getElementById('blastingDetailsPresentation');
         const equipmentDetailsPresentation = document.getElementById('equipmentDetailsPresentation');
-        const productionDetailsPresentation = document.getElementById('productionDetailsPresentation');
+        const costingReportPresentation = document.getElementById('costingReportPresentation');
         const backBtns = document.querySelectorAll('.back-btn');
         
         // Show presentation function
@@ -957,7 +1087,7 @@
             quarryUpdatePresentation.style.display = 'none';
             blastingDetailsPresentation.style.display = 'none';
             equipmentDetailsPresentation.style.display = 'none';
-            productionDetailsPresentation.style.display = 'none';
+            costingReportPresentation.style.display = 'none';
             presentation.style.display = 'block';
             document.title = "SGX Minerals - " + presentation.querySelector('.slide-title').textContent;
             window.scrollTo(0, 0);
@@ -979,9 +1109,9 @@
             showPresentation(equipmentDetailsPresentation);
         });
         
-        productionDetailsBtn.addEventListener('click', (e) => {
+        costingReportBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            showPresentation(productionDetailsPresentation);
+            showPresentation(costingReportPresentation);
         });
         
         backBtns.forEach(btn => {
@@ -990,7 +1120,7 @@
                 quarryUpdatePresentation.style.display = 'none';
                 blastingDetailsPresentation.style.display = 'none';
                 equipmentDetailsPresentation.style.display = 'none';
-                productionDetailsPresentation.style.display = 'none';
+                costingReportPresentation.style.display = 'none';
                 document.title = "SGX Minerals - Mining Operations";
                 
                 // Pause all videos when going back
