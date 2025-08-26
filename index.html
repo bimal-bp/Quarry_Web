@@ -451,6 +451,16 @@
             color: white;
         }
         
+        .equipment-select {
+            background-color: rgba(0, 0, 0, 0.5); /* Darker background for better visibility */
+            color: #ffffff; /* White text */
+        }
+        
+        .equipment-select option {
+            background-color: #333333; /* Dark background for options */
+            color: #ffffff; /* White text for options */
+        }
+        
         .equipment-btn {
             background-color: var(--company-color);
             color: white;
@@ -567,6 +577,168 @@
             height: 400px !important;
         }
         
+        /* Costing Report Styles (Integrated from Compressor Calculator) */
+        .costing-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .costing-header {
+            background: linear-gradient(90deg, #2c3e50, #4ca1af);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .costing-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .costing-description {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .costing-main-content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        
+        .costing-input-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            border-right: 1px solid #eee;
+        }
+        
+        .costing-results-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+        
+        .costing-form-group {
+            margin-bottom: 15px;
+        }
+        
+        .costing-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .costing-input, .costing-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .costing-button {
+            background: linear-gradient(90deg, #2c3e50, #4ca1af);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .costing-button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .costing-summary-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .costing-summary-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-bottom: 2px solid #4ca1af;
+            padding-bottom: 8px;
+        }
+        
+        .costing-summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .costing-summary-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .costing-entries-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .costing-entries-table th, .costing-entries-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .costing-entries-table th {
+            background-color: #f2f2f2;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .costing-entries-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .costing-total-row {
+            font-weight: bold;
+            background-color: #e8f4f8;
+        }
+        
+        .costing-action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .costing-secondary-btn {
+            background: linear-gradient(90deg, #6c757d, #adb5bd);
+        }
+        
+        .costing-delete-btn {
+            background: linear-gradient(90deg, #dc3545, #e9717d);
+        }
+        
+        .indian-flag-colors {
+            background: linear-gradient(to right, #FF9933, white, #138808);
+            height: 5px;
+            width: 100%;
+        }
+        
+        .rupee-symbol::before {
+            content: "₹";
+        }
+        
         @media (max-width: 1024px) {
             .nav-buttons {
                 grid-template-columns: 1fr;
@@ -629,6 +801,15 @@
             
             .equipment-summary-cards {
                 grid-template-columns: 1fr;
+            }
+            
+            .costing-input-section, .costing-results-section {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .costing-action-buttons {
+                flex-direction: column;
             }
         }
     </style>
@@ -918,7 +1099,7 @@
             </div>
             
             <div class="equipment-controls">
-                <select id="equipmentSelect" onchange="loadEquipmentData()">
+                <select id="equipmentSelect" class="equipment-select" onchange="loadEquipmentData()">
                     <option value="SGX Volvo 1">SGX Volvo 1</option>
                     <option value="SGX Volvo 2">SGX Volvo 2</option>
                     <option value="Govind Volvo 1">Govind Volvo 1</option>
@@ -987,413 +1168,108 @@
         </div>
     </div>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compressor Cost Calculator</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        
-        header {
-            background: linear-gradient(90deg, #2c3e50, #4ca1af);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
-        
-        .description {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-        
-        .main-content {
-            display: flex;
-            flex-wrap: wrap;
-            padding: 20px;
-        }
-        
-        .input-section {
-            flex: 1;
-            min-width: 300px;
-            padding: 20px;
-            border-right: 1px solid #eee;
-        }
-        
-        .results-section {
-            flex: 1;
-            min-width: 300px;
-            padding: 20px;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-        
-        input, select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        
-        button {
-            background: linear-gradient(90deg, #2c3e50, #4ca1af);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            width: 100%;
-            margin-top: 10px;
-            transition: all 0.3s ease;
-        }
-        
-        button:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-        
-        .summary-card {
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-        }
-        
-        .summary-title {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: #2c3e50;
-            border-bottom: 2px solid #4ca1af;
-            padding-bottom: 8px;
-        }
-        
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-        
-        .summary-value {
-            font-weight: 600;
-            color: #2c3e50;
-        }
-        
-        .entries-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        
-        .entries-table th, .entries-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .entries-table th {
-            background-color: #f2f2f2;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-        
-        .entries-table tr:hover {
-            background-color: #f5f5f5;
-        }
-        
-        .total-row {
-            font-weight: bold;
-            background-color: #e8f4f8;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .secondary-btn {
-            background: linear-gradient(90deg, #6c757d, #adb5bd);
-        }
-        
-        .delete-btn {
-            background: linear-gradient(90deg, #dc3545, #e9717d);
-        }
-        
-        .indian-flag-colors {
-            background: linear-gradient(to right, #FF9933, white, #138808);
-            height: 5px;
-            width: 100%;
-        }
-        
-        .rupee-symbol::before {
-            content: "₹";
-        }
-        
-        @media (max-width: 768px) {
-            .input-section, .results-section {
-                border-right: none;
-                border-bottom: 1px solid #eee;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="indian-flag-colors"></div>
-        <header>
-            <h1>Compressor Cost Calculator</h1>
-            <p class="description">Track compressor usage and calculate monthly costs</p>
-        </header>
-        
-        <div class="main-content">
-            <div class="input-section">
-                <h2>New Entry</h2>
-                <div class="form-group">
-                    <label for="date">Date</label>
-                    <input type="date" id="date" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="compressorName">Compressor Name/Model</label>
-                    <input type="text" id="compressorName" placeholder="Enter compressor name/model" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="tractorName">Equipment/Vehicle Name</label>
-                    <input type="text" id="tractorName" placeholder="Enter equipment/vehicle name" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="holes">Number of Holes</label>
-                    <input type="number" id="holes" placeholder="Enter number of holes" min="1" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="feet">Drilling Depth (Feet)</label>
-                    <input type="number" id="feet" placeholder="Enter drilling depth in feet" min="1" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="cost">Total Compressor Cost (₹)</label>
-                    <input type="number" id="cost" placeholder="Enter total compressor cost" min="1" step="0.01" required>
-                </div>
-                
-                <button id="addEntry">Add Entry</button>
-                <button id="calculateTotal" class="secondary-btn">Calculate Monthly Total</button>
+    <!-- Costing Report Presentation -->
+    <div class="presentation-container" id="costingReportPresentation">
+        <div class="content-container">
+            <div class="slide-header">
+                <img src="https://github.com/bimal-bp/Query_ppt/blob/main/Screenshot%202025-07-29%20104153.png?raw=true" alt="Logo" class="slide-logo">
+                <h1 class="slide-title">Quarry Costing Report</h1>
             </div>
             
-            <div class="results-section">
-                <h2>Monthly Summary</h2>
-                
-                <div class="summary-card">
-                    <h3 class="summary-title">Current Month</h3>
-                    <div class="summary-item">
-                        <span>Total Entries:</span>
-                        <span class="summary-value" id="totalEntries">0</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Total Holes:</span>
-                        <span class="summary-value" id="totalHoles">0</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Total Drilling Feet:</span>
-                        <span class="summary-value" id="totalFeet">0</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Total Compressor Cost:</span>
-                        <span class="summary-value rupee-symbol" id="totalCost">0.00</span>
-                    </div>
+            <div class="costing-container">
+                <div class="indian-flag-colors"></div>
+                <div class="costing-header">
+                    <h1>Compressor Cost Calculator</h1>
+                    <p class="costing-description">Track compressor usage and calculate monthly costs</p>
                 </div>
                 
-                <h3>All Entries</h3>
-                <table class="entries-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Compressor</th>
-                            <th>Equipment</th>
-                            <th>Holes</th>
-                            <th>Depth (Feet)</th>
-                            <th>Cost (₹)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="entriesList">
-                        <!-- Entries will be added here dynamically -->
-                    </tbody>
-                </table>
-                
-                <div class="action-buttons">
-                    <button id="clearStorage" class="delete-btn">Clear All Data</button>
+                <div class="costing-main-content">
+                    <div class="costing-input-section">
+                        <h2>New Entry</h2>
+                        <div class="costing-form-group">
+                            <label class="costing-label" for="date">Date</label>
+                            <input class="costing-input" type="date" id="date" required>
+                        </div>
+                        
+                        <div class="costing-form-group">
+                            <label class="costing-label" for="compressorName">Compressor Name/Model</label>
+                            <input class="costing-input" type="text" id="compressorName" placeholder="Enter compressor name/model" required>
+                        </div>
+                        
+                        <div class="costing-form-group">
+                            <label class="costing-label" for="tractorName">Equipment/Vehicle Name</label>
+                            <input class="costing-input" type="text" id="tractorName" placeholder="Enter equipment/vehicle name" required>
+                        </div>
+                        
+                        <div class="costing-form-group">
+                            <label class="costing-label" for="holes">Number of Holes</label>
+                            <input class="costing-input" type="number" id="holes" placeholder="Enter number of holes" min="1" required>
+                        </div>
+                        
+                        <div class="costing-form-group">
+                            <label class="costing-label" for="feet">Drilling Depth (Feet)</label>
+                            <input class="costing-input" type="number" id="feet" placeholder="Enter drilling depth in feet" min="1" required>
+                        </div>
+                        
+                        <div class="costing-form-group">
+                            <label class="costing-label" for="cost">Total Compressor Cost (₹)</label>
+                            <input class="costing-input" type="number" id="cost" placeholder="Enter total compressor cost" min="1" step="0.01" required>
+                        </div>
+                        
+                        <button class="costing-button" id="addEntry">Add Entry</button>
+                        <button class="costing-button costing-secondary-btn" id="calculateTotal">Calculate Monthly Total</button>
+                    </div>
+                    
+                    <div class="costing-results-section">
+                        <h2>Monthly Summary</h2>
+                        
+                        <div class="costing-summary-card">
+                            <h3 class="costing-summary-title">Current Month</h3>
+                            <div class="costing-summary-item">
+                                <span>Total Entries:</span>
+                                <span class="costing-summary-value" id="totalEntries">0</span>
+                            </div>
+                            <div class="costing-summary-item">
+                                <span>Total Holes:</span>
+                                <span class="costing-summary-value" id="totalHoles">0</span>
+                            </div>
+                            <div class="costing-summary-item">
+                                <span>Total Drilling Feet:</span>
+                                <span class="costing-summary-value" id="totalFeet">0</span>
+                            </div>
+                            <div class="costing-summary-item">
+                                <span>Total Compressor Cost:</span>
+                                <span class="costing-summary-value rupee-symbol" id="totalCost">0.00</span>
+                            </div>
+                        </div>
+                        
+                        <h3>All Entries</h3>
+                        <table class="costing-entries-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Compressor</th>
+                                    <th>Equipment</th>
+                                    <th>Holes</th>
+                                    <th>Depth (Feet)</th>
+                                    <th>Cost (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="entriesList">
+                                <!-- Entries will be added here dynamically -->
+                            </tbody>
+                        </table>
+                        
+                        <div class="costing-action-buttons">
+                            <button class="costing-button costing-delete-btn" id="clearStorage">Clear All Data</button>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
+            <button class="back-btn">Back to Dashboard</button>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // DOM elements
-            const dateInput = document.getElementById('date');
-            const compressorNameInput = document.getElementById('compressorName');
-            const tractorNameInput = document.getElementById('tractorName');
-            const holesInput = document.getElementById('holes');
-            const feetInput = document.getElementById('feet');
-            const costInput = document.getElementById('cost');
-            const addEntryBtn = document.getElementById('addEntry');
-            const calculateTotalBtn = document.getElementById('calculateTotal');
-            const clearStorageBtn = document.getElementById('clearStorage');
-            const entriesList = document.getElementById('entriesList');
-            const totalEntriesEl = document.getElementById('totalEntries');
-            const totalHolesEl = document.getElementById('totalHoles');
-            const totalFeetEl = document.getElementById('totalFeet');
-            const totalCostEl = document.getElementById('totalCost');
-            
-            // Set today's date as default
-            const today = new Date();
-            const formattedDate = today.toISOString().split('T')[0];
-            dateInput.value = formattedDate;
-            
-            // Load entries from localStorage
-            let entries = JSON.parse(localStorage.getItem('compressorEntries')) || [];
-            
-            // Display entries
-            function displayEntries() {
-                entriesList.innerHTML = '';
-                entries.forEach((entry, index) => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${entry.date}</td>
-                        <td>${entry.compressorName}</td>
-                        <td>${entry.tractorName}</td>
-                        <td>${entry.holes}</td>
-                        <td>${entry.feet}</td>
-                        <td>₹${entry.totalCost.toFixed(2)}</td>
-                    `;
-                    entriesList.appendChild(row);
-                });
-            }
-            
-            // Calculate and display monthly total
-            function calculateMonthlyTotal() {
-                const currentDate = new Date();
-                const currentMonth = currentDate.getMonth();
-                const currentYear = currentDate.getFullYear();
-                
-                let totalEntries = 0;
-                let totalHoles = 0;
-                let totalFeet = 0;
-                let totalCost = 0;
-                
-                entries.forEach(entry => {
-                    const entryDate = new Date(entry.date);
-                    if (entryDate.getMonth() === currentMonth && entryDate.getFullYear() === currentYear) {
-                        totalEntries++;
-                        totalHoles += parseInt(entry.holes);
-                        totalFeet += parseInt(entry.feet);
-                        totalCost += parseFloat(entry.totalCost);
-                    }
-                });
-                
-                totalEntriesEl.textContent = totalEntries;
-                totalHolesEl.textContent = totalHoles;
-                totalFeetEl.textContent = totalFeet;
-                totalCostEl.textContent = `${totalCost.toFixed(2)}`;
-            }
-            
-            // Add new entry
-            addEntryBtn.addEventListener('click', function() {
-                if (!dateInput.value || !compressorNameInput.value || !tractorNameInput.value || 
-                    !holesInput.value || !feetInput.value || !costInput.value) {
-                    alert('Please fill in all fields');
-                    return;
-                }
-                
-                const newEntry = {
-                    date: dateInput.value,
-                    compressorName: compressorNameInput.value,
-                    tractorName: tractorNameInput.value,
-                    holes: holesInput.value,
-                    feet: feetInput.value,
-                    totalCost: parseFloat(costInput.value)
-                };
-                
-                entries.push(newEntry);
-                localStorage.setItem('compressorEntries', JSON.stringify(entries));
-                
-                displayEntries();
-                calculateMonthlyTotal();
-                
-                // Clear input fields
-                compressorNameInput.value = '';
-                tractorNameInput.value = '';
-                holesInput.value = '';
-                feetInput.value = '';
-                costInput.value = '';
-                dateInput.value = formattedDate;
-            });
-            
-            // Calculate total button
-            calculateTotalBtn.addEventListener('click', calculateMonthlyTotal);
-            
-            // Clear storage button
-            clearStorageBtn.addEventListener('click', function() {
-                if (confirm('Are you sure you want to clear all data?')) {
-                    localStorage.removeItem('compressorEntries');
-                    entries = [];
-                    displayEntries();
-                    calculateMonthlyTotal();
-                }
-            });
-            
-            // Initial display
-            displayEntries();
-            calculateMonthlyTotal();
-        });
-    </script>
-</body>
-</html>
     
     <!-- Image Modal -->
     <div class="modal" id="imageModal">
@@ -2167,6 +2043,126 @@
             a.click();
             document.body.removeChild(a);
         }
+
+        // Costing Report Script
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
+            const dateInput = document.getElementById('date');
+            const compressorNameInput = document.getElementById('compressorName');
+            const tractorNameInput = document.getElementById('tractorName');
+            const holesInput = document.getElementById('holes');
+            const feetInput = document.getElementById('feet');
+            const costInput = document.getElementById('cost');
+            const addEntryBtn = document.getElementById('addEntry');
+            const calculateTotalBtn = document.getElementById('calculateTotal');
+            const clearStorageBtn = document.getElementById('clearStorage');
+            const entriesList = document.getElementById('entriesList');
+            const totalEntriesEl = document.getElementById('totalEntries');
+            const totalHolesEl = document.getElementById('totalHoles');
+            const totalFeetEl = document.getElementById('totalFeet');
+            const totalCostEl = document.getElementById('totalCost');
+            
+            // Set today's date as default
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            dateInput.value = formattedDate;
+            
+            // Load entries from localStorage
+            let entries = JSON.parse(localStorage.getItem('compressorEntries')) || [];
+            
+            // Display entries
+            function displayEntries() {
+                entriesList.innerHTML = '';
+                entries.forEach((entry, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${entry.date}</td>
+                        <td>${entry.compressorName}</td>
+                        <td>${entry.tractorName}</td>
+                        <td>${entry.holes}</td>
+                        <td>${entry.feet}</td>
+                        <td>₹${entry.totalCost.toFixed(2)}</td>
+                    `;
+                    entriesList.appendChild(row);
+                });
+            }
+            
+            // Calculate and display monthly total
+            function calculateMonthlyTotal() {
+                const currentDate = new Date();
+                const currentMonth = currentDate.getMonth();
+                const currentYear = currentDate.getFullYear();
+                
+                let totalEntries = 0;
+                let totalHoles = 0;
+                let totalFeet = 0;
+                let totalCost = 0;
+                
+                entries.forEach(entry => {
+                    const entryDate = new Date(entry.date);
+                    if (entryDate.getMonth() === currentMonth && entryDate.getFullYear() === currentYear) {
+                        totalEntries++;
+                        totalHoles += parseInt(entry.holes);
+                        totalFeet += parseInt(entry.feet);
+                        totalCost += parseFloat(entry.totalCost);
+                    }
+                });
+                
+                totalEntriesEl.textContent = totalEntries;
+                totalHolesEl.textContent = totalHoles;
+                totalFeetEl.textContent = totalFeet;
+                totalCostEl.textContent = `${totalCost.toFixed(2)}`;
+            }
+            
+            // Add new entry
+            addEntryBtn.addEventListener('click', function() {
+                if (!dateInput.value || !compressorNameInput.value || !tractorNameInput.value || 
+                    !holesInput.value || !feetInput.value || !costInput.value) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+                
+                const newEntry = {
+                    date: dateInput.value,
+                    compressorName: compressorNameInput.value,
+                    tractorName: tractorNameInput.value,
+                    holes: holesInput.value,
+                    feet: feetInput.value,
+                    totalCost: parseFloat(costInput.value)
+                };
+                
+                entries.push(newEntry);
+                localStorage.setItem('compressorEntries', JSON.stringify(entries));
+                
+                displayEntries();
+                calculateMonthlyTotal();
+                
+                // Clear input fields
+                compressorNameInput.value = '';
+                tractorNameInput.value = '';
+                holesInput.value = '';
+                feetInput.value = '';
+                costInput.value = '';
+                dateInput.value = formattedDate;
+            });
+            
+            // Calculate total button
+            calculateTotalBtn.addEventListener('click', calculateMonthlyTotal);
+            
+            // Clear storage button
+            clearStorageBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to clear all data?')) {
+                    localStorage.removeItem('compressorEntries');
+                    entries = [];
+                    displayEntries();
+                    calculateMonthlyTotal();
+                }
+            });
+            
+            // Initial display
+            displayEntries();
+            calculateMonthlyTotal();
+        });
 
         // Load initial data for equipment and blasting
         window.onload = function() {
