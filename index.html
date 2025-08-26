@@ -998,7 +998,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
@@ -1158,6 +1158,16 @@
             background: linear-gradient(90deg, #dc3545, #e9717d);
         }
         
+        .indian-flag-colors {
+            background: linear-gradient(to right, #FF9933, white, #138808);
+            height: 5px;
+            width: 100%;
+        }
+        
+        .rupee-symbol::before {
+            content: "₹";
+        }
+        
         @media (max-width: 768px) {
             .input-section, .results-section {
                 border-right: none;
@@ -1172,6 +1182,7 @@
 </head>
 <body>
     <div class="container">
+        <div class="indian-flag-colors"></div>
         <header>
             <h1>Compressor Cost Calculator</h1>
             <p class="description">Track compressor usage and calculate monthly costs</p>
@@ -1186,13 +1197,13 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="compressorName">Compressor Name</label>
-                    <input type="text" id="compressorName" placeholder="Enter compressor name" required>
+                    <label for="compressorName">Compressor Name/Model</label>
+                    <input type="text" id="compressorName" placeholder="Enter compressor name/model" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="tractorName">Tractor Name</label>
-                    <input type="text" id="tractorName" placeholder="Enter tractor name" required>
+                    <label for="tractorName">Equipment/Vehicle Name</label>
+                    <input type="text" id="tractorName" placeholder="Enter equipment/vehicle name" required>
                 </div>
                 
                 <div class="form-group">
@@ -1201,13 +1212,13 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="feet">Number of Feet</label>
-                    <input type="number" id="feet" placeholder="Enter number of feet" min="1" required>
+                    <label for="feet">Drilling Depth (Feet)</label>
+                    <input type="number" id="feet" placeholder="Enter drilling depth in feet" min="1" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="cost">Cost per Foot ($)</label>
-                    <input type="number" id="cost" placeholder="Enter cost per foot" min="0.01" step="0.01" required>
+                    <label for="cost">Total Compressor Cost (₹)</label>
+                    <input type="number" id="cost" placeholder="Enter total compressor cost" min="1" step="0.01" required>
                 </div>
                 
                 <button id="addEntry">Add Entry</button>
@@ -1228,12 +1239,12 @@
                         <span class="summary-value" id="totalHoles">0</span>
                     </div>
                     <div class="summary-item">
-                        <span>Total Feet:</span>
+                        <span>Total Drilling Feet:</span>
                         <span class="summary-value" id="totalFeet">0</span>
                     </div>
                     <div class="summary-item">
-                        <span>Total Cost:</span>
-                        <span class="summary-value" id="totalCost">$0.00</span>
+                        <span>Total Compressor Cost:</span>
+                        <span class="summary-value rupee-symbol" id="totalCost">0.00</span>
                     </div>
                 </div>
                 
@@ -1243,10 +1254,10 @@
                         <tr>
                             <th>Date</th>
                             <th>Compressor</th>
-                            <th>Tractor</th>
+                            <th>Equipment</th>
                             <th>Holes</th>
-                            <th>Feet</th>
-                            <th>Cost</th>
+                            <th>Depth (Feet)</th>
+                            <th>Cost (₹)</th>
                         </tr>
                     </thead>
                     <tbody id="entriesList">
@@ -1298,7 +1309,7 @@
                         <td>${entry.tractorName}</td>
                         <td>${entry.holes}</td>
                         <td>${entry.feet}</td>
-                        <td>$${entry.totalCost.toFixed(2)}</td>
+                        <td>₹${entry.totalCost.toFixed(2)}</td>
                     `;
                     entriesList.appendChild(row);
                 });
@@ -1328,7 +1339,7 @@
                 totalEntriesEl.textContent = totalEntries;
                 totalHolesEl.textContent = totalHoles;
                 totalFeetEl.textContent = totalFeet;
-                totalCostEl.textContent = `$${totalCost.toFixed(2)}`;
+                totalCostEl.textContent = `${totalCost.toFixed(2)}`;
             }
             
             // Add new entry
@@ -1339,16 +1350,13 @@
                     return;
                 }
                 
-                const totalCost = parseFloat(feetInput.value) * parseFloat(costInput.value);
-                
                 const newEntry = {
                     date: dateInput.value,
                     compressorName: compressorNameInput.value,
                     tractorName: tractorNameInput.value,
                     holes: holesInput.value,
                     feet: feetInput.value,
-                    costPerFoot: costInput.value,
-                    totalCost: totalCost
+                    totalCost: parseFloat(costInput.value)
                 };
                 
                 entries.push(newEntry);
