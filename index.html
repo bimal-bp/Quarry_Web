@@ -586,6 +586,9 @@
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
         }
         
         .calculator-results {
@@ -955,10 +958,98 @@
         <div class="content-container">
             <div class="slide-header">
                 <img src="https://github.com/bimal-bp/Query_ppt/blob/main/Screenshot%202025-07-29%20104153.png?raw=true" alt="Logo" class="slide-logo">
-                <h1 class="slide-title">Blasting Details & Analytics</h1>
+                <h1 class="slide-title">Blasting Details</h1>
             </div>
             
-            <div id="blastDataEntry"></div>
+            <div class="equipment-controls">
+                <select id="blastEquipmentSelect" class="equipment-select">
+                    <option value="Blasting Material">Blasting Material</option>
+                    <option value="Development">Development</option>
+                </select>
+                <button class="equipment-btn" onclick="exportBlastData()">Export Data</button>
+            </div>
+            
+            <div class="equipment-input-form">
+                <h3>Add Blasting Entry</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="blastDate">Date</label>
+                        <input type="date" id="blastDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="blastCompressor">Compressor</label>
+                        <input type="number" id="blastCompressor" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastHoles">No. of Holes</label>
+                        <input type="number" id="blastHoles" placeholder="0" step="1" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastFeets">Feets</label>
+                        <input type="number" id="blastFeets" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastProduction">Production (Tonnes)</label>
+                        <input type="number" id="blastProduction" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastDispatch">Boulders Dispatch Qty</label>
+                        <input type="number" id="blastDispatch" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastPowerGel">Power Gel</label>
+                        <input type="number" id="blastPowerGel" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastDGuard">D-Guard Wire/Hole</label>
+                        <input type="number" id="blastDGuard" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastEdPerHole">ED/Hole</label>
+                        <input type="number" id="blastEdPerHole" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastWire">Wire</label>
+                        <input type="number" id="blastWire" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastNmr">No. of NMR</label>
+                        <input type="number" id="blastNmr" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastBlaster">No. of Blaster</label>
+                        <input type="number" id="blastBlaster" placeholder="0" step="1" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastNmrPlant">NMR at Plant</label>
+                        <input type="number" id="blastNmrPlant" placeholder="0" step="1" min="0">
+                    </div>
+                </div>
+                <button class="equipment-btn" style="width: 100%" onclick="addBlastData()">Add Entry</button>
+            </div>
+            
+            <div class="equipment-summary-cards">
+                <div class="equipment-card">
+                    <h3>Total Production (Tonnes)</h3>
+                    <p id="totalProduction">0.00</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Total Holes</h3>
+                    <p id="totalHoles">0</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Total Power Gel</h3>
+                    <p id="totalPowerGel">0.00</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Total Dispatch (Tonnes)</h3>
+                    <p id="totalDispatch">0.00</p>
+                </div>
+            </div>
+            
+            <div class="equipment-table-container">
+                <div id="blastTableContainer"></div>
+            </div>
             
             <button class="back-btn">Back to Dashboard</button>
         </div>
@@ -973,9 +1064,12 @@
             </div>
             
             <div class="equipment-controls">
-                <select id="equipmentSelect" onchange="loadEquipmentData()">
+                <select id="equipmentSelect" class="equipment-select" onchange="loadEquipmentData()">
                     <option value="SGX Volvo 1">SGX Volvo 1</option>
                     <option value="SGX Volvo 2">SGX Volvo 2</option>
+                    <option value="SGX Volvo 3">SGX Volvo 3</option>
+                    <option value="SGX Volvo 4">SGX Volvo 4</option>
+                    <option value="SGX Volvo 5">SGX Volvo 5</option>
                     <option value="Govind Volvo 1">Govind Volvo 1</option>
                     <option value="Govind Volvo 2">Govind Volvo 2</option>
                     <option value="Hyundai">Hyundai</option>
@@ -1137,403 +1231,6 @@
         </div>
     </div>
     
-    <script type="text/babel">
-        const { useState, useEffect } = React;
-
-        const BlastDataEntry = () => {
-            const initialBlastingData = JSON.parse(localStorage.getItem('blastingData')) || [];
-            const initialDevelopmentData = JSON.parse(localStorage.getItem('developmentData')) || [];
-
-            const [dataType, setDataType] = useState('Blasting Material');
-            const [blastingData, setBlastingData] = useState(initialBlastingData);
-            const [developmentData, setDevelopmentData] = useState(initialDevelopmentData);
-            const [formData, setFormData] = useState({
-                date: '',
-                compressor: '',
-                holes: '',
-                feets: '',
-                production: '',
-                dispatch: '',
-                powerGel: '',
-                dGuard: '',
-                edPerHole: '',
-                wire: '',
-                nmr: '',
-                blaster: '',
-                nmrPlant: ''
-            });
-
-            useEffect(() => {
-                localStorage.setItem('blastingData', JSON.stringify(blastingData));
-                localStorage.setItem('developmentData', JSON.stringify(developmentData));
-                loadBlastData();
-            }, [blastingData, developmentData]);
-
-            const handleInputChange = (e) => {
-                const { name, value } = e.target;
-                setFormData({ ...formData, [name]: value });
-            };
-
-            const handleSubmit = () => {
-                if (!formData.date) {
-                    alert('Please enter a valid date.');
-                    return;
-                }
-
-                const newEntry = {
-                    date: formData.date,
-                    compressor: parseFloat(formData.compressor) || 0,
-                    holes: parseFloat(formData.holes) || 0,
-                    feets: parseFloat(formData.feets) || 0,
-                    production: parseFloat(formData.production) || 0,
-                    dispatch: parseFloat(formData.dispatch) || 0,
-                    powerGel: parseFloat(formData.powerGel) || 0,
-                    dGuard: parseFloat(formData.dGuard) || 0,
-                    edPerHole: parseFloat(formData.edPerHole) || 0,
-                    wire: parseFloat(formData.wire) || 0,
-                    nmr: parseFloat(formData.nmr) || 0,
-                    blaster: parseFloat(formData.blaster) || 0,
-                    nmrPlant: parseFloat(formData.nmrPlant) || 0,
-                };
-
-                const existingData = dataType === 'Blasting Material' ? blastingData : developmentData;
-                const existingIndex = existingData.findIndex(entry => entry.date === formData.date);
-
-                if (existingIndex !== -1) {
-                    if (confirm('An entry for this date already exists. Do you want to update it?')) {
-                        const updatedData = [...existingData];
-                        updatedData[existingIndex] = newEntry;
-                        if (dataType === 'Blasting Material') {
-                            setBlastingData(updatedData);
-                        } else {
-                            setDevelopmentData(updatedData);
-                        }
-                    } else {
-                        return;
-                    }
-                } else {
-                    if (dataType === 'Blasting Material') {
-                        setBlastingData([...blastingData, newEntry].sort((a, b) => new Date(a.date) - new Date(b.date)));
-                    } else {
-                        setDevelopmentData([...developmentData, newEntry].sort((a, b) => new Date(a.date) - new Date(b.date)));
-                    }
-                }
-
-                setFormData({
-                    date: '',
-                    compressor: '',
-                    holes: '',
-                    feets: '',
-                    production: '',
-                    dispatch: '',
-                    powerGel: '',
-                    dGuard: '',
-                    edPerHole: '',
-                    wire: '',
-                    nmr: '',
-                    blaster: '',
-                    nmrPlant: ''
-                });
-
-                alert('Data saved successfully!');
-            };
-
-            const editEntry = (index) => {
-                const data = dataType === 'Blasting Material' ? blastingData : developmentData;
-                const entry = data[index];
-                setFormData(entry);
-                const updatedData = data.filter((_, i) => i !== index);
-                if (dataType === 'Blasting Material') {
-                    setBlastingData(updatedData);
-                } else {
-                    setDevelopmentData(updatedData);
-                }
-            };
-
-            const deleteEntry = (index) => {
-                if (confirm('Are you sure you want to delete this entry?')) {
-                    const data = dataType === 'Blasting Material' ? blastingData : developmentData;
-                    const updatedData = data.filter((_, i) => i !== index);
-                    if (dataType === 'Blasting Material') {
-                        setBlastingData(updatedData);
-                    } else {
-                        setDevelopmentData(updatedData);
-                    }
-                }
-            };
-
-            const exportData = () => {
-                const data = dataType === 'Blasting Material' ? blastingData : developmentData;
-                if (data.length === 0) {
-                    alert(`No ${dataType} data to export.`);
-                    return;
-                }
-
-                let csv = 'Date,Compressor,Holes,Feets,Production (Tonnes),Boulders Dispatch Qty,Power Gel,D-Guard Wire/Hole,ED/Hole,Wire,No. of NMR,No. of Blaster,NMR at Plant\n';
-                data.forEach(entry => {
-                    csv += `${entry.date},${entry.compressor},${entry.holes},${entry.feets},${entry.production},${entry.dispatch},${entry.powerGel},${entry.dGuard},${entry.edPerHole},${entry.wire},${entry.nmr},${entry.blaster},${entry.nmrPlant}\n`;
-                });
-
-                const blob = new Blob([csv], { type: 'text/csv' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.setAttribute('hidden', '');
-                a.setAttribute('href', url);
-                a.setAttribute('download', `${dataType.replace(/\s+/g, '_')}_data.csv`);
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            };
-
-            const loadBlastData = () => {
-                const data = dataType === 'Blasting Material' ? blastingData : developmentData;
-                const totals = {
-                    compressor: 0,
-                    holes: 0,
-                    feets: 0,
-                    production: 0,
-                    dispatch: 0,
-                    powerGel: 0,
-                    dGuard: 0,
-                    edPerHole: 0,
-                    wire: 0,
-                    nmr: 0,
-                    blaster: 0,
-                    nmrPlant: 0
-                };
-
-                let tableHTML = `
-                    <table class="equipment-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Compressor</th>
-                                <th>Holes</th>
-                                <th>Feets</th>
-                                <th>Production (Tonnes)</th>
-                                <th>Boulders Dispatch Qty</th>
-                                <th>Power Gel</th>
-                                <th>D-Guard Wire/Hole</th>
-                                <th>ED/Hole</th>
-                                <th>Wire</th>
-                                <th>No. of NMR</th>
-                                <th>No. of Blaster</th>
-                                <th>NMR at Plant</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
-
-                data.forEach((entry, index) => {
-                    tableHTML += `
-                        <tr>
-                            <td>${new Date(entry.date).toLocaleDateString('en-US', { day: '2-digit', month: 'short' })}</td>
-                            <td>${entry.compressor.toFixed(2)}</td>
-                            <td>${entry.holes.toFixed(0)}</td>
-                            <td>${entry.feets.toFixed(2)}</td>
-                            <td>${entry.production.toFixed(2)}</td>
-                            <td>${entry.dispatch.toFixed(2)}</td>
-                            <td>${entry.powerGel.toFixed(2)}</td>
-                            <td>${entry.dGuard.toFixed(2)}</td>
-                            <td>${entry.edPerHole.toFixed(2)}</td>
-                            <td>${entry.wire.toFixed(2)}</td>
-                            <td>${entry.nmr.toFixed(2)}</td>
-                            <td>${entry.blaster.toFixed(0)}</td>
-                            <td>${entry.nmrPlant.toFixed(0)}</td>
-                            <td>
-                                <button class="equipment-btn" onclick="ReactDOM.render(<BlastDataEntry />, document.getElementById('blastDataEntry')); window.editBlastEntry(${index})" style="padding: 5px; margin: 2px;">Edit</button>
-                                <button class="equipment-btn" onclick="ReactDOM.render(<BlastDataEntry />, document.getElementById('blastDataEntry')); window.deleteBlastEntry(${index})" style="padding: 5px; margin: 2px; background-color: #e74c3c;">Delete</button>
-                            </td>
-                        </tr>
-                    `;
-                    totals.compressor += entry.compressor;
-                    totals.holes += entry.holes;
-                    totals.feets += entry.feets;
-                    totals.production += entry.production;
-                    totals.dispatch += entry.dispatch;
-                    totals.powerGel += entry.powerGel;
-                    totals.dGuard += entry.dGuard;
-                    totals.edPerHole += entry.edPerHole;
-                    totals.wire += entry.wire;
-                    totals.nmr += entry.nmr;
-                    totals.blaster += entry.blaster;
-                    totals.nmrPlant += entry.nmrPlant;
-                });
-
-                tableHTML += `
-                        </tbody>
-                        <tfoot>
-                            <tr style="font-weight: bold;">
-                                <td>Total</td>
-                                <td>${totals.compressor.toFixed(2)}</td>
-                                <td>${totals.holes.toFixed(0)}</td>
-                                <td>${totals.feets.toFixed(2)}</td>
-                                <td>${totals.production.toFixed(2)}</td>
-                                <td>${totals.dispatch.toFixed(2)}</td>
-                                <td>${totals.powerGel.toFixed(2)}</td>
-                                <td>${totals.dGuard.toFixed(2)}</td>
-                                <td>${totals.edPerHole.toFixed(2)}</td>
-                                <td>${totals.wire.toFixed(2)}</td>
-                                <td>${totals.nmr.toFixed(2)}</td>
-                                <td>${totals.blaster.toFixed(0)}</td>
-                                <td>${totals.nmrPlant.toFixed(0)}</td>
-                                <td></td>
-                            </tr>
-                        </tfoot>
-                    </table>`;
-
-                document.getElementById('blastTableContainer').innerHTML = tableHTML;
-
-                // Update summary cards
-                document.getElementById('totalProduction').textContent = totals.production.toFixed(2);
-                document.getElementById('totalHoles').textContent = totals.holes.toFixed(0);
-                document.getElementById('totalPowerGel').textContent = totals.powerGel.toFixed(2);
-                document.getElementById('totalDispatch').textContent = totals.dispatch.toFixed(2);
-            };
-
-            return (
-                <div>
-                    <div className="equipment-controls">
-                        <select
-                            value={dataType}
-                            onChange={(e) => setDataType(e.target.value)}
-                            className="equipment-select"
-                        >
-                            <option value="Blasting Material">Blasting Material</option>
-                            <option value="Development">Development</option>
-                        </select>
-                        <button className="equipment-btn" onClick={exportData}>Export Data</button>
-                    </div>
-
-                    <div className="equipment-input-form">
-                        <h3>Add {dataType} Entry</h3>
-                        <div className="form-grid">
-                            {[
-                                { name: 'date', type: 'date', label: 'Date', required: true },
-                                { name: 'compressor', type: 'number', label: 'Compressor', step: '1', min: '0' },
-                                { name: 'holes', type: 'number', label: 'No. of Holes', step: '1', min: '0' },
-                                { name: 'feets', type: 'number', label: 'Feets', step: '0.01', min: '0' },
-                                { name: 'production', type: 'number', label: 'Production (Tonnes)', step: '0.01', min: '0' },
-                                { name: 'dispatch', type: 'number', label: 'Boulders Dispatch Qty', step: '0.01', min: '0' },
-                                { name: 'powerGel', type: 'number', label: 'Power Gel', step: '0.01', min: '0' },
-                                { name: 'dGuard', type: 'number', label: 'D-Guard Wire/Hole', step: '0.01', min: '0' },
-                                { name: 'edPerHole', type: 'number', label: 'ED/Hole', step: '0.01', min: '0' },
-                                { name: 'wire', type: 'number', label: 'Wire', step: '0.01', min: '0' },
-                                { name: 'nmr', type: 'number', label: 'No. of NMR', step: '0.01', min: '0' },
-                                { name: 'blaster', type: 'number', label: 'No. of Blaster', step: '1', min: '0' },
-                                { name: 'nmrPlant', type: 'number', label: 'NMR at Plant', step: '1', min: '0' },
-                            ].map((field) => (
-                                <div className="form-group" key={field.name}>
-                                    <label htmlFor={field.name}>{field.label}</label>
-                                    <input
-                                        type={field.type}
-                                        name={field.name}
-                                        id={field.name}
-                                        value={formData[field.name]}
-                                        onChange={handleInputChange}
-                                        placeholder={field.type === 'number' ? '0.00' : ''}
-                                        step={field.step}
-                                        min={field.min}
-                                        required={field.required}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                        <button className="equipment-btn" style={{ width: '100%' }} onClick={handleSubmit}>
-                            Add {dataType} Entry
-                        </button>
-                    </div>
-
-                    <div className="equipment-summary-cards">
-                        <div className="equipment-card">
-                            <h3>Total Production (Tonnes)</h3>
-                            <p id="totalProduction">0.00</p>
-                        </div>
-                        <div className="equipment-card">
-                            <h3>Total Holes</h3>
-                            <p id="totalHoles">0</p>
-                        </div>
-                        <div className="equipment-card">
-                            <h3>Total Power Gel</h3>
-                            <p id="totalPowerGel">0.00</p>
-                        </div>
-                        <div className="equipment-card">
-                            <h3>Total Dispatch (Tonnes)</h3>
-                            <p id="totalDispatch">0.00</p>
-                        </div>
-                    </div>
-
-                    <div className="equipment-table-container">
-                        <div id="blastTableContainer"></div>
-                    </div>
-                </div>
-            );
-        };
-
-        ReactDOM.render(<BlastDataEntry />, document.getElementById('blastDataEntry'));
-        
-        // Global functions for edit and delete to work with React
-        window.editBlastEntry = (index) => {
-            const root = ReactDOM.createRoot(document.getElementById('blastDataEntry'));
-            root.render(<BlastDataEntry />);
-            setTimeout(() => {
-                const event = new CustomEvent('editBlastEntry', { detail: index });
-                document.dispatchEvent(event);
-            }, 0);
-        };
-
-        window.deleteBlastEntry = (index) => {
-            const root = ReactDOM.createRoot(document.getElementById('blastDataEntry'));
-            root.render(<BlastDataEntry />);
-            setTimeout(() => {
-                const event = new CustomEvent('deleteBlastEntry', { detail: index });
-                document.dispatchEvent(event);
-            }, 0);
-        };
-
-        document.addEventListener('editBlastEntry', (e) => {
-            const index = e.detail;
-            const root = ReactDOM.createRoot(document.getElementById('blastDataEntry'));
-            root.render(<BlastDataEntry />);
-            setTimeout(() => {
-                const blastDataEntry = document.querySelector('#blastDataEntry').__reactFiber$.memoizedState.element.props.children;
-                const setDataType = blastDataEntry.props.children[0].props.onChange;
-                const setFormData = blastDataEntry.props.children[1].props.children[1].props.onChange;
-                const dataType = blastDataEntry.props.children[0].props.value;
-                const data = dataType === 'Blasting Material' ? JSON.parse(localStorage.getItem('blastingData')) || [] : JSON.parse(localStorage.getItem('developmentData')) || [];
-                setFormData(data[index]);
-                const updatedData = data.filter((_, i) => i !== index);
-                if (dataType === 'Blasting Material') {
-                    localStorage.setItem('blastingData', JSON.stringify(updatedData));
-                } else {
-                    localStorage.setItem('developmentData', JSON.stringify(updatedData));
-                }
-                loadBlastData();
-            }, 0);
-        });
-
-        document.addEventListener('deleteBlastEntry', (e) => {
-            const index = e.detail;
-            const root = ReactDOM.createRoot(document.getElementById('blastDataEntry'));
-            root.render(<BlastDataEntry />);
-            setTimeout(() => {
-                const blastDataEntry = document.querySelector('#blastDataEntry').__reactFiber$.memoizedState.element.props.children;
-                const dataType = blastDataEntry.props.children[0].props.value;
-                const data = dataType === 'Blasting Material' ? JSON.parse(localStorage.getItem('blastingData')) || [] : JSON.parse(localStorage.getItem('developmentData')) || [];
-                if (confirm('Are you sure you want to delete this entry?')) {
-                    const updatedData = data.filter((_, i) => i !== index);
-                    if (dataType === 'Blasting Material') {
-                        localStorage.setItem('blastingData', JSON.stringify(updatedData));
-                    } else {
-                        localStorage.setItem('developmentData', JSON.stringify(updatedData));
-                    }
-                    loadBlastData();
-                }
-            }, 0);
-        });
-    </script>
-
     <script>
         // Set current date
         const currentDateElement = document.getElementById('currentDate');
@@ -1904,6 +1601,267 @@
             document.body.removeChild(a);
         }
 
+        // Blasting Data Functions
+        function loadBlastData() {
+            const dataType = document.getElementById('blastEquipmentSelect').value;
+            const data = JSON.parse(localStorage.getItem(dataType)) || [];
+            
+            // Calculate totals
+            const totals = {
+                compressor: 0,
+                holes: 0,
+                feets: 0,
+                production: 0,
+                dispatch: 0,
+                powerGel: 0,
+                dGuard: 0,
+                edPerHole: 0,
+                wire: 0,
+                nmr: 0,
+                blaster: 0,
+                nmrPlant: 0
+            };
+
+            let tableHTML = `
+                <table class="equipment-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Compressor</th>
+                            <th>Holes</th>
+                            <th>Feets</th>
+                            <th>Production (Tonnes)</th>
+                            <th>Boulders Dispatch Qty</th>
+                            <th>Power Gel</th>
+                            <th>D-Guard Wire/Hole</th>
+                            <th>ED/Hole</th>
+                            <th>Wire</th>
+                            <th>No. of NMR</th>
+                            <th>No. of Blaster</th>
+                            <th>NMR at Plant</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            data.forEach((entry, index) => {
+                tableHTML += `
+                    <tr>
+                        <td>${formatDate(entry.date)}</td>
+                        <td>${entry.compressor.toFixed(2)}</td>
+                        <td>${entry.holes.toFixed(0)}</td>
+                        <td>${entry.feets.toFixed(2)}</td>
+                        <td>${entry.production.toFixed(2)}</td>
+                        <td>${entry.dispatch.toFixed(2)}</td>
+                        <td>${entry.powerGel.toFixed(2)}</td>
+                        <td>${entry.dGuard.toFixed(2)}</td>
+                        <td>${entry.edPerHole.toFixed(2)}</td>
+                        <td>${entry.wire.toFixed(2)}</td>
+                        <td>${entry.nmr.toFixed(2)}</td>
+                        <td>${entry.blaster.toFixed(0)}</td>
+                        <td>${entry.nmrPlant.toFixed(0)}</td>
+                        <td>
+                            <button class="equipment-btn" onclick="editBlastEntry('${dataType}', ${index})" style="padding: 5px; margin: 2px;">Edit</button>
+                            <button class="equipment-btn" onclick="deleteBlastEntry('${dataType}', ${index})" style="padding: 5px; margin: 2px; background-color: #e74c3c;">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                totals.compressor += entry.compressor;
+                totals.holes += entry.holes;
+                totals.feets += entry.feets;
+                totals.production += entry.production;
+                totals.dispatch += entry.dispatch;
+                totals.powerGel += entry.powerGel;
+                totals.dGuard += entry.dGuard;
+                totals.edPerHole += entry.edPerHole;
+                totals.wire += entry.wire;
+                totals.nmr += entry.nmr;
+                totals.blaster += entry.blaster;
+                totals.nmrPlant += entry.nmrPlant;
+            });
+
+            tableHTML += `
+                    </tbody>
+                    <tfoot>
+                        <tr style="font-weight: bold;">
+                            <td>Total</td>
+                            <td>${totals.compressor.toFixed(2)}</td>
+                            <td>${totals.holes.toFixed(0)}</td>
+                            <td>${totals.feets.toFixed(2)}</td>
+                            <td>${totals.production.toFixed(2)}</td>
+                            <td>${totals.dispatch.toFixed(2)}</td>
+                            <td>${totals.powerGel.toFixed(2)}</td>
+                            <td>${totals.dGuard.toFixed(2)}</td>
+                            <td>${totals.edPerHole.toFixed(2)}</td>
+                            <td>${totals.wire.toFixed(2)}</td>
+                            <td>${totals.nmr.toFixed(2)}</td>
+                            <td>${totals.blaster.toFixed(0)}</td>
+                            <td>${totals.nmrPlant.toFixed(0)}</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>`;
+
+            document.getElementById('blastTableContainer').innerHTML = tableHTML;
+
+            // Update summary cards
+            document.getElementById('totalProduction').textContent = totals.production.toFixed(2);
+            document.getElementById('totalHoles').textContent = totals.holes.toFixed(0);
+            document.getElementById('totalPowerGel').textContent = totals.powerGel.toFixed(2);
+            document.getElementById('totalDispatch').textContent = totals.dispatch.toFixed(2);
+        }
+
+        function addBlastData() {
+            const dataType = document.getElementById('blastEquipmentSelect').value;
+            const date = document.getElementById('blastDate').value;
+            const compressor = parseFloat(document.getElementById('blastCompressor').value) || 0;
+            const holes = parseFloat(document.getElementById('blastHoles').value) || 0;
+            const feets = parseFloat(document.getElementById('blastFeets').value) || 0;
+            const production = parseFloat(document.getElementById('blastProduction').value) || 0;
+            const dispatch = parseFloat(document.getElementById('blastDispatch').value) || 0;
+            const powerGel = parseFloat(document.getElementById('blastPowerGel').value) || 0;
+            const dGuard = parseFloat(document.getElementById('blastDGuard').value) || 0;
+            const edPerHole = parseFloat(document.getElementById('blastEdPerHole').value) || 0;
+            const wire = parseFloat(document.getElementById('blastWire').value) || 0;
+            const nmr = parseFloat(document.getElementById('blastNmr').value) || 0;
+            const blaster = parseFloat(document.getElementById('blastBlaster').value) || 0;
+            const nmrPlant = parseFloat(document.getElementById('blastNmrPlant').value) || 0;
+
+            if (!date) {
+                alert('Please enter a valid date.');
+                return;
+            }
+
+            const data = JSON.parse(localStorage.getItem(dataType)) || [];
+            
+            // Check if entry for this date already exists
+            const existingIndex = data.findIndex(entry => entry.date === date);
+            if (existingIndex !== -1) {
+                if (confirm('An entry for this date already exists. Do you want to update it?')) {
+                    data[existingIndex] = {
+                        date,
+                        compressor,
+                        holes,
+                        feets,
+                        production,
+                        dispatch,
+                        powerGel,
+                        dGuard,
+                        edPerHole,
+                        wire,
+                        nmr,
+                        blaster,
+                        nmrPlant
+                    };
+                } else {
+                    return;
+                }
+            } else {
+                data.push({
+                    date,
+                    compressor,
+                    holes,
+                    feets,
+                    production,
+                    dispatch,
+                    powerGel,
+                    dGuard,
+                    edPerHole,
+                    wire,
+                    nmr,
+                    blaster,
+                    nmrPlant
+                });
+            }
+
+            // Sort by date
+            data.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            // Save to local storage
+            localStorage.setItem(dataType, JSON.stringify(data));
+
+            // Clear form
+            document.getElementById('blastDate').value = '';
+            document.getElementById('blastCompressor').value = '';
+            document.getElementById('blastHoles').value = '';
+            document.getElementById('blastFeets').value = '';
+            document.getElementById('blastProduction').value = '';
+            document.getElementById('blastDispatch').value = '';
+            document.getElementById('blastPowerGel').value = '';
+            document.getElementById('blastDGuard').value = '';
+            document.getElementById('blastEdPerHole').value = '';
+            document.getElementById('blastWire').value = '';
+            document.getElementById('blastNmr').value = '';
+            document.getElementById('blastBlaster').value = '';
+            document.getElementById('blastNmrPlant').value = '';
+
+            // Reload data
+            loadBlastData();
+            
+            alert('Data saved successfully!');
+        }
+
+        function editBlastEntry(dataType, index) {
+            const data = JSON.parse(localStorage.getItem(dataType)) || [];
+            const entry = data[index];
+            
+            document.getElementById('blastDate').value = entry.date;
+            document.getElementById('blastCompressor').value = entry.compressor;
+            document.getElementById('blastHoles').value = entry.holes;
+            document.getElementById('blastFeets').value = entry.feets;
+            document.getElementById('blastProduction').value = entry.production;
+            document.getElementById('blastDispatch').value = entry.dispatch;
+            document.getElementById('blastPowerGel').value = entry.powerGel;
+            document.getElementById('blastDGuard').value = entry.dGuard;
+            document.getElementById('blastEdPerHole').value = entry.edPerHole;
+            document.getElementById('blastWire').value = entry.wire;
+            document.getElementById('blastNmr').value = entry.nmr;
+            document.getElementById('blastBlaster').value = entry.blaster;
+            document.getElementById('blastNmrPlant').value = entry.nmrPlant;
+            
+            // Remove the old entry
+            data.splice(index, 1);
+            localStorage.setItem(dataType, JSON.stringify(data));
+            
+            // Reload data
+            loadBlastData();
+        }
+
+        function deleteBlastEntry(dataType, index) {
+            if (confirm('Are you sure you want to delete this entry?')) {
+                const data = JSON.parse(localStorage.getItem(dataType)) || [];
+                data.splice(index, 1);
+                localStorage.setItem(dataType, JSON.stringify(data));
+                loadBlastData();
+            }
+        }
+
+        function exportBlastData() {
+            const dataType = document.getElementById('blastEquipmentSelect').value;
+            const data = JSON.parse(localStorage.getItem(dataType)) || [];
+            
+            if (data.length === 0) {
+                alert(`No ${dataType} data to export.`);
+                return;
+            }
+
+            let csv = 'Date,Compressor,Holes,Feets,Production (Tonnes),Boulders Dispatch Qty,Power Gel,D-Guard Wire/Hole,ED/Hole,Wire,No. of NMR,No. of Blaster,NMR at Plant\n';
+            data.forEach(entry => {
+                csv += `${entry.date},${entry.compressor},${entry.holes},${entry.feets},${entry.production},${entry.dispatch},${entry.powerGel},${entry.dGuard},${entry.edPerHole},${entry.wire},${entry.nmr},${entry.blaster},${entry.nmrPlant}\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', `${dataType.replace(/\s+/g, '_')}_data.csv`);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
         // Cost Calculator Functions
         function loadCostData() {
             let entries = JSON.parse(localStorage.getItem('compressorEntries')) || [];
@@ -2044,19 +2002,21 @@
             const today = new Date();
             const formattedDate = today.toISOString().split('T')[0];
             document.getElementById('costDate').value = formattedDate;
+            document.getElementById('blastDate').value = formattedDate;
+            document.getElementById('dateInput').value = formattedDate;
             
             // Add event listeners for cost calculator
             document.getElementById('addCostEntry').addEventListener('click', addCostEntry);
             document.getElementById('clearCostData').addEventListener('click', clearCostData);
             
+            // Add event listener for blasting data type change
+            document.getElementById('blastEquipmentSelect').addEventListener('change', loadBlastData);
+            
             // Load initial data
             loadEquipmentData();
             loadCostData();
+            loadBlastData();
         });
-
-        function loadBlastData() {
-            // This function will be called from the React component
-        }
     </script>
 </body>
 </html>
