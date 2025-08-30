@@ -710,7 +710,7 @@
             </a>
             <a href="#" class="nav-btn" id="costingReportBtn">
                 <i class="fas fa-dollar-sign"></i>
-                Compressor bill Report
+                Compressor Billing report
             </a>
         </div>
     </div>
@@ -1138,7 +1138,7 @@
         <div class="content-container">
             <div class="slide-header">
                 <img src="https://github.com/bimal-bp/Query_ppt/blob/main/Screenshot%202025-07-29%20104153.png?raw=true" alt="Logo" class="slide-logo">
-                <h1 class="slide-title">Compressor Costing Report</h1>
+                <h1 class="slide-title">Quarry Costing Report</h1>
             </div>
             
             <div class="cost-calculator">
@@ -1151,12 +1151,12 @@
                         <input type="date" id="costDate" required>
                     </div>
                     <div class="form-group">
-                        <label for="compressorName">Compressor Name/Model</label>
-                        <input type="text" id="compressorName" placeholder="Enter compressor name/model" required>
+                        <label for="compressorName">Tractor Number</label>
+                        <input type="text" id="compressorName" placeholder="Enter Equipment/Vehicle Number" required>
                     </div>
                     <div class="form-group">
-                        <label for="tractorName">Equipment/Vehicle Name</label>
-                        <input type="text" id="tractorName" placeholder="Enter equipment/vehicle name" required>
+                        <label for="tractorName">Compressor Name</label>
+                        <input type="text" id="tractorName" placeholder="Enter Compressor name" required>
                     </div>
                     <div class="form-group">
                         <label for="holes">Number of Holes</label>
@@ -1214,7 +1214,10 @@
                 </div>
                 
                 <button class="equipment-btn" id="clearCostData" style="background-color: var(--danger); margin-top: 20px;">Clear All Data</button>
+                <button class="equipment-btn" id="generateReport" style="margin-top: 20px; margin-left: 10px;">Generate Compressor-wise Report</button>
+                <div id="compressorReport" style="margin-top: 30px;"></div>
             </div>
+
             
             <button class="back-btn">Back to Dashboard</button>
         </div>
@@ -1525,7 +1528,7 @@
             data.sort((a, b) => new Date(a.date) - new Date(b.date));
 
             // Save to local storage
-            localStorage.setItem(selectedEquipment, JSON.stringify(data));
+            localStorage.setItem(selectedEquipment,JSON.stringify(data));
 
             // Clear form
             document.getElementById('dateInput').value = '';
@@ -1994,6 +1997,62 @@
             }
         }
 
+        function generateCompressorReport() {
+            let entries = JSON.parse(localStorage.getItem('compressorEntries')) || [];
+            if (entries.length === 0) {
+                alert('No data to generate report');
+                return;
+            }
+
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth();
+            const currentYear = currentDate.getFullYear();
+
+            const currentMonthEntries = entries.filter(entry => {
+                const entryDate = new Date(entry.date);
+                return entryDate.getMonth() === currentMonth && entryDate.getFullYear() === currentYear;
+            });
+
+            if (currentMonthEntries.length === 0) {
+                alert('No data for the current month');
+                return;
+            }
+
+            // Group by compressorName
+            const grouped = {};
+            currentMonthEntries.forEach(entry => {
+                const comp = entry.compressorName;
+                if (!grouped[comp]) {
+                    grouped[comp] = {
+                        totalHoles: 0,
+                        totalFeet: 0,
+                        totalCost: 0,
+                        tractors: new Set()
+                    };
+                }
+                grouped[comp].totalHoles += parseInt(entry.holes);
+                grouped[comp].totalFeet += parseInt(entry.feet);
+                grouped[comp].totalCost += parseFloat(entry.totalCost);
+                grouped[comp].tractors.add(entry.tractorName);
+            });
+
+            // Generate HTML
+            let reportHTML = '<h3>Compressor-wise Monthly Report</h3>';
+            for (const [comp, data] of Object.entries(grouped)) {
+                reportHTML += `
+                    <div class="update-section" style="margin-bottom: 20px;">
+                        <h4>${comp}</h4>
+                        <p>Total Holes: ${data.totalHoles}</p>
+                        <p>Total Feet: ${data.totalFeet}</p>
+                        <p>Total Cost: ₹${data.totalCost.toFixed(2)}</p>
+                        <p>Tractors Used: ${Array.from(data.tractors).join(', ')}</p>
+                    </div>
+                `;
+            }
+
+            document.getElementById('compressorReport').innerHTML = reportHTML;
+        }
+
         // Set today's date as default for cost calculator
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date();
@@ -2005,6 +2064,7 @@
             // Add event listeners for cost calculator
             document.getElementById('addCostEntry').addEventListener('click', addCostEntry);
             document.getElementById('clearCostData').addEventListener('click', clearCostData);
+            document.getElementById('generateReport').addEventListener('click', generateCompressorReport);
             
             // Add event listener for blasting data type change
             document.getElementById('blastEquipmentSelect').addEventListener('change', loadBlastData);
