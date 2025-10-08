@@ -1,10 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SGX Minerals - Mining Operations</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.6/babel.min.js"></script>
     <style>
         :root {
             --primary: #4361ee;
@@ -13,6 +19,9 @@
             --light: #f8f9fa;
             --accent: #4cc9f0;
             --company-color: #2a9d8f;
+            --danger: #e63946;
+            --warning: #f4a261;
+            --success: #2a9d8f;
         }
         
         * {
@@ -28,6 +37,35 @@
             overflow-x: hidden;
         }
         
+        /* Header Styles */
+        .header {
+            background-color: rgba(26, 26, 46, 0.9);
+            padding: 15px 30px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header-logo {
+            height: 50px;
+        }
+        
+        .header-title {
+            font-size: 1.5rem;
+            color: var(--company-color);
+            font-weight: 700;
+        }
+        
+        .header-date {
+            font-size: 0.9rem;
+            color: var(--accent);
+        }
+        
         /* Home Page Styles */
         .home-container {
             width: 100vw;
@@ -36,7 +74,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px;
+            padding: 80px 40px 40px;
             text-align: center;
             background: linear-gradient(rgba(26, 26, 46, 0.85), rgba(26, 26, 46, 0.85)), 
                         url('https://github.com/bimal-bp/Query_ppt/blob/main/PIT-3-4-MAIN.jpg?raw=true');
@@ -69,31 +107,41 @@
         }
         
         .nav-buttons {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
             margin-bottom: 40px;
-            flex-wrap: wrap;
-            justify-content: center;
+            width: 100%;
+            max-width: 800px;
         }
         
         .nav-btn {
             background: var(--company-color);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 20px;
             font-size: 1.1rem;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
             text-decoration: none;
-            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        
+        .nav-btn i {
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
         
         .nav-btn:hover {
             background: var(--accent);
-            transform: translateY(-3px);
+            transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
         
@@ -101,7 +149,7 @@
         .presentation-container {
             width: 100vw;
             min-height: 100vh;
-            padding: 40px;
+            padding: 80px 40px 40px;
             display: none;
             background-color: var(--dark);
         }
@@ -131,6 +179,46 @@
             margin: 0 auto;
         }
         
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--company-color);
+        }
+        
+        .tab-btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            background: var(--company-color);
+            color: white;
+        }
+        
+        .tab-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
         .update-section {
             background: rgba(255, 255, 255, 0.05);
             padding: 25px;
@@ -142,6 +230,12 @@
         .update-section h3 {
             margin-bottom: 15px;
             color: var(--accent);
+            display: flex;
+            align-items: center;
+        }
+        
+        .update-section h3 i {
+            margin-right: 10px;
         }
         
         .update-section p {
@@ -157,9 +251,37 @@
             color: var(--company-color);
         }
         
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--light);
+            opacity: 0.8;
+        }
+        
         .media-gallery {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
             margin: 30px 0;
         }
@@ -182,7 +304,7 @@
         
         .media-item img, .media-item video {
             width: 100%;
-            height: 250px;
+            height: 200px;
             object-fit: cover;
             display: block;
         }
@@ -197,6 +319,31 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .data-table th {
+            background-color: var(--company-color);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .data-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.03);
         }
         
         .modal {
@@ -261,9 +408,227 @@
             border: none;
         }
         
+        .time-filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: var(--company-color);
+            color: white;
+        }
+        
+        /* Equipment Styles */
+        .equipment-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .equipment-select, .equipment-btn {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        /* Fix dropdown options styling */
+        .equipment-select option {
+            background-color: var(--dark);
+            color: white;
+        }
+        
+        .equipment-btn {
+            background-color: var(--company-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .equipment-btn:hover {
+            background-color: var(--accent);
+        }
+        
+        .equipment-input-form {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        .form-group input, .form-group select {
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .equipment-summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .equipment-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .equipment-card h3 {
+            margin-top: 0;
+            color: var(--accent);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+        
+        .equipment-card p {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--company-color);
+            margin: 10px 0;
+        }
+        
+        .equipment-table-container {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        
+        .equipment-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .equipment-table th, .equipment-table td {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            text-align: center;
+            color: white;
+        }
+        
+        .equipment-table th {
+            background-color: var(--company-color);
+        }
+        
+        .equipment-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+        
+        .equipment-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .equipment-chart-container {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .equipment-chart-container canvas {
+            width: 100% !important;
+            height: 400px !important;
+        }
+        
+        /* Cost Calculator Styles */
+        .cost-calculator {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .calculator-results {
+            background-color: rgba(42, 157, 143, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+        
+        @media (max-width: 1024px) {
+            .nav-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+        
         @media (max-width: 768px) {
+            .header {
+                padding: 10px 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
             .home-container, .presentation-container {
-                padding: 20px;
+                padding: 100px 20px 20px;
             }
             
             .home-title {
@@ -274,11 +639,6 @@
                 font-size: 1.2rem;
             }
             
-            .nav-buttons {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
             .slide-title {
                 font-size: 1.5rem;
             }
@@ -287,236 +647,573 @@
                 grid-template-columns: 1fr;
             }
             
-            .media-item img, .media-item video {
-                height: 200px;
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .data-table {
+                font-size: 0.8rem;
+            }
+            
+            .data-table th, .data-table td {
+                padding: 8px 10px;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                flex-wrap: nowrap;
+            }
+            
+            .equipment-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .equipment-summary-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .calculator-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
+    <div class="header">
+        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/Screenshot%202025-07-29%20104153.png?raw=true" alt="SGX Minerals Logo" class="header-logo">
+        <div class="header-title">SGX Minerals - Quarry Management System</div>
+        <div class="header-date" id="currentDate"></div>
+    </div>
+    
     <!-- Home Page Container -->
     <div class="home-container" id="homePage">
-        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/Screenshot%202025-07-29%20104153.png?raw=true" alt="SGX Minerals Logo" class="home-logo">
-        <h1 class="home-title">SGX Minerals Pvt Ltd</h1>
-        <h2 class="home-subtitle">9 Ha Quarry Presentation</h2>
+        <h2 class="home-subtitle">Comprehensive Quarry Management Dashboard</h2>
         
         <div class="nav-buttons">
-            <a href="#" class="nav-btn" id="pit1Btn">Pit 1 Status</a>
-            <a href="#" class="nav-btn" id="pit2Btn">Pit 2 Status</a>
-            <a href="#" class="nav-btn" id="pit3Btn">Pit 3 Status</a>
-            <a href="#" class="nav-btn" id="futurePlanBtn">Production & Development</a>
+            <a href="#" class="nav-btn" id="quarryUpdateBtn">
+                <i class="fas fa-mountain"></i>
+                Quarry Updates
+            </a>
+            <a href="#" class="nav-btn" id="blastingDetailsBtn">
+                <i class="fas fa-bomb"></i>
+                Blasting Details
+            </a>
+            <a href="#" class="nav-btn" id="equipmentDetailsBtn">
+                <i class="fas fa-tools"></i>
+                Equipment Details
+            </a>
+            <a href="#" class="nav-btn" id="costingReportBtn">
+                <i class="fas fa-dollar-sign"></i>
+                Compressor Billing report
+            </a>
         </div>
     </div>
     
-    <!-- Pit 1 Presentation -->
-    <div class="presentation-container" id="pit1Presentation">
+    <!-- Quarry Update Presentation -->
+    <div class="presentation-container" id="quarryUpdatePresentation">
         <div class="content-container">
             <div class="slide-header">
                 <img src="https://github.com/bimal-bp/Query_ppt/blob/main/Screenshot%202025-07-29%20104153.png?raw=true" alt="Logo" class="slide-logo">
-                <h1 class="slide-title">PIT 1 - Current Status & Updates</h1>
+                <h1 class="slide-title">Quarry Updates - All Pits Status</h1>
             </div>
             
-            <div class="update-section">
-                <h3>PIT-1 Details</h3>
-                <p> Length- 20 meters, Width- 16 meters , Height- 6 meters </p>
-                <p>Pit-1 previous measurement – 17 x 11 x 5</p>
-                <p>Present measurement – 20 x 16 x 6</p>
-                <p>Pit-1 is mixed with morrum; it is not used on a regular basis.</p>
-                <p>Future plan – Will use on a priority basis.</p>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="pit9h1">9H Pit 1</button>
+                <button class="tab-btn" data-tab="pit9h2">9H Pit 2</button>
+                <button class="tab-btn" data-tab="pit9h3">9H Pit 3</button>
+                <button class="tab-btn" data-tab="pit3h">3H Pit</button>
+                <button class="tab-btn" data-tab="pit33h">3.3H Pit</button>
             </div>
             
-            <hr class="section-divider">
+            <!-- 9H Pit 1 Content -->
+            <div class="tab-content active" id="pit9h1">
+                <div class="update-section">
+                    <h3><i class="fas fa-info-circle"></i> 9H PIT-1 Details</h3>
+                    <p>Current Dimensions: 20m x 16m x 6m</p>
+                    <p>Material Composition: Mixed with morrum</p>
+                    <p>Usage Status: Limited current operations</p>
+                    <p>Future Plan: Prioritized for next phase</p>
+                </div>
+                
+                <h3>Media Documentation</h3>
+                
+                <div class="media-gallery">
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit%201%20april%20image%20.jpg?raw=true" alt="Pit 1 9 AM Photo">
+                        <div class="media-label">9 AM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-1-measure.jpg?raw=true" alt="Pit 1 Before Blasting">
+                        <div class="media-label">Before Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Pit 1 After Blasting">
+                        <div class="media-label">After Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Pit 1 6 PM Photo">
+                        <div class="media-label">6 PM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <video controls>
+                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
+                        </video>
+                        <div class="media-label">Video Update</div>
+                    </div>
+                    <div class="media-item">
+                        <textarea id="nightPlanPit9h1" placeholder="Enter Night Plan..." style="width: 100%; height: 200px; background: rgba(255,255,255,0.1); color: white; border: none; padding: 10px;"></textarea>
+                        <div class="media-label">Night Plan</div>
+                    </div>
+                </div>
+                
+                <button class="back-btn">Back to Dashboard</button>
+            </div>
             
-            <h3>Media Documentation</h3>
-            <div class="media-gallery">
-                <div class="media-item">
-                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit%201%20april%20image%20.jpg?raw=true" alt="Pit 1 Previous View 1">
-                    <div class="media-label">April - 25 PIT-1 image </div>
+            <!-- 9H Pit 2 Content -->
+            <div class="tab-content" id="pit9h2">
+                <div class="update-section">
+                    <h3><i class="fas fa-info-circle"></i> 9H PIT-2 Details</h3>
+                    <p>Current Status: Active mining operations</p>
+                    <p>Production Rate: 500 tonnes/day</p>
+                    <p>Equipment: 2 excavators, 3 trucks</p>
+                    <p>Future Plan: Expand depth by 2m</p>
                 </div>
-                <div class="media-item">
-                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-1-measure.jpg?raw=true" alt="Pit 1 Previous View 2">
-                    <div class="media-label">Measurement PIT-1 image </div>
+                
+                <h3>Media Documentation</h3>
+                
+                <div class="media-gallery">
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit%201%20april%20image%20.jpg?raw=true" alt="Pit 2 9 AM Photo">
+                        <div class="media-label">9 AM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-1-measure.jpg?raw=true" alt="Pit 2 Before Blasting">
+                        <div class="media-label">Before Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Pit 2 After Blasting">
+                        <div class="media-label">After Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Pit 2 6 PM Photo">
+                        <div class="media-label">6 PM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <video controls>
+                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
+                        </video>
+                        <div class="media-label">Video Update</div>
+                    </div>
+                    <div class="media-item">
+                        <textarea id="nightPlanPit9h2" placeholder="Enter Night Plan..." style="width: 100%; height: 200px; background: rgba(255,255,255,0.1); color: white; border: none; padding: 10px;"></textarea>
+                        <div class="media-label">Night Plan</div>
+                    </div>
                 </div>
-                <div class="media-item">
-                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Pit 1 Current View 1">
-                    <div class="media-label">Current PIT-1 image (July 2025)</div>
+                
+                <button class="back-btn">Back to Dashboard</button>
+            </div>
+            
+            <!-- 9H Pit 3 Content -->
+            <div class="tab-content" id="pit9h3">
+                <div class="update-section">
+                    <h3><i class="fas fa-info-circle"></i> 9H PIT-3 Details</h3>
+                    <p>Current Status: Under development</p>
+                    <p>Material: High-grade ore detected</p>
+                    <p>Progress: 60% complete</p>
+                    <p>Future Plan: Full operation by Q4</p>
                 </div>
-                <div class="media-item">
-                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Pit 1 Current View 2">
-                    <div class="media-label">Current PIT-1 image (July 2025)</div>
+                
+                <h3>Media Documentation</h3>
+                
+                <div class="media-gallery">
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit%201%20april%20image%20.jpg?raw=true" alt="Pit 3 9 AM Photo">
+                        <div class="media-label">9 AM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-1-measure.jpg?raw=true" alt="Pit 3 Before Blasting">
+                        <div class="media-label">Before Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Pit 3 After Blasting">
+                        <div class="media-label">After Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Pit 3 6 PM Photo">
+                        <div class="media-label">6 PM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <video controls>
+                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
+                        </video>
+                        <div class="media-label">Video Update</div>
+                    </div>
+                    <div class="media-item">
+                        <textarea id="nightPlanPit9h3" placeholder="Enter Night Plan..." style="width: 100%; height: 200px; background: rgba(255,255,255,0.1); color: white; border: none; padding: 10px;"></textarea>
+                        <div class="media-label">Night Plan</div>
+                    </div>
                 </div>
-                <div class="media-item">
-                    <video controls>
-                        <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
-                    </video>
-                    <div class="media-label"> PIT-1 video (July 2025)</div>
+                
+                <button class="back-btn">Back to Dashboard</button>
+            </div>
+            
+            <!-- 3H Pit Content -->
+            <div class="tab-content" id="pit3h">
+                <div class="update-section">
+                    <h3><i class="fas fa-info-circle"></i> 3H Pit Details</h3>
+                    <p>Current Status: Primary production site</p>
+                    <p>Output: 800 tonnes/day</p>
+                    <p>Equipment: 3 excavators, 5 trucks</p>
+                    <p>Future Plan: Optimize haul routes</p>
                 </div>
-                <div class="media-item">
-                    <video controls>
-                        <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-3.mp4?raw=true" type="video/mp4">
-                    </video>
-                    <div class="media-label">PIT-1 video (July 2025)</div>
+                
+                <h3>Media Documentation</h3>
+                
+                <div class="media-gallery">
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit%201%20april%20image%20.jpg?raw=true" alt="Pit 3H 9 AM Photo">
+                        <div class="media-label">9 AM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-1-measure.jpg?raw=true" alt="Pit 3H Before Blasting">
+                        <div class="media-label">Before Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Pit 3H After Blasting">
+                        <div class="media-label">After Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Pit 3H 6 PM Photo">
+                        <div class="media-label">6 PM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <video controls>
+                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
+                        </video>
+                        <div class="media-label">Video Update</div>
+                    </div>
+                    <div class="media-item">
+                        <textarea id="nightPlanPit3h" placeholder="Enter Night Plan..." style="width: 100%; height: 200px; background: rgba(255,255,255,0.1); color: white; border: none; padding: 10px;"></textarea>
+                        <div class="media-label">Night Plan</div>
+                    </div>
                 </div>
+                
+                <button class="back-btn">Back to Dashboard</button>
+            </div>
+            
+            <!-- 3.3H Pit Content -->
+            <div class="tab-content" id="pit33h">
+                <div class="update-section">
+                    <h3><i class="fas fa-info-circle"></i> 3.3H Pit Details</h3>
+                    <p>Current Status: Secondary site</p>
+                    <p>Production: 300 tonnes/day</p>
+                    <p>Challenges: Water accumulation</p>
+                    <p>Future Plan: Install drainage system</p>
+                </div>
+                
+                <h3>Media Documentation</h3>
+                
+                <div class="media-gallery">
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit%201%20april%20image%20.jpg?raw=true" alt="Pit 3.3H 9 AM Photo">
+                        <div class="media-label">9 AM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-1-measure.jpg?raw=true" alt="Pit 3.3H Before Blasting">
+                        <div class="media-label">Before Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit1-1.jpg?raw=true" alt="Pit 3.3H After Blasting">
+                        <div class="media-label">After Blasting</div>
+                    </div>
+                    <div class="media-item">
+                        <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-22.jpg?raw=true" alt="Pit 3.3H 6 PM Photo">
+                        <div class="media-label">6 PM Photo</div>
+                    </div>
+                    <div class="media-item">
+                        <video controls>
+                            <source src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-1-2.mp4?raw=true" type="video/mp4">
+                        </video>
+                        <div class="media-label">Video Update</div>
+                    </div>
+                    <div class="media-item">
+                        <textarea id="nightPlanPit33h" placeholder="Enter Night Plan..." style="width: 100%; height: 200px; background: rgba(255,255,255,0.1); color: white; border: none; padding: 10px;"></textarea>
+                        <div class="media-label">Night Plan</div>
+                    </div>
+                </div>
+                
+                <button class="back-btn">Back to Dashboard</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Blasting Details Presentation -->
+    <div class="presentation-container" id="blastingDetailsPresentation">
+        <div class="content-container">
+            <div class="slide-header">
+                <img src="https://github.com/bimal-bp/Query_ppt/blob/main/Screenshot%202025-07-29%20104153.png?raw=true" alt="Logo" class="slide-logo">
+                <h1 class="slide-title">Blasting Details</h1>
+            </div>
+            
+            <div class="equipment-controls">
+                <select id="blastEquipmentSelect" class="equipment-select">
+                    <option value="Blasting Material">Blasting Material</option>
+                    <option value="Development">Development</option>
+                </select>
+                <button class="equipment-btn" onclick="exportBlastData()">Export Data</button>
+            </div>
+            
+            <div class="equipment-input-form">
+                <h3>Add Blasting Entry</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="blastDate">Date</label>
+                        <input type="date" id="blastDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="blastCompressor">Compressor</label>
+                        <input type="number" id="blastCompressor" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastHoles">No. of Holes</label>
+                        <input type="number" id="blastHoles" placeholder="0" step="1" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastFeets">Feets</label>
+                        <input type="number" id="blastFeets" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastProduction">Production (Tonnes)</label>
+                        <input type="number" id="blastProduction" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastDispatch">Boulders Dispatch Qty</label>
+                        <input type="number" id="blastDispatch" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastPowerGel">Power Gel</label>
+                        <input type="number" id="blastPowerGel" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastDGuard">D-Guard Wire/Hole</label>
+                        <input type="number" id="blastDGuard" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastEdPerHole">ED/Hole</label>
+                        <input type="number" id="blastEdPerHole" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastWire">Wire</label>
+                        <input type="number" id="blastWire" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastNmr">No. of NMR</label>
+                        <input type="number" id="blastNmr" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastBlaster">No. of Blaster</label>
+                        <input type="number" id="blastBlaster" placeholder="0" step="1" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="blastNmrPlant">NMR at Plant</label>
+                        <input type="number" id="blastNmrPlant" placeholder="0" step="1" min="0">
+                    </div>
+                </div>
+                <button class="equipment-btn" style="width: 100%" onclick="addBlastData()">Add Entry</button>
+            </div>
+            
+            <div class="equipment-summary-cards">
+                <div class="equipment-card">
+                    <h3>Total Production (Tonnes)</h3>
+                    <p id="totalProduction">0.00</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Total Holes</h3>
+                    <p id="totalHoles">0</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Total Power Gel</h3>
+                    <p id="totalPowerGel">0.00</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Total Dispatch (Tonnes)</h3>
+                    <p id="totalDispatch">0.00</p>
+                </div>
+            </div>
+            
+            <div class="equipment-table-container">
+                <div id="blastTableContainer"></div>
             </div>
             
             <button class="back-btn">Back to Dashboard</button>
         </div>
     </div>
-    
-    <!-- Pit 2 Presentation -->
-    <div class="presentation-container" id="pit2Presentation">
+
+    <!-- Equipment Details Presentation -->
+    <div class="presentation-container" id="equipmentDetailsPresentation">
         <div class="content-container">
             <div class="slide-header">
                 <img src="https://github.com/bimal-bp/Query_ppt/blob/main/Screenshot%202025-07-29%20104153.png?raw=true" alt="Logo" class="slide-logo">
-                <h1 class="slide-title">PIT 2 - Current Status & Updates</h1>
+                <h1 class="slide-title">Equipment Details</h1>
             </div>
             
-            <div class="update-section">
-                <h3>PIT-2 Details</h3>
-                <p>Length – 95 meters, Width – 16 meters, Height – 15 meters</p>
+            <div class="equipment-controls">
+                <select id="equipmentSelect" class="equipment-select" onchange="loadEquipmentData()">
+                    <option value="SGX Volvo 1">SGX Volvo 1</option>
+                    <option value="SGX Volvo 2">SGX Volvo 2</option>
+                    <option value="Govind Volvo 1">Govind Volvo 1</option>
+                    <option value="Govind Volvo 2">Govind Volvo 2</option>
+                    <option value="Hyundai">Hyundai</option>
+                    <option value="JCB Ex">JCB Ex</option>
+                </select>
+                <button class="equipment-btn" onclick="exportData()">Export Data</button>
             </div>
-            
-            <hr class="section-divider">
-            
-            <h3>Media Documentation</h3>
-            <div class="media-gallery">
-                <div class="media-item">
-                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-2-APRIL%20IMAGE%202.jpg?raw=true" alt="Pit 2 Previous View 1">
-                    <div class="media-label">April Image- PIT 2</div>
+
+            <div class="equipment-input-form">
+                <h3>Add Operational Hours</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="dateInput">Date</label>
+                        <input type="date" id="dateInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loadingHrs">Loading Hours</label>
+                        <input type="number" id="loadingHrs" placeholder="0.00" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="breakingHrs">Breaking Hours</label>
+                        <input type="number" id="breakingHrs" placeholder="0.00" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="developmentHrs">Development Hours</label>
+                        <input type="number" id="developmentHrs" placeholder="0.00" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="safetyZone">Safety Zone Hours</label>
+                        <input type="number" id="safetyZone" placeholder="0.00" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="maintenance">Maintenance Hours</label>
+                        <input type="number" id="maintenance" placeholder="0.00" step="0.01" min="0" required>
+                    </div>
                 </div>
-                <div class="media-item">
-                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-2%20APRIL%20image.jpg?raw=true" alt="Pit 2 Previous View 2">
-                    <div class="media-label">April Image- PIT 2</div>
+                <button class="equipment-btn" onclick="addData()" style="width: 100%">Add Data</button>
+            </div>
+
+            <div class="equipment-summary-cards">
+                <div class="equipment-card">
+                    <h3>Total Loading Hours</h3>
+                    <p id="totalLoading">0.00</p>
                 </div>
-                <div class="media-item">
-                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-2-3.jpg?raw=true" alt="Pit 2 Current View 1">
-                    <div class="media-label"> PIT-2 image (July 2025)</div>
+                <div class="equipment-card">
+                    <h3>Total Breaking Hours</h3>
+                    <p id="totalBreaking">0.00</p>
                 </div>
-                <div class="media-item">
-                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT2-4.jpg?raw=true" alt="Pit 2 Current View 2">
-                    <div class="media-label"> PIT-2 video (July 2025)</div>
+                <div class="equipment-card">
+                    <h3>Total Development Hours</h3>
+                    <p id="totalDevelopment">0.00</p>
                 </div>
-                <div class="media-item">
-                    <video controls>
-                        <source src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-2-1.mp4?raw=true" type="video/mp4">
-                    </video>
-                    <div class="media-label">PIT-2 video (July 2025)</div>
+                <div class="equipment-card">
+                    <h3>Total Operational Hours</h3>
+                    <p id="totalOperational">0.00</p>
                 </div>
-                <div class="media-item">
-                    <video controls>
-                        <source src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-2-2.mp4?raw=true" type="video/mp4">
-                    </video>
-                    <div class="media-label">PIT-2 video (July 2025)</div>
-                </div>
+            </div>
+
+            <div class="equipment-table-container">
+                <div id="tableContainer"></div>
             </div>
             
             <button class="back-btn">Back to Dashboard</button>
         </div>
     </div>
-    
-    <!-- Pit 3 Presentation -->
-    <div class="presentation-container" id="pit3Presentation">
+
+    <!-- Costing Report Presentation -->
+    <div class="presentation-container" id="costingReportPresentation">
         <div class="content-container">
             <div class="slide-header">
                 <img src="https://github.com/bimal-bp/Query_ppt/blob/main/Screenshot%202025-07-29%20104153.png?raw=true" alt="Logo" class="slide-logo">
-                <h1 class="slide-title">PIT 3 - Current Status & Updates</h1>
+                <h1 class="slide-title">Quarry Costing Report</h1>
             </div>
             
-            <div class="update-section">
-                <h3>PIT-3 Details</h3>
-                <p>Length – 95 meters, Width – 65 meters, Height – 20 meters</p>
-            </div>
-            
-            <hr class="section-divider">
-            
-            <h3>Media Documentation</h3>
-            <div class="media-gallery">
-                <div class="media-item">
-                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/pit-3-April.jpg?raw=true" alt="Pit 3 Previous View 1">
-                    <div class="media-label">PIT -3 image ( April  2025)</div>
-                </div>
-                <div class="media-item">
-                    <img src="https://github.com/bimal-bp/Quarry_ppt/blob/main/pit-3-MAY-image.jpg?raw=true" alt="Pit 3 Previous View 2">
-                    <div class="media-label">PIT -3 image ( May  2025)</div>
-                </div>
-                <div class="media-item">
-                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-3-4-MAIN.jpg?raw=true" alt="Pit 3 Current View 1">
-                    <div class="media-label">Current PIT -3 image (July 2025)</div>
-                </div>
-                <div class="media-item">
-                    <img src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT3-2.jpg?raw=true" alt="Pit 3 Current View 2">
-                    <div class="media-label">Current PIT -3 image (July 2025)</div>
-                </div>
-                <div class="media-item">
-                    <video controls>
-                        <source src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-3-VDO-1.mp4?raw=true" type="video/mp4">
-                    </video>
-                    <div class="media-label">PIT -3 Video (July 2025)</div>
-                </div>
-                <div class="media-item">
-                    <video controls>
-                        <source src="https://github.com/bimal-bp/Query_ppt/blob/main/PIT-3-VDO-2.mp4?raw=true" type="video/mp4">
-                    </video>
-                    <div class="media-label">PIT -3 Video (July 2025)</div>
-                </div>
-            </div>
-            
-            <button class="back-btn">Back to Dashboard</button>
-        </div>
-    </div>
-    
-      <!-- Future Plans Presentation -->
-    <div class="presentation-container" id="futurePlanPresentation">
-        <div class="content-container">
-            <div class="slide-header">
-                <img src="https://github.com/bimal-bp/Query_ppt/blob/main/Screenshot%202025-07-29%20104153.png?raw=true" alt="Logo" class="slide-logo">
-                <h1 class="slide-title">Production & Development Details</h1>
-            </div>
-            
-            <div class="update-section">
-                <h3>Previous Month Details</h3>
-                 <h3>**********************************************************</h3>
+            <div class="cost-calculator">
+                <h3>Compressor Cost Calculator</h3>
+                <p>Track compressor usage and calculate monthly costs</p>
                 
-                <h3>May Details</h3>
-                <p>Boulder Production - 68399</p>
-                <p>Boulder Dispatch   - 49125</p>
-                <p>OB Trips - 161</p>
+                <div class="calculator-grid">
+                    <div class="form-group">
+                        <label for="costDate">Date</label>
+                        <input type="date" id="costDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="compressorName">Tractor Number</label>
+                        <input type="text" id="compressorName" placeholder="Enter Equipment/Vehicle Number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tractorName">Compressor Name</label>
+                        <input type="text" id="tractorName" placeholder="Enter Compressor name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="holes">Number of Holes</label>
+                        <input type="number" id="holes" placeholder="Enter number of holes" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="feet">Drilling Depth (Feet)</label>
+                        <input type="number" id="feet" placeholder="Enter drilling depth in feet" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cost">Total Compressor Cost (₹)</label>
+                        <input type="number" id="cost" placeholder="Enter total compressor cost" min="1" step="0.01" required>
+                    </div>
+                </div>
                 
-  
-
-                <h3>June  Details</h3>
-  
-                <p>Boulder Production - 50142</p>
-                <p>Boulder Dispatch   - 40366</p>
-                <p>OB Trips - 144</p>
+                <button class="equipment-btn" id="addCostEntry" style="width: 100%; margin-bottom: 20px;">Add Entry</button>
                 
+                <div class="calculator-results">
+                    <h4>Monthly Summary</h4>
+                    <div class="result-item">
+                        <span>Total Entries:</span>
+                        <span class="summary-value" id="totalEntries">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Drilling Feet:</span>
+                        <span class="summary-value" id="totalFeet">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Compressor Cost:</span>
+                        <span class="summary-value" id="totalCost">₹0.00</span>
+                    </div>
+                </div>
                 
-                <h3>July Details</h3>
-
-                <p>Boulder Production - 71782</p>
-                <p>Boulder Dispatch   - 59517</p>
-                <p>OB Trips - 178</p>
-
+                <div class="equipment-table-container" style="margin-top: 20px;">
+                    <table class="equipment-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Compressor</th>
+                                <th>Equipment</th>
+                                <th>Holes</th>
+                                <th>Depth (Feet)</th>
+                                <th>Cost (₹)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="costEntriesList">
+                            <!-- Entries will be added here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <button class="equipment-btn" id="clearCostData" style="background-color: var(--danger); margin-top: 20px;">Clear All Data</button>
+                <button class="equipment-btn" id="generateReport" style="margin-top: 20px; margin-left: 10px;">Generate Compressor-wise Report</button>
+                <div id="compressorReport" style="margin-top: 30px;"></div>
             </div>
-            
-            <div class="update-section">
-                <h3>Future Planning</h3>
-                <h3>***********************************************************</h3>
-                <h3>August Target</h3>
-                <p>Boulder Production - 67500</p>
-                <p>OB Trips - 150</p>
-
-                <h3>September Target</h3>
-                <p>Boulder Production - 70000</p>
-                <p>OB Trips - 180</p>
-
-                
-                <h3>October Target</h3>
-                <p>Boulder Production - 72500</p>
-                <p>OB Trips - 200</p>
-            </div>
-            
-            <hr class="section-divider">
 
             
             <button class="back-btn">Back to Dashboard</button>
@@ -532,64 +1229,99 @@
     </div>
     
     <script>
+        // Set current date
+        const currentDateElement = document.getElementById('currentDate');
+        const now = new Date();
+        currentDateElement.textContent = now.toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        
         // Navigation between home and presentations
         const homePage = document.getElementById('homePage');
-        const pit1Btn = document.getElementById('pit1Btn');
-        const pit2Btn = document.getElementById('pit2Btn');
-        const pit3Btn = document.getElementById('pit3Btn');
-        const futurePlanBtn = document.getElementById('futurePlanBtn');
-        const pit1Presentation = document.getElementById('pit1Presentation');
-        const pit2Presentation = document.getElementById('pit2Presentation');
-        const pit3Presentation = document.getElementById('pit3Presentation');
-        const futurePlanPresentation = document.getElementById('futurePlanPresentation');
+        const quarryUpdateBtn = document.getElementById('quarryUpdateBtn');
+        const blastingDetailsBtn = document.getElementById('blastingDetailsBtn');
+        const equipmentDetailsBtn = document.getElementById('equipmentDetailsBtn');
+        const costingReportBtn = document.getElementById('costingReportBtn');
+        const quarryUpdatePresentation = document.getElementById('quarryUpdatePresentation');
+        const blastingDetailsPresentation = document.getElementById('blastingDetailsPresentation');
+        const equipmentDetailsPresentation = document.getElementById('equipmentDetailsPresentation');
+        const costingReportPresentation = document.getElementById('costingReportPresentation');
         const backBtns = document.querySelectorAll('.back-btn');
         
         // Show presentation function
         function showPresentation(presentation) {
             homePage.style.display = 'none';
-            pit1Presentation.style.display = 'none';
-            pit2Presentation.style.display = 'none';
-            pit3Presentation.style.display = 'none';
-            futurePlanPresentation.style.display = 'none';
+            quarryUpdatePresentation.style.display = 'none';
+            blastingDetailsPresentation.style.display = 'none';
+            equipmentDetailsPresentation.style.display = 'none';
+            costingReportPresentation.style.display = 'none';
             presentation.style.display = 'block';
             document.title = "SGX Minerals - " + presentation.querySelector('.slide-title').textContent;
             window.scrollTo(0, 0);
+            
+            // If showing equipment or blasting details, load the data
+            if (presentation.id === 'equipmentDetailsPresentation') {
+                loadEquipmentData();
+            } else if (presentation.id === 'blastingDetailsPresentation') {
+                loadBlastData();
+            } else if (presentation.id === 'costingReportPresentation') {
+                loadCostData();
+            }
         }
         
-        // Event listeners
-        pit1Btn.addEventListener('click', (e) => {
+        // Event listeners for navigation
+        quarryUpdateBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            showPresentation(pit1Presentation);
+            showPresentation(quarryUpdatePresentation);
         });
         
-        pit2Btn.addEventListener('click', (e) => {
+        blastingDetailsBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            showPresentation(pit2Presentation);
+            showPresentation(blastingDetailsPresentation);
         });
         
-        pit3Btn.addEventListener('click', (e) => {
+        equipmentDetailsBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            showPresentation(pit3Presentation);
+            showPresentation(equipmentDetailsPresentation);
         });
         
-        futurePlanBtn.addEventListener('click', (e) => {
+        costingReportBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            showPresentation(futurePlanPresentation);
+            showPresentation(costingReportPresentation);
         });
         
         backBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 homePage.style.display = 'flex';
-                pit1Presentation.style.display = 'none';
-                pit2Presentation.style.display = 'none';
-                pit3Presentation.style.display = 'none';
-                futurePlanPresentation.style.display = 'none';
+                quarryUpdatePresentation.style.display = 'none';
+                blastingDetailsPresentation.style.display = 'none';
+                equipmentDetailsPresentation.style.display = 'none';
+                costingReportPresentation.style.display = 'none';
                 document.title = "SGX Minerals - Mining Operations";
                 
                 // Pause all videos when going back
                 document.querySelectorAll('video').forEach(video => {
                     video.pause();
                 });
+            });
+        });
+        
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                
+                // Remove active class from all tabs and contents
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                btn.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
             });
         });
         
@@ -639,6 +1371,705 @@
             if (e.key === 'Escape') {
                 modal.style.display = 'none';
             }
+        });
+        
+        // Equipment Operational Hours Code
+
+        // Equipment list with all requested equipment
+        const equipmentList = [
+            'SGX Volvo 1', 'SGX Volvo 2', 'SGX Volvo 3', 'SGX Volvo 4', 'SGX Volvo 5',
+            'Govind Volvo 1', 'Govind Volvo 2', 'Hyundai', 'JCB Ex'
+        ];
+
+        // Initialize local storage for each equipment if not already present
+        equipmentList.forEach(equipment => {
+            if (!localStorage.getItem(equipment)) {
+                localStorage.setItem(equipment, JSON.stringify([]));
+            }
+        });
+
+        // Load data for selected equipment
+        function loadEquipmentData() {
+            const selectedEquipment = document.getElementById('equipmentSelect').value;
+            const data = JSON.parse(localStorage.getItem(selectedEquipment)) || [];
+
+            // Calculate totals
+            const totals = {
+                loading: 0,
+                breaking: 0,
+                development: 0,
+                safety: 0,
+                maintenance: 0,
+                operational: 0
+            };
+
+            // Generate table
+            let tableHTML = `
+                <table class="equipment-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Loading Hrs</th>
+                            <th>Breaking Hrs</th>
+                            <th>Development Hrs</th>
+                            <th>Safety Zone</th>
+                            <th>Maintenance</th>
+                            <th>Total Hours</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            data.forEach((entry, index) => {
+                const totalHours = entry.loading + entry.breaking + entry.development + 
+                                 entry.safety + entry.maintenance;
+                tableHTML += `
+                    <tr>
+                        <td>${formatDate(entry.date)}</td>
+                        <td>${entry.loading.toFixed(2)}</td>
+                        <td>${entry.breaking.toFixed(2)}</td>
+                        <td>${entry.development.toFixed(2)}</td>
+                        <td>${entry.safety.toFixed(2)}</td>
+                        <td>${entry.maintenance.toFixed(2)}</td>
+                        <td>${totalHours.toFixed(2)}</td>
+                        <td>
+                            <button class="equipment-btn" onclick="editEntry('${selectedEquipment}', ${index})" style="padding: 5px; margin: 2px;">Edit</button>
+                            <button class="equipment-btn" onclick="deleteEntry('${selectedEquipment}', ${index})" style="padding: 5px; margin: 2px; background-color: #e74c3c;">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                totals.loading += entry.loading;
+                totals.breaking += entry.breaking;
+                totals.development += entry.development;
+                totals.safety += entry.safety;
+                totals.maintenance += entry.maintenance;
+                totals.operational += totalHours;
+            });
+
+            tableHTML += `
+                    </tbody>
+                    <tfoot>
+                        <tr style="font-weight: bold;">
+                            <td>Total</td>
+                            <td>${totals.loading.toFixed(2)}</td>
+                            <td>${totals.breaking.toFixed(2)}</td>
+                            <td>${totals.development.toFixed(2)}</td>
+                            <td>${totals.safety.toFixed(2)}</td>
+                            <td>${totals.maintenance.toFixed(2)}</td>
+                            <td>${totals.operational.toFixed(2)}</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>`;
+
+            document.getElementById('tableContainer').innerHTML = tableHTML;
+
+            // Update summary cards
+            document.getElementById('totalLoading').textContent = totals.loading.toFixed(2);
+            document.getElementById('totalBreaking').textContent = totals.breaking.toFixed(2);
+            document.getElementById('totalDevelopment').textContent = totals.development.toFixed(2);
+            document.getElementById('totalOperational').textContent = totals.operational.toFixed(2);
+        }
+
+        // Format date to display as DD-MMM
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
+        }
+
+        // Add new data
+        function addData() {
+            const selectedEquipment = document.getElementById('equipmentSelect').value;
+            const date = document.getElementById('dateInput').value;
+            const loading = parseFloat(document.getElementById('loadingHrs').value) || 0;
+            const breaking = parseFloat(document.getElementById('breakingHrs').value) || 0;
+            const development = parseFloat(document.getElementById('developmentHrs').value) || 0;
+            const safety = parseFloat(document.getElementById('safetyZone').value) || 0;
+            const maintenance = parseFloat(document.getElementById('maintenance').value) || 0;
+
+            if (!date) {
+                alert('Please enter a valid date.');
+                return;
+            }
+
+            const data = JSON.parse(localStorage.getItem(selectedEquipment)) || [];
+            
+            // Check if entry for this date already exists
+            const existingIndex = data.findIndex(entry => entry.date === date);
+            if (existingIndex !== -1) {
+                if (confirm('An entry for this date already exists. Do you want to update it?')) {
+                    data[existingIndex] = {
+                        date,
+                        loading,
+                        breaking,
+                        development,
+                        safety,
+                        maintenance
+                    };
+                } else {
+                    return;
+                }
+            } else {
+                data.push({
+                    date,
+                    loading,
+                    breaking,
+                    development,
+                    safety,
+                    maintenance
+                });
+            }
+
+            // Sort by date
+            data.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            // Save to local storage
+            localStorage.setItem(selectedEquipment,JSON.stringify(data));
+
+            // Clear form
+            document.getElementById('dateInput').value = '';
+            document.getElementById('loadingHrs').value = '';
+            document.getElementById('breakingHrs').value = '';
+            document.getElementById('developmentHrs').value = '';
+            document.getElementById('safetyZone').value = '';
+            document.getElementById('maintenance').value = '';
+
+            // Reload data
+            loadEquipmentData();
+            
+            alert('Data saved successfully!');
+        }
+
+        // Edit an existing entry
+        function editEntry(equipment, index) {
+            const data = JSON.parse(localStorage.getItem(equipment)) || [];
+            const entry = data[index];
+            
+            document.getElementById('dateInput').value = entry.date;
+            document.getElementById('loadingHrs').value = entry.loading;
+            document.getElementById('breakingHrs').value = entry.breaking;
+            document.getElementById('developmentHrs').value = entry.development;
+            document.getElementById('safetyZone').value = entry.safety;
+            document.getElementById('maintenance').value = entry.maintenance;
+            
+            // Remove the old entry
+            data.splice(index, 1);
+            localStorage.setItem(equipment, JSON.stringify(data));
+            
+            // Reload data
+            loadEquipmentData();
+        }
+
+        // Delete an entry
+        function deleteEntry(equipment, index) {
+            if (confirm('Are you sure you want to delete this entry?')) {
+                const data = JSON.parse(localStorage.getItem(equipment)) || [];
+                data.splice(index, 1);
+                localStorage.setItem(equipment, JSON.stringify(data));
+                loadEquipmentData();
+            }
+        }
+
+        // Export data as CSV
+        function exportData() {
+            const selectedEquipment = document.getElementById('equipmentSelect').value;
+            const data = JSON.parse(localStorage.getItem(selectedEquipment)) || [];
+            
+            if (data.length === 0) {
+                alert('No data to export for ' + selectedEquipment);
+                return;
+            }
+            
+            let csv = 'Date,Loading Hours,Breaking Hours,Development Hours,Safety Zone Hours,Maintenance Hours\n';
+            
+            data.forEach(entry => {
+                csv += `${entry.date},${entry.loading},${entry.breaking},${entry.development},${entry.safety},${entry.maintenance}\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', `${selectedEquipment.replace(/\s+/g, '_')}_data.csv`);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // Blasting Data Functions
+        function loadBlastData() {
+            const dataType = document.getElementById('blastEquipmentSelect').value;
+            const data = JSON.parse(localStorage.getItem(dataType)) || [];
+            
+            // Calculate totals
+            const totals = {
+                compressor: 0,
+                holes: 0,
+                feets: 0,
+                production: 0,
+                dispatch: 0,
+                powerGel: 0,
+                dGuard: 0,
+                edPerHole: 0,
+                wire: 0,
+                nmr: 0,
+                blaster: 0,
+                nmrPlant: 0
+            };
+
+            let tableHTML = `
+                <table class="equipment-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Compressor</th>
+                            <th>Holes</th>
+                            <th>Feets</th>
+                            <th>Production (Tonnes)</th>
+                            <th>Boulders Dispatch Qty</th>
+                            <th>Power Gel</th>
+                            <th>D-Guard Wire/Hole</th>
+                            <th>ED/Hole</th>
+                            <th>Wire</th>
+                            <th>No. of NMR</th>
+                            <th>No. of Blaster</th>
+                            <th>NMR at Plant</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            data.forEach((entry, index) => {
+                tableHTML += `
+                    <tr>
+                        <td>${formatDate(entry.date)}</td>
+                        <td>${entry.compressor.toFixed(2)}</td>
+                        <td>${entry.holes.toFixed(0)}</td>
+                        <td>${entry.feets.toFixed(2)}</td>
+                        <td>${entry.production.toFixed(2)}</td>
+                        <td>${entry.dispatch.toFixed(2)}</td>
+                        <td>${entry.powerGel.toFixed(2)}</td>
+                        <td>${entry.dGuard.toFixed(2)}</td>
+                        <td>${entry.edPerHole.toFixed(2)}</td>
+                        <td>${entry.wire.toFixed(2)}</td>
+                        <td>${entry.nmr.toFixed(2)}</td>
+                        <td>${entry.blaster.toFixed(0)}</td>
+                        <td>${entry.nmrPlant.toFixed(0)}</td>
+                        <td>
+                            <button class="equipment-btn" onclick="editBlastEntry('${dataType}', ${index})" style="padding: 5px; margin: 2px;">Edit</button>
+                            <button class="equipment-btn" onclick="deleteBlastEntry('${dataType}', ${index})" style="padding: 5px; margin: 2px; background-color: #e74c3c;">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                totals.compressor += entry.compressor;
+                totals.holes += entry.holes;
+                totals.feets += entry.feets;
+                totals.production += entry.production;
+                totals.dispatch += entry.dispatch;
+                totals.powerGel += entry.powerGel;
+                totals.dGuard += entry.dGuard;
+                totals.edPerHole += entry.edPerHole;
+                totals.wire += entry.wire;
+                totals.nmr += entry.nmr;
+                totals.blaster += entry.blaster;
+                totals.nmrPlant += entry.nmrPlant;
+            });
+
+            tableHTML += `
+                    </tbody>
+                    <tfoot>
+                        <tr style="font-weight: bold;">
+                            <td>Total</td>
+                            <td>${totals.compressor.toFixed(2)}</td>
+                            <td>${totals.holes.toFixed(0)}</td>
+                            <td>${totals.feets.toFixed(2)}</td>
+                            <td>${totals.production.toFixed(2)}</td>
+                            <td>${totals.dispatch.toFixed(2)}</td>
+                            <td>${totals.powerGel.toFixed(2)}</td>
+                            <td>${totals.dGuard.toFixed(2)}</td>
+                            <td>${totals.edPerHole.toFixed(2)}</td>
+                            <td>${totals.wire.toFixed(2)}</td>
+                            <td>${totals.nmr.toFixed(2)}</td>
+                            <td>${totals.blaster.toFixed(0)}</td>
+                            <td>${totals.nmrPlant.toFixed(0)}</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>`;
+
+            document.getElementById('blastTableContainer').innerHTML = tableHTML;
+
+            // Update summary cards
+            document.getElementById('totalProduction').textContent = totals.production.toFixed(2);
+            document.getElementById('totalHoles').textContent = totals.holes.toFixed(0);
+            document.getElementById('totalPowerGel').textContent = totals.powerGel.toFixed(2);
+            document.getElementById('totalDispatch').textContent = totals.dispatch.toFixed(2);
+        }
+
+        function addBlastData() {
+            const dataType = document.getElementById('blastEquipmentSelect').value;
+            const date = document.getElementById('blastDate').value;
+            const compressor = parseFloat(document.getElementById('blastCompressor').value) || 0;
+            const holes = parseFloat(document.getElementById('blastHoles').value) || 0;
+            const feets = parseFloat(document.getElementById('blastFeets').value) || 0;
+            const production = parseFloat(document.getElementById('blastProduction').value) || 0;
+            const dispatch = parseFloat(document.getElementById('blastDispatch').value) || 0;
+            const powerGel = parseFloat(document.getElementById('blastPowerGel').value) || 0;
+            const dGuard = parseFloat(document.getElementById('blastDGuard').value) || 0;
+            const edPerHole = parseFloat(document.getElementById('blastEdPerHole').value) || 0;
+            const wire = parseFloat(document.getElementById('blastWire').value) || 0;
+            const nmr = parseFloat(document.getElementById('blastNmr').value) || 0;
+            const blaster = parseFloat(document.getElementById('blastBlaster').value) || 0;
+            const nmrPlant = parseFloat(document.getElementById('blastNmrPlant').value) || 0;
+
+            if (!date) {
+                alert('Please enter a valid date.');
+                return;
+            }
+
+            const data = JSON.parse(localStorage.getItem(dataType)) || [];
+            
+            // Check if entry for this date already exists
+            const existingIndex = data.findIndex(entry => entry.date === date);
+            if (existingIndex !== -1) {
+                if (confirm('An entry for this date already exists. Do you want to update it?')) {
+                    data[existingIndex] = {
+                        date,
+                        compressor,
+                        holes,
+                        feets,
+                        production,
+                        dispatch,
+                        powerGel,
+                        dGuard,
+                        edPerHole,
+                        wire,
+                        nmr,
+                        blaster,
+                        nmrPlant
+                    };
+                } else {
+                    return;
+                }
+            } else {
+                data.push({
+                    date,
+                    compressor,
+                    holes,
+                    feets,
+                    production,
+                    dispatch,
+                    powerGel,
+                    dGuard,
+                    edPerHole,
+                    wire,
+                    nmr,
+                    blaster,
+                    nmrPlant
+                });
+            }
+
+            // Sort by date
+            data.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            // Save to local storage
+            localStorage.setItem(dataType, JSON.stringify(data));
+
+            // Clear form
+            document.getElementById('blastDate').value = '';
+            document.getElementById('blastCompressor').value = '';
+            document.getElementById('blastHoles').value = '';
+            document.getElementById('blastFeets').value = '';
+            document.getElementById('blastProduction').value = '';
+            document.getElementById('blastDispatch').value = '';
+            document.getElementById('blastPowerGel').value = '';
+            document.getElementById('blastDGuard').value = '';
+            document.getElementById('blastEdPerHole').value = '';
+            document.getElementById('blastWire').value = '';
+            document.getElementById('blastNmr').value = '';
+            document.getElementById('blastBlaster').value = '';
+            document.getElementById('blastNmrPlant').value = '';
+
+            // Reload data
+            loadBlastData();
+            
+            alert('Data saved successfully!');
+        }
+
+        function editBlastEntry(dataType, index) {
+            const data = JSON.parse(localStorage.getItem(dataType)) || [];
+            const entry = data[index];
+            
+            document.getElementById('blastDate').value = entry.date;
+            document.getElementById('blastCompressor').value = entry.compressor;
+            document.getElementById('blastHoles').value = entry.holes;
+            document.getElementById('blastFeets').value = entry.feets;
+            document.getElementById('blastProduction').value = entry.production;
+            document.getElementById('blastDispatch').value = entry.dispatch;
+            document.getElementById('blastPowerGel').value = entry.powerGel;
+            document.getElementById('blastDGuard').value = entry.dGuard;
+            document.getElementById('blastEdPerHole').value = entry.edPerHole;
+            document.getElementById('blastWire').value = entry.wire;
+            document.getElementById('blastNmr').value = entry.nmr;
+            document.getElementById('blastBlaster').value = entry.blaster;
+            document.getElementById('blastNmrPlant').value = entry.nmrPlant;
+            
+            // Remove the old entry
+            data.splice(index, 1);
+            localStorage.setItem(dataType, JSON.stringify(data));
+            
+            // Reload data
+            loadBlastData();
+        }
+
+        function deleteBlastEntry(dataType, index) {
+            if (confirm('Are you sure you want to delete this entry?')) {
+                const data = JSON.parse(localStorage.getItem(dataType)) || [];
+                data.splice(index, 1);
+                localStorage.setItem(dataType, JSON.stringify(data));
+                loadBlastData();
+            }
+        }
+
+        function exportBlastData() {
+            const dataType = document.getElementById('blastEquipmentSelect').value;
+            const data = JSON.parse(localStorage.getItem(dataType)) || [];
+            
+            if (data.length === 0) {
+                alert(`No ${dataType} data to export.`);
+                return;
+            }
+
+            let csv = 'Date,Compressor,Holes,Feets,Production (Tonnes),Boulders Dispatch Qty,Power Gel,D-Guard Wire/Hole,ED/Hole,Wire,No. of NMR,No. of Blaster,NMR at Plant\n';
+            data.forEach(entry => {
+                csv += `${entry.date},${entry.compressor},${entry.holes},${entry.feets},${entry.production},${entry.dispatch},${entry.powerGel},${entry.dGuard},${entry.edPerHole},${entry.wire},${entry.nmr},${entry.blaster},${entry.nmrPlant}\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', `${dataType.replace(/\s+/g, '_')}_data.csv`);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // Cost Calculator Functions
+        function loadCostData() {
+            let entries = JSON.parse(localStorage.getItem('compressorEntries')) || [];
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth();
+            const currentYear = currentDate.getFullYear();
+            
+            let totalEntries = 0;
+            let totalHoles = 0;
+            let totalFeet = 0;
+            let totalCost = 0;
+            
+            // Filter entries for current month
+            const currentMonthEntries = entries.filter(entry => {
+                const entryDate = new Date(entry.date);
+                return entryDate.getMonth() === currentMonth && entryDate.getFullYear() === currentYear;
+            });
+            
+            // Calculate totals
+            currentMonthEntries.forEach(entry => {
+                totalEntries++;
+                totalHoles += parseInt(entry.holes);
+                totalFeet += parseInt(entry.feet);
+                totalCost += parseFloat(entry.totalCost);
+            });
+            
+            // Update summary
+            document.getElementById('totalEntries').textContent = totalEntries;
+            document.getElementById('totalHoles').textContent = totalHoles;
+            document.getElementById('totalFeet').textContent = totalFeet;
+            document.getElementById('totalCost').textContent = `₹${totalCost.toFixed(2)}`;
+            
+            // Update entries list
+            const entriesList = document.getElementById('costEntriesList');
+            entriesList.innerHTML = '';
+            
+            entries.forEach((entry, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${entry.date}</td>
+                    <td>${entry.compressorName}</td>
+                    <td>${entry.tractorName}</td>
+                    <td>${entry.holes}</td>
+                    <td>${entry.feet}</td>
+                    <td>₹${entry.totalCost.toFixed(2)}</td>
+                    <td>
+                        <button class="equipment-btn" onclick="editCostEntry(${index})" style="padding: 5px; margin: 2px;">Edit</button>
+                        <button class="equipment-btn" onclick="deleteCostEntry(${index})" style="padding: 5px; margin: 2px; background-color: #e74c3c;">Delete</button>
+                    </td>
+                `;
+                entriesList.appendChild(row);
+            });
+        }
+
+        function addCostEntry() {
+            const dateInput = document.getElementById('costDate');
+            const compressorNameInput = document.getElementById('compressorName');
+            const tractorNameInput = document.getElementById('tractorName');
+            const holesInput = document.getElementById('holes');
+            const feetInput = document.getElementById('feet');
+            const costInput = document.getElementById('cost');
+            
+            if (!dateInput.value || !compressorNameInput.value || !tractorNameInput.value || 
+                !holesInput.value || !feetInput.value || !costInput.value) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            let entries = JSON.parse(localStorage.getItem('compressorEntries')) || [];
+            
+            const newEntry = {
+                date: dateInput.value,
+                compressorName: compressorNameInput.value,
+                tractorName: tractorNameInput.value,
+                holes: holesInput.value,
+                feet: feetInput.value,
+                totalCost: parseFloat(costInput.value)
+            };
+            
+            entries.push(newEntry);
+            localStorage.setItem('compressorEntries', JSON.stringify(entries));
+            
+            // Clear form
+            compressorNameInput.value = '';
+            tractorNameInput.value = '';
+            holesInput.value = '';
+            feetInput.value = '';
+            costInput.value = '';
+            
+            // Set today's date as default
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            dateInput.value = formattedDate;
+            
+            // Reload data
+            loadCostData();
+            
+            alert('Entry added successfully!');
+        }
+
+        function editCostEntry(index) {
+            let entries = JSON.parse(localStorage.getItem('compressorEntries')) || [];
+            const entry = entries[index];
+            
+            document.getElementById('costDate').value = entry.date;
+            document.getElementById('compressorName').value = entry.compressorName;
+            document.getElementById('tractorName').value = entry.tractorName;
+            document.getElementById('holes').value = entry.holes;
+            document.getElementById('feet').value = entry.feet;
+            document.getElementById('cost').value = entry.totalCost;
+            
+            // Remove the old entry
+            entries.splice(index, 1);
+            localStorage.setItem('compressorEntries', JSON.stringify(entries));
+            
+            // Reload data
+            loadCostData();
+        }
+
+        function deleteCostEntry(index) {
+            if (confirm('Are you sure you want to delete this entry?')) {
+                let entries = JSON.parse(localStorage.getItem('compressorEntries')) || [];
+                entries.splice(index, 1);
+                localStorage.setItem('compressorEntries', JSON.stringify(entries));
+                loadCostData();
+            }
+        }
+
+        function clearCostData() {
+            if (confirm('Are you sure you want to clear all data?')) {
+                localStorage.removeItem('compressorEntries');
+                loadCostData();
+            }
+        }
+
+        function generateCompressorReport() {
+            let entries = JSON.parse(localStorage.getItem('compressorEntries')) || [];
+            if (entries.length === 0) {
+                alert('No data to generate report');
+                return;
+            }
+
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth();
+            const currentYear = currentDate.getFullYear();
+
+            const currentMonthEntries = entries.filter(entry => {
+                const entryDate = new Date(entry.date);
+                return entryDate.getMonth() === currentMonth && entryDate.getFullYear() === currentYear;
+            });
+
+            if (currentMonthEntries.length === 0) {
+                alert('No data for the current month');
+                return;
+            }
+
+            // Group by compressorName
+            const grouped = {};
+            currentMonthEntries.forEach(entry => {
+                const comp = entry.compressorName;
+                if (!grouped[comp]) {
+                    grouped[comp] = {
+                        totalHoles: 0,
+                        totalFeet: 0,
+                        totalCost: 0,
+                        tractors: new Set()
+                    };
+                }
+                grouped[comp].totalHoles += parseInt(entry.holes);
+                grouped[comp].totalFeet += parseInt(entry.feet);
+                grouped[comp].totalCost += parseFloat(entry.totalCost);
+                grouped[comp].tractors.add(entry.tractorName);
+            });
+
+            // Generate HTML
+            let reportHTML = '<h3>Compressor-wise Monthly Report</h3>';
+            for (const [comp, data] of Object.entries(grouped)) {
+                reportHTML += `
+                    <div class="update-section" style="margin-bottom: 20px;">
+                        <h4>${comp}</h4>
+                        <p>Total Holes: ${data.totalHoles}</p>
+                        <p>Total Feet: ${data.totalFeet}</p>
+                        <p>Total Cost: ₹${data.totalCost.toFixed(2)}</p>
+                        <p>Tractors Used: ${Array.from(data.tractors).join(', ')}</p>
+                    </div>
+                `;
+            }
+
+            document.getElementById('compressorReport').innerHTML = reportHTML;
+        }
+
+        // Set today's date as default for cost calculator
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            document.getElementById('costDate').value = formattedDate;
+            document.getElementById('blastDate').value = formattedDate;
+            document.getElementById('dateInput').value = formattedDate;
+            
+            // Add event listeners for cost calculator
+            document.getElementById('addCostEntry').addEventListener('click', addCostEntry);
+            document.getElementById('clearCostData').addEventListener('click', clearCostData);
+            document.getElementById('generateReport').addEventListener('click', generateCompressorReport);
+            
+            // Add event listener for blasting data type change
+            document.getElementById('blastEquipmentSelect').addEventListener('change', loadBlastData);
+            
+            // Load initial data
+            loadEquipmentData();
+            loadCostData();
+            loadBlastData();
         });
     </script>
 </body>
